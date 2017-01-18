@@ -189,6 +189,7 @@ public class Board {
 	 * @return true if there is a row controlled by m
 	 */
 	/*@ pure */
+	//TODO: eventually change to streams, or if () return?
 	public boolean hasRow(Mark m) {
 		boolean result = false;
 		for (int i = 0; i < DIMCOL; i++) {
@@ -198,7 +199,7 @@ public class Board {
 					getField(index(i, j, k - 2)) == m &&
 					getField(index(i, j, k - 1)) == m &&
 					getField(index(i, j, k)) == m;
-					if (result) {
+					if (result) { 
 						break;
 					}
 				}
@@ -208,7 +209,77 @@ public class Board {
 			}
 			if (result) {
 				break;
+			} 
+		}
+		return result;
+	}
+
+	private boolean checkConnect(int[] dir, Mark m, int length) {
+		if (direction.length != 3) {
+			//TODO add exception, this is an error.
+		}
+		
+		boolean result = false;
+		for (int i = 0; i < DIMROW; i++) {
+			for (int j = 0; j < DIMCOL; j++) { 
+				for (int k = 0; k < DIMLVL; k++) {
+					boolean resultL = true;
+					for (int l = 0; l < length; l++) {
+						resultL = getField(index(
+								i + dir[0] * l, j + dir[1] * l, k + dir[2] * l)) == m;
+						if (!resultL) {
+							break;
+						}
+					}
+					result = resultL;
+					if (result) { 
+						break;
+					}
+				}
+				if (result) {
+					break;
+				}
 			}
+			if (result) {
+				break;
+			} 
+		}
+		return result;
+		
+		
+		return false;
+	}
+	
+	/**
+	 * Checks whether there is a column which is full and only contains the mark
+	 * m.
+	 *
+	 * @param m
+	 *            the mark of interest
+	 * @return true if there is a column controlled by m
+	 */
+	/*@ pure */
+	//TODO: eventually change to streams, or if () return?
+	public boolean hasColumn(Mark m) {
+		boolean result = false;
+		for (int i = 0; i < DIMCOL; i++) {
+			for (int j = 3; j < DIMLVL; j++) { 
+				for (int k = 0; k < DIMROW; k++) {
+					result = getField(index(i, j - 3, k)) == m &&
+					getField(index(i, j - 2, k)) == m &&
+					getField(index(i, j - 1, k)) == m &&
+					getField(index(i, j, k)) == m;
+					if (result) { 
+						break;
+					}
+				}
+				if (result) {
+					break;
+				}
+			}
+			if (result) {
+				break;
+			} 
 		}
 		return result;
 	}
@@ -222,18 +293,31 @@ public class Board {
 	 * @return true if there is a column controlled by m
 	 */
 	/*@ pure */
-	public boolean hasColumn(Mark m) {
+	//TODO: eventually change to streams, or if () return?
+	public boolean hasLevels(Mark m) {
 		boolean result = false;
-		for (int i = 0; i < DIM; i++){
-			boolean resultI = true;
-			for (int j = 0; j < DIM; j++){
-				resultI = (resultI && (getField(index(j,i)) == m));
+		for (int i = 3; i < DIMCOL; i++) {
+			for (int j = 0; j < DIMLVL; j++) { 
+				for (int k = 0; k < DIMROW; k++) {
+					result = getField(index(i - 3, j, k)) == m &&
+					getField(index(i - 2, j, k)) == m &&
+					getField(index(i - 1, j, k)) == m &&
+					getField(index(i, j, k)) == m;
+					if (result) { 
+						break;
+					}
+				}
+				if (result) {
+					break;
+				}
 			}
-			result = (result || resultI);
+			if (result) {
+				break;
+			} 
 		}
 		return result;
 	}
-
+	
 	/**
 	 * Checks whether there is a diagonal which is full and only contains the
 	 * mark m.
@@ -243,6 +327,7 @@ public class Board {
 	 * @return true if there is a diagonal controlled by m
 	 */
 	/*@ pure */
+	
 	public boolean hasDiagonal(Mark m) {
 		boolean result = false;
 		boolean resultI = true;

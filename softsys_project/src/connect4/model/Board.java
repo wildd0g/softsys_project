@@ -214,10 +214,19 @@ public class Board {
 		return result;
 	}
 
+	
+	//Checks in the direction indicated by dir (1 , 0 or -1) for the mark m during the specefied length
 	private boolean checkConnect(int[] dir, Mark m, int length) {
-		if (direction.length != 3) {
+		if (dir.length != 3 || (dir[0] == 0 && dir[1] == 0 && dir[2] == 0)) {
 			//TODO add exception, this is an error.
 		}
+		//TODO get this right!
+		int rowMin = 0;
+		int rowMax = DIMROW;
+		int calMin = 0;
+		int colMax = DIMCOL;
+		int lvlMin = 0;
+		int lvlMax = DIMLVL;
 		
 		boolean result = false;
 		for (int i = 0; i < DIMROW; i++) {

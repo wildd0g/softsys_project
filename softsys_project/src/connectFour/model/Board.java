@@ -1,6 +1,4 @@
-package connect4.model;
-
-import java.lang.Math;
+package connectFour.model;
 
 /**
  * Game student for the Tic Tac Toe game. Module 2 lab assignment.
@@ -33,7 +31,8 @@ public class Board {
 	/**
 	 * Creates an empty student.
 	 */
-	//@ ensures (\forall int i; 0 <= i & i < DIMROW * DIMCOL * DIMLVL; this.getField(i) == Mark.EMPTY);
+	//@ ensures (\forall int i; 0 <= i & i < DIMROW * DIMCOL * DIMLVL;
+	/*@ this.getField(i) == Mark.EMPTY); */
 	public Board() {
 		reset();
 	}
@@ -381,21 +380,8 @@ public class Board {
 	 * @return the game situation as String
 	 */
 	public String toString() {
-		String s = "";
-		for (int i = 0; i < DIM; i++) {
-			String row = "";
-			for (int j = 0; j < DIM; j++) {
-				row = row + " " + getField(i, j).toString() + " ";
-				if (j < DIM - 1) {
-					row = row + "|";
-				}
-			}
-			s = s + row + DELIM + NUMBERING[i * 2];
-			if (i < DIM - 1) {
-				s = s + "\n" + LINE + DELIM + NUMBERING[i * 2 + 1] + "\n";
-			}
-		}
-		return s;
+		//TODO make a TUI representation constructed by toString
+		return null;
 	}
 
 	/**

@@ -1,4 +1,4 @@
-package connectFour.controller;
+package connectfour.controller;
 
 import java.net.Socket;
 

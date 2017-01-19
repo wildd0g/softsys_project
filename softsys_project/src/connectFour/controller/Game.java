@@ -1,4 +1,4 @@
-package connect4.controller;
+package connectFour.controller;
 
 public class Game implements Runnable{
 	

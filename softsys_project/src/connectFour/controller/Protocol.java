@@ -1,4 +1,4 @@
-package connect4.controller;
+package connectFour.controller;
 
 /**
  * The Class Protocol implements the protocol and provides functions to help implementing

@@ -1,4 +1,4 @@
-package connectFour.model;
+package connectfour.model;
 
 /**
  * Game student for the Tic Tac Toe game. Module 2 lab assignment.

@@ -1,4 +1,4 @@
-package connectfour.model;
+package model;
 
 /**
  * Represents a mark in the Tic Tac Toe game. There three possible values:

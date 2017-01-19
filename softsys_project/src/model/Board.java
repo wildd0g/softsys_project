@@ -7,10 +7,10 @@ package model;
  * @version $Revision: 1.4 $
  */
 public class Board {
-	public static int DIMROW = 4;
-	public static int DIMCOL = 4;
-	public static int DIMLVL = 4;
-	public static int WIN_LENGTH = 4;
+	public static int dimRow = 4;
+	public static int dimCol = 4;
+	public static int dimLvl = 4;
+	public static int winLength = 4;
 	/*private static final String[] NUMBERING = {" 0 | 1 | 2 ", "---+---+---",
         " 3 | 4 | 5 ", "---+---+---", " 6 | 7 | 8 "};
     private static final String LINE = NUMBERING[1];
@@ -24,7 +24,7 @@ public class Board {
 	/*@ invariant (\forall int i; 0 <= i & i < DIM*DIM;
         getField(i) == Mark.EMPTY || getField(i) == Mark.XX || getField(i) == Mark.OO); */
 
-	private Mark[] fields = new Mark[DIMROW * DIMCOL * DIMLVL];
+	private Mark[] fields = new Mark[dimRow * dimCol * dimLvl];
 
 	// -- Constructors -----------------------------------------------
 
@@ -38,11 +38,11 @@ public class Board {
 	}
 
 	public Board(int row, int col, int lvl, int win) {
-		DIMROW = row;
-		DIMCOL = col;
-		DIMLVL = lvl;
-		WIN_LENGTH = win;
-		fields = new Mark[DIMROW * DIMCOL * DIMLVL];
+		dimRow = row;
+		dimCol = col;
+		dimLvl = lvl;
+		winLength = win;
+		fields = new Mark[dimRow * dimCol * dimLvl];
 		reset();
 	}
 	/**
@@ -53,8 +53,8 @@ public class Board {
                                 \result.getField(i) == this.getField(i));
       @*/
 	public Board deepCopy() {
-		Board copy = new Board(DIMROW, DIMCOL, DIMLVL, WIN_LENGTH);
-		for (int i = 0; i < DIMROW * DIMCOL * DIMLVL; i++) {
+		Board copy = new Board(dimRow, dimCol, dimLvl, winLength);
+		for (int i = 0; i < dimRow * dimCol * dimLvl; i++) {
 			copy.fields[i] = this.fields[i];
 		}
 		return copy;
@@ -70,7 +70,7 @@ public class Board {
 	//@ requires 0 <= lvl & lvl < DIMLVL;
 	/*@pure*/
 	public int index(int row, int col, int lvl) {
-		int i = (DIMCOL * (DIMROW * lvl + row)) + col;
+		int i = (dimCol * (dimRow * lvl + row)) + col;
 		return i;
 	}
 
@@ -81,7 +81,7 @@ public class Board {
 	//@ ensures \result == (0 <= index && index < DIMROW * DIMCOL * DIMLVL);
 	/*@pure*/
 	public boolean isField(int index) {
-		return 0 <= index && index < DIMROW * DIMCOL * DIMLVL;
+		return 0 <= index && index < dimRow * dimCol * dimLvl;
 	}
 
 	/**
@@ -161,11 +161,12 @@ public class Board {
 	 *
 	 * @return true if all fields are occupied
 	 */
-	//@ ensures \result == (\forall int i; i <= 0 & i < DIMROW * DIMCOL * DIMLVL; this.getField(i) != Mark.EMPTY);
+	//@ ensures \result == (\forall int i; i <= 0 & i < DIMROW * DIMCOL * DIMLVL;
+	/*@ this.getField(i) != Mark.EMPTY); */
 	/*@pure*/
 	public boolean isFull() {
 		boolean result = true;
-		for (int i = 0; i < DIMROW * DIMCOL * DIMLVL; i++) {
+		for (int i = 0; i < dimRow * dimCol * dimLvl; i++) {
 			if (!isEmptyField(i)) {
 				result = false;
 				break;
@@ -210,11 +211,11 @@ public class Board {
 			//TODO add exception, this is an error.
 		}*/
 		int rowMin = Math.max(0, 0 - dir[0] * length);
-		int rowMax = Math.min(DIMROW, DIMROW - dir[0] * length);
+		int rowMax = Math.min(dimRow, dimRow - dir[0] * length);
 		int colMin = Math.max(0, 0 - dir[1] * length);
-		int colMax = Math.min(DIMCOL, DIMCOL - dir[1] * length);
+		int colMax = Math.min(dimCol, dimCol - dir[1] * length);
 		int lvlMin = Math.max(0, 0 - dir[2] * length);
-		int lvlMax = Math.min(DIMLVL, DIMLVL - dir[2] * length);
+		int lvlMax = Math.min(dimLvl, dimLvl - dir[2] * length);
 		
 		boolean result = false;
 		for (int i = rowMin; i < rowMax; i++) {
@@ -257,7 +258,7 @@ public class Board {
 	/*@ pure */
 	public boolean hasRow(Mark m) {
 		int[] dir = {1, 0, 0};
-		return checkConnect(dir, m, WIN_LENGTH);
+		return checkConnect(dir, m, winLength);
 	}
 
 	
@@ -273,7 +274,7 @@ public class Board {
 	/*@ pure */
 	public boolean hasColumn(Mark m) {
 		int[] dir = {0, 1, 0};
-		return checkConnect(dir, m, WIN_LENGTH);
+		return checkConnect(dir, m, winLength);
 	}
 
 	/**
@@ -287,7 +288,7 @@ public class Board {
 	/*@ pure */
 	public boolean hasLevels(Mark m) {
 		int[] dir = {0, 0, 1};
-		return checkConnect(dir, m, WIN_LENGTH);
+		return checkConnect(dir, m, winLength);
 	}
 	
 	/**
@@ -310,7 +311,7 @@ public class Board {
 		int[] dirOnLvl2 = {1, -1, 0};
 		int[][] directions = {dirOnRow1, dirOnRow2, dirOnCol1, dirOnCol2, dirOnLvl1, dirOnLvl2};
 		for (int i = 0; i < 6; i++) {
-			result = checkConnect(directions[i], m, WIN_LENGTH);	
+			result = checkConnect(directions[i], m, winLength);	
 			if (result) {
 				break;
 			}
@@ -336,7 +337,7 @@ public class Board {
 		int[] dir4 = {1, -1, -1};
 		int[][] directions = {dir1, dir2, dir3, dir4};
 		for (int i = 0; i < 4; i++) {
-			result = checkConnect(directions[i], m, WIN_LENGTH);	
+			result = checkConnect(directions[i], m, winLength);	
 			if (result) {
 				break;
 			}
@@ -391,7 +392,7 @@ public class Board {
 	/*@ ensures (\forall int i; 0 <= i & i < DIMROW * DIMCOL * DIMLVL;
                                 this.getField(i) == Mark.EMPTY); @*/
 	public void reset() {
-		for (int i = 0; i < DIMROW * DIMCOL * DIMLVL; i++) {
+		for (int i = 0; i < dimRow * dimCol * dimLvl; i++) {
 			setField(i, Mark.EMPTY);
 		}
 	}

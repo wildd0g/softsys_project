@@ -1,6 +1,8 @@
 package connect4.controller;
 
-public class Game {
+import java.net.Socket;
+
+public class Server {
 
 	//method to send a message from Server to Client
 	public void sendString(String message){

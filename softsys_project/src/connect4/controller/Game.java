@@ -2,8 +2,9 @@ package connect4.controller;
 
 public class Game {
 
-	public void hello(){
-		System.out.println("Hello");
+	//method
+	public void sendString(String message){
+		
 	}
 	
 }

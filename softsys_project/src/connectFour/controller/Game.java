@@ -1,14 +1,19 @@
-package connectFour.controller;
+package connectfour.controller;
+
+import java.net.Socket;
+import java.util.Calendar;
 
 public class Game implements Runnable{
 	
 	public int currentPlaying = 0;
 	public Player[] players;
 	public int gameID;
+	public Calendar timeout;
 	
 	public Game(int id, int playerNum, int dimX, int dimY, int dimZ, int winLength){
 		players = new Player[playerNum];
 		this.gameID = id;
+		timeout = Calendar.getInstance();
 	}
 	
 	//method that adds a player to this room
@@ -35,7 +40,7 @@ public class Game implements Runnable{
 	
 	//run method to allow communication with the clients
 	public void run(){
-		
+		r
 	}
 	
 	

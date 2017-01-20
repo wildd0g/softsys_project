@@ -1,5 +1,7 @@
 package model;
 
+
+import model.InvalidFieldException;
 /**
  * Game student for the Tic Tac Toe game. Module 2 lab assignment.
  *
@@ -11,17 +13,12 @@ public class Board {
 	public static int dimCol = 4;
 	public static int dimLvl = 4;
 	public static int winLength = 4;
-	/*private static final String[] NUMBERING = {" 0 | 1 | 2 ", "---+---+---",
-        " 3 | 4 | 5 ", "---+---+---", " 6 | 7 | 8 "};
-    private static final String LINE = NUMBERING[1];
-    private static final String DELIM = "     ";*/
-
+	public static int players = 2;
 	/**
-	 * The DIM by DIM fields of the Tic Tac Toe student. See NUMBERING for the
-	 * coding of the fields.
+	 * The dimRow by dimCol by dimLvl fields of the Tic Tac Toe student.
 	 */
-	//@ private invariant fields.length == DIM*DIM;
-	/*@ invariant (\forall int i; 0 <= i & i < DIM*DIM;
+	//@ private invariant fields.length == dimRow*dimCol*dimLvl;
+	/*@ invariant (\forall int i; 0 <= i & i < dimRow*dimCol*dimLvl;
         getField(i) == Mark.EMPTY || getField(i) == Mark.XX || getField(i) == Mark.OO); */
 
 	private Mark[] fields = new Mark[dimRow * dimCol * dimLvl];
@@ -37,12 +34,13 @@ public class Board {
 		reset();
 	}
 
-	public Board(int row, int col, int lvl, int win) {
+	public Board(int row, int col, int lvl, int win, int playnr) {
 		dimRow = row;
 		dimCol = col;
 		dimLvl = lvl;
 		winLength = win;
 		fields = new Mark[dimRow * dimCol * dimLvl];
+		players = playnr;
 		reset();
 	}
 	/**
@@ -53,7 +51,7 @@ public class Board {
                                 \result.getField(i) == this.getField(i));
       @*/
 	public Board deepCopy() {
-		Board copy = new Board(dimRow, dimCol, dimLvl, winLength);
+		Board copy = new Board(dimRow, dimCol, dimLvl, winLength, players);
 		for (int i = 0; i < dimRow * dimCol * dimLvl; i++) {
 			copy.fields[i] = this.fields[i];
 		}
@@ -69,7 +67,10 @@ public class Board {
 	//@ requires 0 <= col & col < DIMCOL;
 	//@ requires 0 <= lvl & lvl < DIMLVL;
 	/*@pure*/
-	public int index(int row, int col, int lvl) {
+	public int index(int row, int col, int lvl) throws InvalidFieldException {
+		if (!isField(row, col, lvl)) {
+			throw new InvalidFieldException();
+		} 
 		int i = (dimCol * (dimRow * lvl + row)) + col;
 		return i;
 	}
@@ -92,7 +93,9 @@ public class Board {
 	//@ ensures \result == (0 <= row && row < DIM && 0 <= col && col < DIM);
 	/*@pure*/
 	public boolean isField(int row, int col, int lvl) {
-		return isField(index(row, col, lvl));
+		return 0 <= row && row < dimRow
+				&& 0 <= col && col < dimCol
+				&& 0 <= lvl && lvl < dimLvl;
 	}
 
 	/**
@@ -122,7 +125,7 @@ public class Board {
 	//@ requires this.isField(row,col);
 	//@ ensures \result == Mark.EMPTY || \result == Mark.XX || \result == Mark.OO;
 	/*@pure*/
-	public Mark getField(int row, int col, int lvl) {
+	public Mark getField(int row, int col, int lvl) throws InvalidFieldException {
 		return getField(index(row, col, lvl));
 	}
 
@@ -152,7 +155,7 @@ public class Board {
 	//@ requires this.isField(row,col);
 	//@ ensures \result == (this.getField(row,col) == Mark.EMPTY);
 	/*@pure*/
-	public boolean isEmptyField(int row, int col, int lvl) {
+	public boolean isEmptyField(int row, int col, int lvl) throws InvalidFieldException{
 		return isEmptyField(index(row, col, lvl));
 	}
 
@@ -207,9 +210,17 @@ public class Board {
 	/*@ pure */
 	//TODO: eventually change to streams, or if () return?
 	private boolean checkConnect(int[] dir, Mark m, int length) {
-		/*if (dir.length != 3 || (dir[0] == 0 && dir[1] == 0 && dir[2] == 0)) {
-			//TODO add exception, this is an error.
-		}*/
+		try {
+			if (dir.length != 3 || 
+					(dir[0] == 0 && dir[1] == 0 && dir[2] == 0) ||
+					dir[0] < -1 || dir[0] > 1 ||
+					dir[1] < -1 || dir[1] > 1 ||
+					dir[2] < -1 || dir[2] > 1) {
+				throw new InvalidFieldException("How the fuck did this thest fail? Who the fuck called this?" + dir);
+			}
+		} catch (InvalidFieldException e) {
+			e.printStackTrace();
+		}
 		int rowMin = Math.max(0, 0 - dir[0] * length);
 		int rowMax = Math.min(dimRow, dimRow - dir[0] * length);
 		int colMin = Math.max(0, 0 - dir[1] * length);
@@ -218,30 +229,36 @@ public class Board {
 		int lvlMax = Math.min(dimLvl, dimLvl - dir[2] * length);
 		
 		boolean result = false;
-		for (int i = rowMin; i < rowMax; i++) {
-			for (int j = colMin; j < colMax; j++) { 
-				for (int k = lvlMin; k < lvlMax; k++) {
-					boolean resultL = true;
-					for (int l = 0; l < length; l++) {
-						resultL = getField(index(
-								i + dir[0] * l, j + dir[1] * l, k + dir[2] * l
-								)) == m;
-						if (!resultL) {
+		
+		try {
+			for (int i = rowMin; i < rowMax; i++) {
+				for (int j = colMin; j < colMax; j++) { 
+					for (int k = lvlMin; k < lvlMax; k++) {
+						boolean resultL = true;
+						for (int l = 0; l < length; l++) {
+							resultL = getField(index(
+									i + dir[0] * l, j + dir[1] * l, k + dir[2] * l
+									)) == m;
+							if (!resultL) {
+								break;
+							}
+						}
+						result = resultL;
+						if (result) { 
 							break;
 						}
 					}
-					result = resultL;
-					if (result) { 
+					if (result) {
 						break;
 					}
 				}
 				if (result) {
 					break;
-				}
+				} 
 			}
-			if (result) {
-				break;
-			} 
+		} catch (InvalidFieldException e) {
+			System.out.println("This should NOT be able to fail due to the check at the beginning, how did it?");
+			e.printStackTrace();
 		}
 		return result;
 	}
@@ -371,7 +388,16 @@ public class Board {
 	//@ ensures \result == isWinner(Mark.XX) | \result == isWinner(Mark.OO);
 	/*@pure*/
 	public boolean hasWinner() {
-		return isWinner(Mark.XX) || isWinner(Mark.OO);
+		Mark m = Mark.EMPTY;
+		Boolean hasWinner = false;
+		for (int i = 0; i < players; i++){
+			m = m.cycle();
+			isWinner(m);
+			if (hasWinner) {
+				break;
+			}
+		}
+		return hasWinner;
 	}
 
 	/**
@@ -424,7 +450,7 @@ public class Board {
 	 */
 	//@ requires this.isField(row,col);
 	//@ ensures this.getField(row,col) == m;
-	public void setField(int row, int col, int lvl, Mark m) {
+	public void setField(int row, int col, int lvl, Mark m) throws InvalidFieldException {
 		setField(index(row, col, lvl), m);
 	}
 }

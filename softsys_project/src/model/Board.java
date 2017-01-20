@@ -1,7 +1,5 @@
 package model;
 
-
-import model.InvalidFieldException;
 /**
  * Game student for the Tic Tac Toe game. Module 2 lab assignment.
  *
@@ -155,7 +153,7 @@ public class Board {
 	//@ requires this.isField(row,col);
 	//@ ensures \result == (this.getField(row,col) == Mark.EMPTY);
 	/*@pure*/
-	public boolean isEmptyField(int row, int col, int lvl) throws InvalidFieldException{
+	public boolean isEmptyField(int row, int col, int lvl) throws InvalidFieldException {
 		return isEmptyField(index(row, col, lvl));
 	}
 
@@ -216,7 +214,8 @@ public class Board {
 					dir[0] < -1 || dir[0] > 1 ||
 					dir[1] < -1 || dir[1] > 1 ||
 					dir[2] < -1 || dir[2] > 1) {
-				throw new InvalidFieldException("How the fuck did this thest fail? Who the fuck called this?" + dir);
+				throw new InvalidFieldException("How the fuck did this thest fail?"
+						+ "Who the fuck called this?" + dir);
 			}
 		} catch (InvalidFieldException e) {
 			e.printStackTrace();
@@ -257,7 +256,8 @@ public class Board {
 				} 
 			}
 		} catch (InvalidFieldException e) {
-			System.out.println("This should NOT be able to fail due to the check at the beginning, how did it?");
+			System.out.println("This should NOT be able to fail due to the check at the beginning,"
+					+ " how did it?");
 			e.printStackTrace();
 		}
 		return result;
@@ -390,7 +390,7 @@ public class Board {
 	public boolean hasWinner() {
 		Mark m = Mark.EMPTY;
 		Boolean hasWinner = false;
-		for (int i = 0; i < players; i++){
+		for (int i = 0; i < players; i++) {
 			m = m.cycle();
 			isWinner(m);
 			if (hasWinner) {

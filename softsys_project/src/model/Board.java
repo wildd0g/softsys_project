@@ -3,8 +3,8 @@ package model;
 /**
  * Game student for the Tic Tac Toe game. Module 2 lab assignment.
  *
- * @author Theo Ruys en Arend Rensink
- * @version $Revision: 1.4 $
+ * @author Marijn Peppelman en Merel Meekes
+ * @version $Revision: 1.0 $
  */
 public class Board {
 	public static int dimRow = 4;
@@ -218,26 +218,28 @@ public class Board {
 					dir[0] < -1 || dir[0] > 1 ||
 					dir[1] < -1 || dir[1] > 1 ||
 					dir[2] < -1 || dir[2] > 1) {
-				throw new InvalidFieldException("How the fuck did this thest fail?"
+				throw new InvalidFieldException("How the fuck did this test fail?"
 						+ "Who the fuck called this?" + dir);
 			}
 		} catch (InvalidFieldException e) {
 			e.printStackTrace();
 		}
-		int rowMin = Math.max(0, 0 - dir[0] * length);
+		int rowMin = Math.max(0,      0      - dir[0] * length);
 		int rowMax = Math.min(dimRow, dimRow - dir[0] * length);
-		int colMin = Math.max(0, 0 - dir[1] * length);
+		int colMin = Math.max(0,      0      - dir[1] * length);
 		int colMax = Math.min(dimCol, dimCol - dir[1] * length);
-		int lvlMin = Math.max(0, 0 - dir[2] * length);
+		int lvlMin = Math.max(0,      0      - dir[2] * length);
 		int lvlMax = Math.min(dimLvl, dimLvl - dir[2] * length);
 		
 		boolean result = false;
 		
 		try {
+		
 			originLoops:
 			for (int i = rowMin; i < rowMax; i++) {
 				for (int j = colMin; j < colMax; j++) { 
 					for (int k = lvlMin; k < lvlMax; k++) {
+						
 						boolean resultL = true;
 						lineLoop:
 						for (int l = 0; l < length; l++) {
@@ -248,6 +250,7 @@ public class Board {
 								break lineLoop;
 							}
 						}
+						
 						result = resultL;
 						if (result) { 
 							break originLoops;
@@ -255,6 +258,7 @@ public class Board {
 					}
 				}
 			}
+		
 		} catch (InvalidFieldException e) {
 			System.out.println("This should NOT be able to fail due to the check at the beginning,"
 					+ " how did it?" + dir);
@@ -327,12 +331,14 @@ public class Board {
 		int[] dirOnLvl1 = {1, 1, 0};
 		int[] dirOnLvl2 = {1, -1, 0};
 		int[][] directions = {dirOnRow1, dirOnRow2, dirOnCol1, dirOnCol2, dirOnLvl1, dirOnLvl2};
+		
 		for (int i = 0; i < 6; i++) {
 			result = checkConnect(directions[i], m, winLength);	
 			if (result) {
 				break;
 			}
 		}
+		
 		return result;
 	}
 	
@@ -353,12 +359,14 @@ public class Board {
 		int[] dir3 = {1, -1, 1};
 		int[] dir4 = {1, -1, -1};
 		int[][] directions = {dir1, dir2, dir3, dir4};
+		
 		for (int i = 0; i < 4; i++) {
 			result = checkConnect(directions[i], m, winLength);	
 			if (result) {
 				break;
 			}
 		}
+		
 		return result;
 	}
 
@@ -450,8 +458,8 @@ public class Board {
 	 * @param m
 	 *            the mark to be placed
 	 */
-	//@ requires this.isField(row,col);
-	//@ ensures this.getField(row,col) == m;
+	//@ requires this.isField(row, col, lvl);
+	//@ ensures this.getField(row, col, lvl) == m;
 	public void setField(int row, int col, int lvl, Mark m) throws InvalidFieldException {
 		setField(index(row, col, lvl), m);
 	}

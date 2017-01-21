@@ -234,34 +234,30 @@ public class Board {
 		boolean result = false;
 		
 		try {
+			originLoops:
 			for (int i = rowMin; i < rowMax; i++) {
 				for (int j = colMin; j < colMax; j++) { 
 					for (int k = lvlMin; k < lvlMax; k++) {
 						boolean resultL = true;
+						lineLoop:
 						for (int l = 0; l < length; l++) {
 							resultL = getField(index(
 									i + dir[0] * l, j + dir[1] * l, k + dir[2] * l
 									)) == m;
 							if (!resultL) {
-								break;
+								break lineLoop;
 							}
 						}
 						result = resultL;
 						if (result) { 
-							break;
+							break originLoops;
 						}
 					}
-					if (result) {
-						break;
-					}
 				}
-				if (result) {
-					break;
-				} 
 			}
 		} catch (InvalidFieldException e) {
 			System.out.println("This should NOT be able to fail due to the check at the beginning,"
-					+ " how did it?");
+					+ " how did it?" + dir);
 			e.printStackTrace();
 		}
 		return result;
@@ -375,8 +371,10 @@ public class Board {
 	 *            the mark of interest
 	 * @return true if the mark has won
 	 */
-	//@requires m;
-	//@ ensures \result == this.hasRow(m) || this.hasColumn(m) | this.hasDiagonal(m);
+	//@ requires m;
+	/*@ ensures \result == hasRow(m) || hasColumn(m) || hasLevels(m)
+	    || hasFaceDiagonal(m) || hasSpaceDiagonal(m); 
+	  @*/
 	/*@ pure */
 	public boolean isWinner(Mark m) {
 		return hasRow(m) || hasColumn(m) || hasLevels(m)

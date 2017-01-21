@@ -17,7 +17,9 @@ public class Board {
 	 */
 	//@ private invariant fields.length == dimRow*dimCol*dimLvl;
 	/*@ invariant (\forall int i; 0 <= i & i < dimRow*dimCol*dimLvl;
-        getField(i) == Mark.EMPTY || getField(i) == Mark.XX || getField(i) == Mark.OO); */
+        getField(i) == Mark.EMPTY || getField(i) == Mark.AA || getField(i) == Mark.BB ||
+        getField(i) == Mark.CC || getField(i) == Mark.DD || getField(i) == Mark.EE ||
+        getField(i) == Mark.FF || getField(i) == Mark.GG || getField(i) == Mark.HH); */
 
 	private Mark[] fields = new Mark[dimRow * dimCol * dimLvl];
 
@@ -64,13 +66,14 @@ public class Board {
 	//@ requires 0 <= row & row < DIMROW;
 	//@ requires 0 <= col & col < DIMCOL;
 	//@ requires 0 <= lvl & lvl < DIMLVL;
+	//@ ensures \result == (dimCol * (dimRow * lvl + row)) + col;
+	//@ ensures this.isField(\result);
 	/*@pure*/
 	public int index(int row, int col, int lvl) throws InvalidFieldException {
 		if (!isField(row, col, lvl)) {
 			throw new InvalidFieldException();
 		} 
-		int i = (dimCol * (dimRow * lvl + row)) + col;
-		return i;
+		return (dimCol * (dimRow * lvl + row)) + col;
 	}
 
 	/**
@@ -88,7 +91,8 @@ public class Board {
 	 *
 	 * @return true if 0 <= row < DIM && 0 <= col < DIM
 	 */
-	//@ ensures \result == (0 <= row && row < DIM && 0 <= col && col < DIM);
+	//@ ensures \result == (0 <= row && row < dimRow && 0 <= col && col < dimCol &&
+	/*@ 0 <= lvl && lvl <= dimLvl);
 	/*@pure*/
 	public boolean isField(int row, int col, int lvl) {
 		return 0 <= row && row < dimRow
@@ -150,8 +154,8 @@ public class Board {
 	 *            the column of the field
 	 * @return true if the field is empty
 	 */
-	//@ requires this.isField(row,col);
-	//@ ensures \result == (this.getField(row,col) == Mark.EMPTY);
+	//@ requires this.isField(row, col, lvl);
+	//@ ensures \result == (this.getField(row, col, lvl) == Mark.EMPTY);
 	/*@pure*/
 	public boolean isEmptyField(int row, int col, int lvl) throws InvalidFieldException {
 		return isEmptyField(index(row, col, lvl));

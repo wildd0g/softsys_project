@@ -324,12 +324,12 @@ public class Board {
 	
 	public boolean hasFaceDiagonal(Mark m) {
 		boolean result = false;
-		int[] dirOnRow1 = {0, 1, 1};
-		int[] dirOnRow2 = {0, 1, -1};
-		int[] dirOnCol1 = {1, 0, 1};
-		int[] dirOnCol2 = {1, 0, -1};
-		int[] dirOnLvl1 = {1, 1, 0};
-		int[] dirOnLvl2 = {1, -1, 0};
+		int[] dirOnRow1 = {0,  1,  1};
+		int[] dirOnRow2 = {0,  1, -1};
+		int[] dirOnCol1 = {1,  0,  1};
+		int[] dirOnCol2 = {1,  0, -1};
+		int[] dirOnLvl1 = {1,  1,  0};
+		int[] dirOnLvl2 = {1, -1,  0};
 		int[][] directions = {dirOnRow1, dirOnRow2, dirOnCol1, dirOnCol2, dirOnLvl1, dirOnLvl2};
 		
 		for (int i = 0; i < 6; i++) {
@@ -354,9 +354,9 @@ public class Board {
 	
 	public boolean hasSpaceDiagonal(Mark m) {
 		boolean result = false;
-		int[] dir1 = {1, 1, 1};
-		int[] dir2 = {1, 1, -1};
-		int[] dir3 = {1, -1, 1};
+		int[] dir1 = {1,  1,  1};
+		int[] dir2 = {1,  1, -1};
+		int[] dir3 = {1, -1,  1};
 		int[] dir4 = {1, -1, -1};
 		int[][] directions = {dir1, dir2, dir3, dir4};
 		
@@ -437,7 +437,7 @@ public class Board {
 	 * Sets the content of field i to the mark m.
 	 *
 	 * @param i
-	 *            the field number (see NUMBERING)
+	 *            the field number
 	 * @param m
 	 *            the mark to be placed
 	 */

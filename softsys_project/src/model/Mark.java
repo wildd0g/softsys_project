@@ -10,7 +10,7 @@ package model;
  */
 public enum Mark {
     
-    EMPTY, XX, OO;
+    EMPTY, AA, BB, CC, DD, EE, FF, GG, HH;
 
     /*@
        ensures this == Mark.XX ==> \result == Mark.OO;
@@ -22,11 +22,23 @@ public enum Mark {
      * 
      * @return the other mark is this mark is not EMPTY or EMPTY
      */
-    public Mark other() {
-        if (this == XX) {
-            return OO;
-        } else if (this == OO) {
-            return XX;
+    public Mark cycle() {
+        if (this == EMPTY) {
+            return AA;
+        } else if (this == AA) {
+            return BB;
+        } else if (this == BB) {
+            return CC;
+        } else if (this == CC) {
+            return DD;
+        } else if (this == DD) {
+            return EE;
+        } else if (this == EE) {
+            return FF;
+        } else if (this == FF) {
+            return GG;
+        } else if (this == GG) {
+            return HH;
         } else {
             return EMPTY;
         }

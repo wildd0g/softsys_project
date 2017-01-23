@@ -1,6 +1,8 @@
 package controller;
 
-//import java.net.Socket;
+import java.net.Socket;
+import java.net.ServerSocket;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -12,28 +14,36 @@ public class Server {
 	List<Player> nonPlaying = new ArrayList<>();
 	Map<Game, Player> games = new HashMap<Game, Player>();
 
-	//method to send a message from Server to Client
-	public void sendString(String message) {
-
+	private static boolean active = true;
+	
+	//method to neatly shut down server
+	//closes all games
+	//disconnects all Clients
+	public void serverShutDown() {
+		
 	}
-
-	//method to broadcast a message from Server to Clients in one game
-	public void sendAllString(String message) {
-
+	
+	public static void main(String[] args) {
+		//TODO handle System.exit(0);
+		if (args.length != 2) {
+			System.exit(0);
+		}
+		
+		String name = args[0];
+		int port = 0;
+		ServerSocket servSock = null;
+		
+		// assign server port number
+		try {
+			port = Integer.parseInt(args[1]);
+		} catch (NumberFormatException e) {
+			System.out.println("Argument port:" + args[1] 
+					+ "is not an integer");
+			System.exit(0);
+		}
+		
+		
+		
 	}
-
-
-
-	//method to receive message from Client as Server
-	public void receiveString() {
-
-	}
-
-	//method that utilises protocol to translate received message into action
-	public void processString() {
-
-	}
-
-
 
 }

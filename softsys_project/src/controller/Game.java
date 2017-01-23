@@ -15,13 +15,14 @@ public class Game implements Runnable {
 	public long timeout; 
 	private BufferedReader[] receivers;
 	public boolean running = false;
+	private Parser parser;
 	
 	public Game(int id, int playerNum, int dimX, int dimY, int dimZ, int winLength) {
 		players = new Player[playerNum];
 		receivers = new BufferedReader[playerNum];
+		parser = new Parser();
 		this.gameID = id;
 		timeout = System.currentTimeMillis();
-		
 	}
 	
 	//method that adds a player to this room
@@ -90,7 +91,6 @@ public class Game implements Runnable {
 	}
 	
 	//method to shut down the game as a whole
-	//TODO finish function
 	public Boolean shutDown() {
 		boolean result = true;
 		try {
@@ -123,7 +123,7 @@ public class Game implements Runnable {
 				
 				//process the input
 				if (input != null) {
-					//TODO write code to handle input
+					parser.parse(input);
 				}
 				//discard if empty
 				

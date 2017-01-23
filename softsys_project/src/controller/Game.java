@@ -2,11 +2,12 @@ package controller;
 
 import java.io.IOException;
 
-import java.net.Socket;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-public class Game implements Runnable{
+//TODO assure Client Threadsafety
+
+public class Game implements Runnable {
 	
 	public int currentPlaying = 0;
 	public Player[] players;
@@ -14,7 +15,7 @@ public class Game implements Runnable{
 	public long timeout; 
 	private BufferedReader[] receivers;
 	
-	public Game(int id, int playerNum, int dimX, int dimY, int dimZ, int winLength){
+	public Game(int id, int playerNum, int dimX, int dimY, int dimZ, int winLength) {
 		players = new Player[playerNum];
 		receivers = new BufferedReader[playerNum];
 		this.gameID = id;
@@ -24,14 +25,18 @@ public class Game implements Runnable{
 	
 	//method that adds a player to this room
 	//action for command joinRoom
-	public void addPlayer(Player newPlayer){
+	public void addPlayer(Player newPlayer) {
 		players[currentPlaying] = newPlayer; 
 		
 		//set up communication with the new player
-		try{
-		receivers[currentPlaying] = 
-				new BufferedReader(new InputStreamReader(players[currentPlaying].getSocket().getInputStream()));
-		} catch(IOException io){
+		try {
+			
+			receivers[currentPlaying] = 
+				new BufferedReader(new InputStreamReader(
+						players[currentPlaying].getSocket().getInputStream()
+						));
+		
+		} catch (IOException io) {
 			//TODO add exception handle
 			System.out.println(io.getMessage());
 		}
@@ -41,17 +46,24 @@ public class Game implements Runnable{
 	
 	//method that removes a player from the room
 	//action for command leaveRoom
-	public void removePlayer(Player gonePlayer){
+	public void removePlayer(Player gonePlayer) {
 		
-		//for loop browses through the list of players logged in this room 
-		//(no need for those who added later because they can't remove themselves until after they've been added)
-		for(int i = 0; i <= currentPlaying; i++){
+		// for loop browses through the list of players logged in this room 
+		// (no need for those who added later 
+		// because they can't remove themselves until after they've been added)
+		for (int i = 0; i <= currentPlaying; i++) {
 			
 			//if the specified player is found remove it and set currentPlaying to one less
-			if(players[i].equals(gonePlayer)){
+			if (players[i].equals(gonePlayer)) {
 			
 				players[i] = null;
-				//TODO close buffered reader and empty receiver spot
+				try {
+					receivers[i].close();
+					receivers[i] = null;
+				} catch (IOException io) {
+					//TODO add exception handle
+					System.out.println(io.getMessage());
+				}
 				currentPlaying = currentPlaying - 1;
 				
 				break;
@@ -60,8 +72,21 @@ public class Game implements Runnable{
 		}
 	}
 	
+	static public String readString(BufferedReader input) {
+		String result = null;
+		try {
+			input.readLine();
+		} catch (IOException e) { 
+			//TODO proper exception handle
+			e.getMessage();
+		}
+		
+		return (result == null) ? "" : result;
+		
+	}
+	
 	//method to test if a player timed out their turn
-	public Boolean timeViolation(){
+	public Boolean timeViolation() {
 		//returnable boolean
 		boolean violation = false;
 		
@@ -69,7 +94,7 @@ public class Game implements Runnable{
 		long now = System.currentTimeMillis();
 		
 		//checks if 2 minutes have passed since last player was given turn
-		if ((now - timeout) > 120000){
+		if ((now - timeout) > 120000) {
 			violation  = true;
 		} 
 		
@@ -78,21 +103,24 @@ public class Game implements Runnable{
 	
 	//method to shut down the game as a whole
 	//TODO finish function
-	public Boolean shutDown(){
+	public Boolean shutDown() {
 		boolean result = true;
-		try{
-			
-		}catch(Exception e){
+		try {
+			//close all open BufferedReaders
+			//doesn't close the socket
+			for (int i = 0; i < receivers.length; i++) {
+				receivers[i].close();
+			}
+		} catch (IOException e) {
+			//TODO properly handle exception
 			result = false;
 		}
 		return result;
 	}
 	
 	//run method to allow communication with the clients
-	public void run(){
+	public void run() {
 		
 	}
 	
-	
-
 }

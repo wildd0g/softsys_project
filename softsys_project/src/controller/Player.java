@@ -9,23 +9,31 @@ public class Player {
 	private Socket playerSocket;
 	
 	//constructor of a player object that can contain information about a player
-	public Player(int id, String name, Socket sock){
+	public Player(int id, String name, Socket sock) {
 		this.playerID = id;
 		this.playerName = name;
 		this.playerSocket = sock;
 	}
 	
 	
-	public void setDefaultCapabilities(){
+	public void setDefaultCapabilities() {
 		setCapabilities();
 	}
 	
-	public void setCapabilities(){
+	public void setCapabilities() {
 		
 	}
 	
-	public Socket getSocket(){
+	public Socket getSocket() {
 		return playerSocket;
+	}
+	
+	public String getName() {
+		return playerName;
+	}
+	
+	public int getID() {
+		return playerID;
 	}
 
 }

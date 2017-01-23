@@ -23,5 +23,9 @@ public class Player {
 	public void setCapabilities(){
 		
 	}
+	
+	public Socket getSocket(){
+		return playerSocket;
+	}
 
 }

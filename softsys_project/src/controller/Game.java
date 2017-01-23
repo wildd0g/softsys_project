@@ -1,17 +1,22 @@
 package controller;
 
+import java.io.IOException;
+
 import java.net.Socket;
-import java.util.Calendar;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 public class Game implements Runnable{
 	
 	public int currentPlaying = 0;
 	public Player[] players;
 	public int gameID;
-	public long timeout;
+	public long timeout; 
+	private BufferedReader[] receivers;
 	
 	public Game(int id, int playerNum, int dimX, int dimY, int dimZ, int winLength){
 		players = new Player[playerNum];
+		receivers = new BufferedReader[playerNum];
 		this.gameID = id;
 		timeout = System.currentTimeMillis();
 		
@@ -21,7 +26,17 @@ public class Game implements Runnable{
 	//action for command joinRoom
 	public void addPlayer(Player newPlayer){
 		players[currentPlaying] = newPlayer; 
+		
+		//set up communication with the new player
+		try{
+		receivers[currentPlaying] = 
+				new BufferedReader(new InputStreamReader(players[currentPlaying].getSocket().getInputStream()));
+		} catch(IOException io){
+			//TODO add exception handle
+			System.out.println(io.getMessage());
+		}
 		currentPlaying = currentPlaying + 1;
+		
 	}
 	
 	//method that removes a player from the room
@@ -36,6 +51,7 @@ public class Game implements Runnable{
 			if(players[i].equals(gonePlayer)){
 			
 				players[i] = null;
+				//TODO close buffered reader and empty receiver spot
 				currentPlaying = currentPlaying - 1;
 				
 				break;
@@ -44,6 +60,7 @@ public class Game implements Runnable{
 		}
 	}
 	
+	//method to test if a player timed out their turn
 	public Boolean timeViolation(){
 		//returnable boolean
 		boolean violation = false;
@@ -57,6 +74,18 @@ public class Game implements Runnable{
 		} 
 		
 		return violation;
+	}
+	
+	//method to shut down the game as a whole
+	//TODO finish function
+	public Boolean shutDown(){
+		boolean result = true;
+		try{
+			
+		}catch(Exception e){
+			result = false;
+		}
+		return result;
 	}
 	
 	//run method to allow communication with the clients

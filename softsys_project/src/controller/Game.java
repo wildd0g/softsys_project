@@ -14,6 +14,7 @@ public class Game implements Runnable {
 	public int gameID;
 	public long timeout; 
 	private BufferedReader[] receivers;
+	public boolean running = false;
 	
 	public Game(int id, int playerNum, int dimX, int dimY, int dimZ, int winLength) {
 		players = new Player[playerNum];
@@ -72,19 +73,6 @@ public class Game implements Runnable {
 		}
 	}
 	
-	static public String readString(BufferedReader input) {
-		String result = null;
-		try {
-			input.readLine();
-		} catch (IOException e) { 
-			//TODO proper exception handle
-			e.getMessage();
-		}
-		
-		return (result == null) ? "" : result;
-		
-	}
-	
 	//method to test if a player timed out their turn
 	public Boolean timeViolation() {
 		//returnable boolean
@@ -120,7 +108,27 @@ public class Game implements Runnable {
 	
 	//run method to allow communication with the clients
 	public void run() {
-		
+		running = true;
+		while (running) {
+			String input = null;
+			
+			//check all receivers continuously
+			for (int i = 0; i < receivers.length; i++) {
+				try {
+					input = receivers[i].readLine();
+				} catch (IOException io) {
+					//TODO properly handle exception
+					io.getMessage();
+				}
+				
+				//process the input
+				if (input != null) {
+					//TODO write code to handle input
+				}
+				//discard if empty
+				
+			}
+		}
 	}
 	
 }

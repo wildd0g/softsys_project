@@ -51,6 +51,18 @@ public class Server {
 			System.out.println(io.getMessage());
 		}
 		
+		while (active) {
+			Socket sock = null;
+			try {
+				sock = servSock.accept();
+			} catch (IOException io1) {
+				//TODO handle exception properly
+				io1.getMessage();
+			}
+			
+			//method to set up communication before getting to game
+			//create player, assign id, add to list
+		}
 		
 	}
 

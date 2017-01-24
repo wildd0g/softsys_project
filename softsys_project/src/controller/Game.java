@@ -90,6 +90,11 @@ public class Game implements Runnable {
 		return violation;
 	}
 	
+	//method to start the game once the room is full
+	public void startGame() {
+		
+	}
+	
 	//method to shut down the game as a whole
 	public Boolean shutDown() {
 		boolean result = true;

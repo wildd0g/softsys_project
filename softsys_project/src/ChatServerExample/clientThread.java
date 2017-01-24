@@ -1,6 +1,7 @@
 package ChatServerExample;
 
-import java.io.DataInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.IOException;
 import java.net.Socket;
@@ -18,7 +19,7 @@ import java.net.ServerSocket;
 class clientThread extends Thread {
 
 	private String clientName = null;
-	private DataInputStream is = null;
+	private BufferedReader is = null;
 	private PrintStream os = null;
 	private Socket clientSocket = null;
 	private final clientThread[] threads;
@@ -38,7 +39,7 @@ class clientThread extends Thread {
 			/*
 			 * Create input and output streams for this client.
 			 */
-			is = new DataInputStream(clientSocket.getInputStream());
+			is = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 			os = new PrintStream(clientSocket.getOutputStream());
 			String name;
 			while (true) {

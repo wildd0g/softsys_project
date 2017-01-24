@@ -2,7 +2,6 @@ package ChatServerExample;
 
 //Example 25
 
-import java.io.DataInputStream;
 import java.io.PrintStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -17,7 +16,7 @@ public class MultiThreadChatClient implements Runnable {
 	// The output stream
 	private static PrintStream os = null;
 	// The input stream
-	private static DataInputStream is = null;
+	private static BufferedReader is = null;
 
 	private static BufferedReader inputLine = null;
 	private static boolean closed = false;
@@ -44,7 +43,7 @@ public class MultiThreadChatClient implements Runnable {
 			clientSocket = new Socket(host, portNumber);
 			inputLine = new BufferedReader(new InputStreamReader(System.in));
 			os = new PrintStream(clientSocket.getOutputStream());
-			is = new DataInputStream(clientSocket.getInputStream());
+			is = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		} catch (UnknownHostException e) {
 			System.err.println("Don't know about host " + host);
 		} catch (IOException e) {
@@ -90,8 +89,9 @@ public class MultiThreadChatClient implements Runnable {
 		try {
 			while ((responseLine = is.readLine()) != null) {
 				System.out.println(responseLine);
-				if (responseLine.indexOf("*** Bye") != -1)
+				if (responseLine.indexOf("*** Bye") != -1) {
 					break;
+				}
 			}
 			closed = true;
 		} catch (IOException e) {

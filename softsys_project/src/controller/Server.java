@@ -1,5 +1,7 @@
 package controller;
 
+import java.io.IOException;
+
 import java.net.Socket;
 import java.net.ServerSocket;
 
@@ -42,6 +44,12 @@ public class Server {
 			System.exit(0);
 		}
 		
+		try {
+			servSock = new ServerSocket(port);
+		} catch (IOException io) {
+			System.out.println("Couldn't create a socket on this port");
+			System.out.println(io.getMessage());
+		}
 		
 		
 	}

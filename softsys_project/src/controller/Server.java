@@ -17,6 +17,8 @@ public class Server {
 	Map<Game, Player> games = new HashMap<Game, Player>();
 
 	private static boolean active = true;
+	private static Socket registrationSocket = null;
+	private static ServerSocket serverSocket = null;
 	
 	//method to neatly shut down server
 	//closes all games
@@ -33,7 +35,6 @@ public class Server {
 		
 		String name = args[0];
 		int port = 0;
-		ServerSocket servSock = null;
 		
 		// assign server port number
 		try {
@@ -45,16 +46,15 @@ public class Server {
 		}
 		
 		try {
-			servSock = new ServerSocket(port);
+			serverSocket = new ServerSocket(port);
 		} catch (IOException io) {
 			System.out.println("Couldn't create a socket on this port");
 			System.out.println(io.getMessage());
 		}
 		
 		while (active) {
-			Socket sock = null;
 			try {
-				sock = servSock.accept();
+				registrationSocket = serverSocket.accept();
 			} catch (IOException io1) {
 				//TODO handle exception properly
 				io1.getMessage();

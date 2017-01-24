@@ -28,7 +28,7 @@ public class MultiThreadChatServerSync {
 			System.out.println("Usage: java MultiThreadChatServerSync <portNumber>\n"
 					+ "Now using port number=" + portNumber);
 		} else {
-			portNumber = Integer.valueOf(args[0]).intValue();
+			portNumber = Integer.parseInt(args[0]);
 		}
 
 		/*
@@ -48,6 +48,11 @@ public class MultiThreadChatServerSync {
 		while (true) {
 			try {
 				clientSocket = serverSocket.accept();
+			} catch (IOException io) {
+				System.out.println(io);
+			}
+			
+			try {				
 				int i = 0;
 				for (i = 0; i < maxClientsCount; i++) {
 					if (threads[i] == null) {

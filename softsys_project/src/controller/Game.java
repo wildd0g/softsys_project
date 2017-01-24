@@ -123,7 +123,7 @@ public class Game implements Runnable {
 				
 				//process the input
 				if (input != null) {
-					parser.parse(input);
+					parser.parse(receivers[i], input);
 				}
 				//discard if empty
 				

@@ -22,8 +22,9 @@ public class Parser {
 	}
 
 	//@ require msg == valid protocol line
+	//@ ensures msg is processed
 	//TODO add check for valid time to process the sent data
-	public void parse(String msg) {
+	public void parse(Player player, String msg) {
 		Scanner lineScanner = new Scanner(msg);
 		if (lineScanner.hasNext()) {
 			String word = lineScanner.next();
@@ -94,7 +95,7 @@ public class Parser {
 					Scanner roomScanner = new Scanner(room);
 					roomScanner.useDelimiter("|");
 					try {
-						for (int i = 1; i < 7; i++) {
+						for (int i = 0; i < 6; i++) {
 							roomData[i] = Integer.parseInt(roomScanner.next());
 						}
 						if (roomScanner.hasNext()) {
@@ -159,6 +160,33 @@ public class Parser {
 				
 				break;
 				
+			case "leaveRoom":
+				
+				//TODO cmd player leave room
+				
+				try {
+					if (lineScanner.hasNext()) {
+						throw new InvalidPipedDataException(msg, lineScanner.next());
+					}
+				} catch (InvalidPipedDataException e) {
+					//TODO error 7
+				}
+				
+				break;
+				
+			case "startGame":
+				
+				
+				try {
+					if (lineScanner.hasNext()) {
+						throw new InvalidPipedDataException(msg, lineScanner.next());
+					}
+				} catch (InvalidPipedDataException e) {
+					//TODO error 7
+				}
+				
+				break;
+				
 			default:
 			}
 
@@ -169,4 +197,24 @@ public class Parser {
 		}
 	}
 
+	private String[] parsePlayerInfo(String info){
+		String[] player = new String[3];
+		Scanner roomScanner = new Scanner(info);
+		roomScanner.useDelimiter("|");
+		try {
+			for (int i = 0; i < 3; i++) {
+				player[i] = roomScanner.next();
+			}
+			if (roomScanner.hasNext()) {
+				roomScanner.close();
+				throw new InvalidPipedDataException(msg, room);
+			}
+			roomScanner.close();
+		} catch (NumberFormatException e) {
+			//TODO send error 7
+		}
+		
+		return player;
+	}
+	
 }

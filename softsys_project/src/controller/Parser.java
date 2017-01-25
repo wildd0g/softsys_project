@@ -3,7 +3,7 @@ package controller;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-public class Parser {
+public class Parser extends Protocol {
 
 	Player player = null;
 	int amountOfPlayers = 0;
@@ -23,7 +23,7 @@ public class Parser {
 	String chatMsg = null;
 	
 	public Parser() {
-
+		
 	}
 
 	//@ require msg == valid protocol line
@@ -37,7 +37,7 @@ public class Parser {
 
 			switch (word) {
 
-			case "serverCapabilities":
+			case Protocol.Server.SERVERCAPABILITIES:
 				//parse string and store the variables
 				amountOfPlayers = Integer.parseInt(lineScanner.next());
 				if (lineScanner.next().equals("1")) {
@@ -56,7 +56,7 @@ public class Parser {
 				
 				break;
 
-			case "sendCapabilities":
+			case Protocol.Client.SENDCAPABILITIES:
 				//parse string and store the variables
 				amountOfPlayers = Integer.parseInt(lineScanner.next());
 				playerName = lineScanner.next();
@@ -79,7 +79,7 @@ public class Parser {
 				
 				break;
 
-			case "sendListRooms":
+			case Protocol.Server.SENDLISTROOMS:
 				//parse string and store the variables
 				String room = null;
 				ArrayList<int[]> lobbyData = new ArrayList<int[]>();
@@ -104,11 +104,11 @@ public class Parser {
 				break;
 				
 				
-			case "getRoomList":
+			case Protocol.Client.GETROOMLIST:
 				//TODO let server send rooms
 				break;
 			
-			case "joinRoom":
+			case Protocol.Client.JOINROOM:
 				//parse string and store the variables
 				roomID = Integer.parseInt(lineScanner.next());
 				
@@ -118,14 +118,14 @@ public class Parser {
 				
 				break;	
 				
-			case "error":
-				System.out.println("recieved error " + lineScanner.next());
+			case Protocol.Server.ERROR:
+				System.out.println(Protocol.getError(lineScanner.next()));
 				
 				endOverflowCatcher(msg, lineScanner);
 				
 				break;
 				
-			case "assignID":
+			case Protocol.Server.ASSIGNID:
 				playerID = Integer.parseInt(lineScanner.next());
 				
 				endOverflowCatcher(msg, lineScanner);
@@ -135,7 +135,7 @@ public class Parser {
 				
 				break;
 				
-			case "leaveRoom":
+			case Protocol.Client.LEAVEROOM:
 				
 				endOverflowCatcher(msg, lineScanner);
 				
@@ -144,7 +144,7 @@ public class Parser {
 				
 				break;
 				
-			case "startGame":
+			case Protocol.Server.STARTGAME:
 				
 				Scanner roomScanner = new Scanner(lineScanner.next());
 				roomScanner.useDelimiter("|");
@@ -163,7 +163,7 @@ public class Parser {
 				
 				break;
 				
-			case "playerTurn":
+			case Protocol.Server.TURNOFPLAYER:
 				
 				turn = Integer.parseInt(lineScanner.next());
 				
@@ -173,7 +173,7 @@ public class Parser {
 				
 				break;
 
-			case "makeMove":
+			case Protocol.Client.MAKEMOVE:
 
 				moveX = Integer.parseInt(lineScanner.next());
 				moveY = Integer.parseInt(lineScanner.next());
@@ -184,7 +184,7 @@ public class Parser {
 
 				break;
 				
-			case "notifyMove":
+			case Protocol.Server.NOTIFYMOVE:
 				
 				playerID = Integer.parseInt(lineScanner.next()); 
 				moveX = Integer.parseInt(lineScanner.next());
@@ -196,20 +196,21 @@ public class Parser {
 
 				break;
 
-			case "notifyEnd":
+			case Protocol.Server.NOTIFYEND:
 				
-				int gameEnd = Integer.parseInt(lineScanner.next());
+				String gameEnd = lineScanner.next();
 				if (lineScanner.hasNext()){
 					playerID = Integer.parseInt(lineScanner.next());
 				}
 				
 				endOverflowCatcher(msg, lineScanner);
-
+				
+				//System.out.println(Protocol.getWin(lineScanner.next()));
 				//TODO client: end game based on end condition and with winner ID
 
 				break;
 				
-			case "sendMessage":
+			case Protocol.Client.SENDMESSAGE:
 				
 				playerID = Integer.parseInt(lineScanner.next());
 				chatMsg = lineScanner.nextLine();
@@ -220,7 +221,7 @@ public class Parser {
 
 				break;
 
-			case "notifyMessage":
+			case Protocol.Server.NOTIFYMESSAGE:
 				
 				String senderName = lineScanner.next();
 				chatMsg = lineScanner.nextLine();
@@ -231,7 +232,7 @@ public class Parser {
 
 				break;
 
-			case "requestLeaderboard":
+			case Protocol.Client.REQUESTLEADERBOARD:
 				
 				endOverflowCatcher(msg, lineScanner);
 
@@ -239,7 +240,7 @@ public class Parser {
 
 				break;
 				
-			case "sendLeaderboard":
+			case Protocol.Server.SENDLEADERBOARD:
 				
 				ArrayList<String[]> leaderList = new ArrayList<String[]>();
 				while (lineScanner.hasNext()) {

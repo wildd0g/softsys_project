@@ -60,6 +60,8 @@ public class Server {
 				io1.getMessage();
 			}
 			
+			
+			
 			//method to set up communication before getting to game
 			//create player, assign id, add to list
 		}

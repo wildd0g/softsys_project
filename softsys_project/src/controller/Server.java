@@ -13,12 +13,13 @@ import java.util.ArrayList;
 
 public class Server {
 	
-	List<Player> nonPlaying = new ArrayList<>();
-	Map<Game, Player> games = new HashMap<Game, Player>();
+	private static List<Player> nonPlaying = new ArrayList<>();
+	private static Map<Game, Player> games = new HashMap<Game, Player>();
 
 	private static boolean active = true;
 	private static Socket registrationSocket = null;
 	private static ServerSocket serverSocket = null;
+	private static int playerCounter = 0;
 	
 	//method to neatly shut down server
 	//closes all games
@@ -55,6 +56,7 @@ public class Server {
 		while (active) {
 			try {
 				registrationSocket = serverSocket.accept();
+				nonPlaying.add(new Player(playerCounter, "player" + playerCounter, registrationSocket));
 			} catch (IOException io1) {
 				//TODO handle exception properly
 				io1.getMessage();

@@ -20,6 +20,7 @@ public class Parser {
 	int turn = 0;
 	int moveX = 0;
 	int moveY = 0;
+	String chatMsg = null;
 	
 	public Parser() {
 
@@ -162,18 +163,6 @@ public class Parser {
 				
 				break;
 				
-			case "makeMove":
-				
-				moveX = Integer.parseInt(lineScanner.next());
-				moveY = Integer.parseInt(lineScanner.next());
-				
-				endOverflowCatcher(msg, lineScanner);
-				
-				//TODO make this move on local board
-				//TODO server: apply move to local board and send along if valid
-				
-				break;
-				
 			case "playerTurn":
 				
 				turn = Integer.parseInt(lineScanner.next());
@@ -182,6 +171,85 @@ public class Parser {
 				
 				//TODO if turn 
 				
+				break;
+
+			case "makeMove":
+
+				moveX = Integer.parseInt(lineScanner.next());
+				moveY = Integer.parseInt(lineScanner.next());
+
+				endOverflowCatcher(msg, lineScanner);
+
+				//TODO server: apply move to local board and send along if valid
+
+				break;
+				
+			case "notifyMove":
+				
+				playerID = Integer.parseInt(lineScanner.next()); 
+				moveX = Integer.parseInt(lineScanner.next());
+				moveY = Integer.parseInt(lineScanner.next());
+
+				endOverflowCatcher(msg, lineScanner);
+
+				//TODO client: apply verefied move to local board
+
+				break;
+
+			case "notifyEnd":
+				
+				int gameEnd = Integer.parseInt(lineScanner.next());
+				if (lineScanner.hasNext()){
+					playerID = Integer.parseInt(lineScanner.next());
+				}
+				
+				endOverflowCatcher(msg, lineScanner);
+
+				//TODO client: end game based on end condition and with winner ID
+
+				break;
+				
+			case "sendMessage":
+				
+				playerID = Integer.parseInt(lineScanner.next());
+				chatMsg = lineScanner.nextLine();
+				
+				endOverflowCatcher(msg, lineScanner);
+
+				//TODO server: send chatMsg FROM playerID to all
+
+				break;
+
+			case "notifyMessage":
+				
+				String senderName = lineScanner.next();
+				chatMsg = lineScanner.nextLine();
+				
+				endOverflowCatcher(msg, lineScanner);
+
+				//TODO client: display to chat, senderName sent chatMsg
+
+				break;
+
+			case "requestLeaderboard":
+				
+				endOverflowCatcher(msg, lineScanner);
+
+				//TODO Server: send the leaderboard
+
+				break;
+				
+			case "sendLeaderboard":
+				
+				ArrayList<String[]> leaderList = new ArrayList<String[]>();
+				while (lineScanner.hasNext()) {
+					leaderList.add(parseLeaderInfo(lineScanner.next()));
+				}
+				
+				endOverflowCatcher(msg, lineScanner);
+
+				//TODO client: display the leaderboard
+
 				break;
 				
 			default:
@@ -210,8 +278,9 @@ public class Parser {
 				
 			}
 		} catch (InvalidPipedDataException e) {
+		} finally {
+			scanner.close();
 		}
-		scanner.close();
 	}
 	
 	private String[] parsePlayerInfo(String info) {
@@ -228,6 +297,25 @@ public class Parser {
 			}
 			roomScanner.close();
 		} catch (InvalidPipedDataException e) {
+		}
+		
+		return tmpPlayer;
+	}
+	
+	private String[] parseLeaderInfo(String info) {
+		String[] tmpPlayer = new String[4];
+		Scanner leaderScanner = new Scanner(info);
+		leaderScanner.useDelimiter("|");
+		try {
+			for (int i = 0; i < 4; i++) {
+				tmpPlayer[i] = leaderScanner.next();
+			}
+			if (leaderScanner.hasNext()) {
+				throw new InvalidPipedDataException("", info, player);
+			}
+		} catch (InvalidPipedDataException e) {
+		} finally {
+			leaderScanner.close();
 		}
 		
 		return tmpPlayer;

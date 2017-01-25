@@ -7,7 +7,7 @@ public class Player {
 	private int playerID;
 	private String playerName;
 	private Socket playerSocket;
-	
+	private Game currentGame;
 	//constructor of a player object that can contain information about a player
 	public Player(int id, String name, Socket sock) {
 		this.playerID = id;
@@ -24,6 +24,10 @@ public class Player {
 		
 	}
 	
+	public void setGame(Game game) {
+		this.currentGame = game;
+	}
+	
 	public Socket getSocket() {
 		return playerSocket;
 	}
@@ -36,4 +40,7 @@ public class Player {
 		return playerID;
 	}
 
+	public Game getGame() {
+		return this.currentGame;
+	}
 }

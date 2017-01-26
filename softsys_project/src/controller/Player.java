@@ -14,24 +14,13 @@ public class Player {
 	private Socket playerSocket;
 	private Game currentGame;
 	public Sender send;
-	private BufferedReader input;
-	private BufferedWriter output;
 	
 	//constructor of a player object that can contain information about a player
 	public Player(int id, String name, Socket sock) {
 		this.playerID = id;
 		this.playerName = name;
 		this.playerSocket = sock;
-		this.send = new Sender(sock);
-		
-		try {
-			this.input = new BufferedReader(
-					new InputStreamReader(playerSocket.getInputStream()));
-			this.output = new BufferedWriter(
-					new OutputStreamWriter(playerSocket.getOutputStream()));
-		} catch (IOException io1) {
-			io1.getMessage();
-		}
+		this.send = new Sender(playerSocket);
 	}
 	
 	
@@ -57,14 +46,6 @@ public class Player {
 	
 	public int getID() {
 		return playerID;
-	}
-	
-	public BufferedReader getIn() {
-		return input;
-	}
-	
-	public BufferedWriter getOut() {
-		return output;
 	}
 
 	public Game getGame() {

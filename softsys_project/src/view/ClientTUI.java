@@ -6,24 +6,22 @@ public class ClientTUI {
 
 	private Scanner scan;
 	private Client client;
+	public boolean active;
 
 	public ClientTUI(Client backend) {
 		this.client = backend;
+		active = true;
 	}
 
 	public void start() {
+		
+		System.out.println("Hello and Welcome!");
+		
 		scan = new Scanner(System.in);
 
-		while(active) {
+		while (active) {
 
 			String input = readOut(scan);
-
-			try {
-				identify(input);
-			} catch (Exception e) {
-				//TODO properly handle Exception
-				e.getMessage();
-			}
 
 		}
 

@@ -14,27 +14,22 @@ public class Client {
 	
 	private static Socket sock;
 	private static int id;
+	private static name;
 	private static boolean connected;
 	private BufferedReader reader;
 	private BufferedWriter writer;
 	private ClientTUI tui;
+	private Sender sender;
 	
 	//TODO create declaration for start of TUI
 	
-	public Client () {
+	public Client() {
 		connected = false;
 		tui = new ClientTUI(this);
 		tui.start();
-				
 	}
 	
-	public static void main(String[] args) {
-		
-		getConnected();
-		
-		while(connected) {
-			
-		}
+	public static void main(String[] args){
 		
 	}
 		
@@ -76,6 +71,10 @@ public class Client {
 		}
 		
 		connected = true;
+		
+		while (connected) {
+			
+		}
 		
 	}
 

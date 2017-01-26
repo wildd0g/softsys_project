@@ -136,8 +136,10 @@ public class Game implements Runnable {
 			} catch (InvalidFieldException e) {
 				players[currentPlaying].send.error(3);
 			}
-			checkWinner();
-			nextTurn();
+			if (checkWinner() == false) {
+				nextTurn();	
+			}
+			
 		} else {
 			players[currentPlaying].send.error(3);
 		}

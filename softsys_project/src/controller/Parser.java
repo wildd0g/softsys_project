@@ -105,7 +105,11 @@ public class Parser extends Protocol {
 					
 					
 				case Protocol.Client.GETROOMLIST:
-					//TODO let server send rooms
+					
+					endOverflowCatcher(msg, lineScanner);
+					
+					player.send.sendListRooms();
+					
 					break;
 				
 				case Protocol.Client.JOINROOM:
@@ -237,7 +241,7 @@ public class Parser extends Protocol {
 					
 					endOverflowCatcher(msg, lineScanner);
 	
-					//TODO Server: send the leaderboard
+					player.send.sendLeaderboard();
 	
 					break;
 					

@@ -13,21 +13,16 @@ public class Player {
 	private String playerName;
 	private Socket playerSocket;
 	private Game currentGame;
-<<<<<<< HEAD
 	public Sender send;
-=======
 	private BufferedReader input;
 	private BufferedWriter output;
 	
->>>>>>> branch 'master' of https://github.com/wildd0g/softsys_project
 	//constructor of a player object that can contain information about a player
 	public Player(int id, String name, Socket sock) {
 		this.playerID = id;
 		this.playerName = name;
 		this.playerSocket = sock;
-<<<<<<< HEAD
 		this.send = new Sender(sock);
-=======
 		
 		try {
 			this.input = new BufferedReader(
@@ -37,7 +32,6 @@ public class Player {
 		} catch (IOException io1) {
 			io1.getMessage();
 		}
->>>>>>> branch 'master' of https://github.com/wildd0g/softsys_project
 	}
 	
 	

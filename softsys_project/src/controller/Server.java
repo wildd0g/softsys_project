@@ -57,6 +57,7 @@ public class Server {
 			try {
 				registrationSocket = serverSocket.accept();
 				nonPlaying.add(new Player(playerCounter, "player" + playerCounter, registrationSocket));
+				nonPlaying.get(nonPlaying.size() - 1).activate();
 			} catch (IOException io1) {
 				//TODO handle exception properly
 				io1.getMessage();

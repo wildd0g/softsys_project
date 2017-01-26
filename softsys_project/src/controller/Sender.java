@@ -31,8 +31,7 @@ public class Sender {
 	}
 	
 	public void sendServerCapabilities() {
-		//TODO send the server capabilities.
-		String msg = Protocol.Server.SERVERCAPABILITIES;
+		send(Capabilities.Server.get());
 	}
 	
 	public void sendListRooms() {
@@ -86,9 +85,8 @@ public class Sender {
 		String msg = Protocol.Server.SENDLEADERBOARD;
 	}
 	
-	public void sendCapabilities() {
-		//TODO send the client capabilities
-		String msg = Protocol.Client.SENDCAPABILITIES;
+	public void sendCapabilities(String name, boolean autoRefresh) {
+		send(Capabilities.Client.get(name, autoRefresh));
 	}
 	
 	public void joinRoom(int roomID) {
@@ -106,12 +104,12 @@ public class Sender {
 	
 	public void makeMove(int x, int y) {
 		String msg = Protocol.Client.MAKEMOVE + " " + x + " " + y + "/n";
-		send (msg);
+		send(msg);
 	}
 	
 	public void sendMessage(String message) {
-			String msg = Protocol.Client.SENDMESSAGE + " " + message + "/n";
-			send(msg);
+		String msg = Protocol.Client.SENDMESSAGE + " " + message + "/n";
+		send(msg);
 	}
 	
 	public void requestLeaderboard() {

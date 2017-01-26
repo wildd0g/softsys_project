@@ -1,9 +1,10 @@
 package controller;
 
 import java.io.IOException;
-
+import model.Board;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.concurrent.ThreadLocalRandom;
 
 //TODO assure Client Threadsafety
 
@@ -16,6 +17,8 @@ public class Game implements Runnable {
 	private BufferedReader[] receivers;
 	public boolean running = false;
 	private Parser parser;
+	private Board board = null;
+	
 	
 	public Game(int id, int playerNum, int dimX, int dimY, int dimZ, int winLength) {
 		players = new Player[playerNum];
@@ -23,6 +26,7 @@ public class Game implements Runnable {
 		parser = new Parser();
 		this.gameID = id;
 		timeout = System.currentTimeMillis();
+		board = new Board(dimX, dimY, dimZ, winLength, playerNum);
 	}
 	
 	//method that adds a player to this room
@@ -92,6 +96,14 @@ public class Game implements Runnable {
 	
 	//method to start the game once the room is full
 	public void startGame() {
+		board.reset();
+		int randomNum = ThreadLocalRandom.current().nextInt(0, players.length);
+		currentPlaying = randomNum;
+		nextTurn();
+	}
+	
+	public void nextTurn() {
+		currentPlaying = (currentPlaying + 1) % players.length;
 		
 	}
 	

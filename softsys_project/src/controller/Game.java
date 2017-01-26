@@ -1,10 +1,16 @@
 package controller;
 
 import java.io.IOException;
+
 import model.Board;
+import model.InvalidFieldException;
+import model.Mark;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.HashMap;
+import java.util.Map;
 
 //TODO assure Client Threadsafety
 
@@ -18,6 +24,11 @@ public class Game implements Runnable {
 	public boolean running = false;
 	private Parser parser;
 	private Board board = null;
+	int maxRoomDimensionX = 4;
+	int maxRoomDimensionY = 4;
+	int maxRoomDimensionZ = 4;
+	int lengthToWin = 4;
+	private Map<Integer, Mark> playerMarks = new HashMap<Integer, Mark>();
 	
 	
 	public Game(int id, int playerNum, int dimX, int dimY, int dimZ, int winLength) {
@@ -27,6 +38,10 @@ public class Game implements Runnable {
 		this.gameID = id;
 		timeout = System.currentTimeMillis();
 		board = new Board(dimX, dimY, dimZ, winLength, playerNum);
+		maxRoomDimensionX = dimX;
+		maxRoomDimensionY = dimY;
+		maxRoomDimensionZ = dimZ;
+		lengthToWin = winLength;
 	}
 	
 	//method that adds a player to this room
@@ -97,6 +112,9 @@ public class Game implements Runnable {
 	//method to start the game once the room is full
 	public void startGame() {
 		board.reset();
+		for (int i = 0; i < players.length; i++) {
+			playerMarks.put(players[i].getID(), Mark.values()[i+1]);
+		} 
 		int randomNum = ThreadLocalRandom.current().nextInt(0, players.length);
 		currentPlaying = randomNum;
 		nextTurn();
@@ -104,7 +122,40 @@ public class Game implements Runnable {
 	
 	public void nextTurn() {
 		currentPlaying = (currentPlaying + 1) % players.length;
-		
+		for (int i = 0; i < players.length; i++) {
+			players[i].send.turn(players[currentPlaying].getID());
+		}
+	}
+	
+	public void makeMove(int x, int y, int playerID) {
+		Mark m = playerMarks.get(playerID);
+		int z = calcMoveLvl(x, y);
+		if (x < maxRoomDimensionX && y < maxRoomDimensionY && z < maxRoomDimensionZ) {
+			try {
+				board.setField(x, y, z, m);
+			} catch (InvalidFieldException e) {
+				players[currentPlaying].send.error(3);
+			}
+			checkWinner();
+			nextTurn();
+		} else {
+			players[currentPlaying].send.error(3);
+		}
+	}
+	
+	private int calcMoveLvl(int x, int y) {
+		int testZ = 0;
+		while (board.isField(x, y, testZ)) {
+			boolean empty = false;
+			try {
+				empty = board.isEmptyField(x, y, testZ);
+			} catch (InvalidFieldException e) {
+			}
+			if (!empty) {
+				testZ++;
+			}
+		}
+		return testZ;
 	}
 	
 	//method to shut down the game as a whole

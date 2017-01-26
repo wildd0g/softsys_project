@@ -32,4 +32,17 @@ public class Sender {
 		
 	}
 	
+	public void error(int error) {
+		String msg = Protocol.Server.ERROR + " " + error + "/n";
+		try {
+			sender.write(msg);
+			sender.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
 }

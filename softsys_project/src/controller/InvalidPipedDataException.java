@@ -9,7 +9,7 @@ public class InvalidPipedDataException extends Exception {
 	
 	public InvalidPipedDataException(String msg, String pipedData, Player player) {
 		this(msg, pipedData);
-		//TODO: send error 7
+		player.send.error(7);
 	}
 	
 	public InvalidPipedDataException(String msg, String pipedData) {

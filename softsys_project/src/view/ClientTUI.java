@@ -22,6 +22,7 @@ public class ClientTUI {
 		while (active) {
 
 			String input = readOut(scan);
+			handleInput(input);
 
 		}
 
@@ -59,6 +60,14 @@ public class ClientTUI {
 
 		//After while loop closed return all content that was retrieved.
 		return input;
+	}
+	
+	public void handleInput(String input){
+		switch (input) {
+		
+		case "
+		
+		}
 	}
 
 }

@@ -17,11 +17,13 @@ public class Client {
 	private static boolean connected;
 	private BufferedReader reader;
 	private BufferedWriter writer;
+	private ClientTUI tui;
 	
 	//TODO create declaration for start of TUI
 	
 	public Client () {
 		connected = false;
+		tui = new ClientTUI();
 				
 	}
 	

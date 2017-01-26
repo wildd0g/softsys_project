@@ -7,9 +7,11 @@ public class ClientTUI {
 	private Scanner scan;
 	private Client client;
 	public boolean active;
+	public ClientParser parser;
 
 	public ClientTUI(Client backend) {
 		this.client = backend;
+		parser = new ClientParser();
 		active = true;
 	}
 
@@ -22,16 +24,18 @@ public class ClientTUI {
 		while (active) {
 
 			String input = readOut(scan);
-			handleInput(input);
+			parser.handle(input);
 
 		}
 
 		scan.close();
 
 	}
+	
+	public String getDefaults
 
 	//method to translate console input into a string
-	public String readOut(Scanner scanner){
+	public String readOut(Scanner scanner) {
 
 		//initialise empty string
 		String input = "";
@@ -62,12 +66,6 @@ public class ClientTUI {
 		return input;
 	}
 	
-	public void handleInput(String input){
-		switch (input) {
-		
-		case "
-		
-		}
-	}
+	
 
 }

@@ -23,7 +23,7 @@ public class Client {
 	
 	public Client () {
 		connected = false;
-		tui = new ClientTUI();
+		tui = new ClientTUI(this);
 				
 	}
 	

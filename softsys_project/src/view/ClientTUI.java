@@ -11,7 +11,7 @@ public class ClientTUI {
 		this.client = backend;
 	}
 
-	public static void main(String[] args) {
+	public void start() {
 		scan = new Scanner(System.in);
 
 		while(active) {

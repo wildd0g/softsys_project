@@ -24,6 +24,7 @@ public class Client {
 	public Client () {
 		connected = false;
 		tui = new ClientTUI(this);
+		tui.start();
 				
 	}
 	

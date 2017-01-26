@@ -43,4 +43,8 @@ public class Player {
 	public Game getGame() {
 		return this.currentGame;
 	}
+	
+	public void activate() {
+		
+	}
 }

@@ -21,7 +21,7 @@ public class Client {
 	private BufferedReader reader;
 	private BufferedWriter writer;
 	private ClientTUI tui;
-	private Sender send;
+	public Sender send;
 
 	//TODO create declaration for start of TUI
 

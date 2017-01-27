@@ -6,7 +6,7 @@ public class Capabilities {
 
 	//server listing
 	public static class Server {
-		public static final String AMMOUNTOFPLAYERS = "8";			//supports this many players
+		public static final String AMOUNTOFPLAYERS = "8";			//supports this many players
 		public static final String ROOMSUPPORT = "0";				//supports rooms, 0 or 1
 		public static final String MAXDIMENSIONS = 					//dimensions bound because
 				"" + Math.floor(Math.cbrt(Integer.MAX_VALUE - 5));	//the int in board[int] 
@@ -19,7 +19,7 @@ public class Capabilities {
 		//Generates pre-formated string for the serverCapabilities message,
 		public static String get() {
 			return  Protocol.Server.SERVERCAPABILITIES + " " + 
-					AMMOUNTOFPLAYERS + " " + 
+					AMOUNTOFPLAYERS + " " + 
 					ROOMSUPPORT + " " + 
 					MAXDIMENSIONS + " " + 
 					MAXDIMENSIONX + " " + 
@@ -32,7 +32,7 @@ public class Capabilities {
 
 	//client listing
 	public static class Client {
-		public static final String AMMOUNTOFPLAYERS = "8";			//supports this many players
+		public static final String AMOUNTOFPLAYERS = "8";			//supports this many players
 		public static final String ROOMSUPPORT = "0";				//supports rooms, 0 or 1
 		public static final String MAXDIMENSIONS = 					//dimensions bound because
 				"" + Math.floor(Math.cbrt(Integer.MAX_VALUE - 5));	//the int in board[int] 
@@ -51,7 +51,7 @@ public class Capabilities {
 				refreshString = refreshString + 0;
 			}
 			return 	Protocol.Client.SENDCAPABILITIES + " " + 
-					AMMOUNTOFPLAYERS + " " + 
+					AMOUNTOFPLAYERS + " " + 
 					ROOMSUPPORT + " " + 
 					MAXDIMENSIONS + " " + 
 					MAXDIMENSIONX + " " + 

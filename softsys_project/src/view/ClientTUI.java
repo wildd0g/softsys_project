@@ -24,7 +24,7 @@ public class ClientTUI {
 
 		while (active) {
 
-			String input = readOut(scan, "Please, enter input:");
+			String input = readOut("Please, enter input:");
 			parser.handle(input);
 
 		}
@@ -53,29 +53,30 @@ public class ClientTUI {
 	//room they want to join
 	public void roomInfo() {
 		//TODO implement
-		readOut(scan, "Please enter roomID code: ");
+		readOut("Please enter roomID code: ");
 	}
 	
 	//method requesting player for the 
 	//specifics of createRoom
 	public void createInfo() {
-		//TODO implement
 		int roomPlayers = -1;
 		int roomWidth = -1;
 		int roomDepth = -1;
 		int roomHeight = -1;
 		int roomWin = -1;
 		try {
-			roomPlayers = getInt("Please enter desired amount of players: ");
-			roomWidth = getInt("Please enter desired board width: ");
-			roomDepth = getInt("Please enter desired board depth: ");
-			roomHeight = getInt("Please enter desired board height: ");
-			roomWin = getInt("Please enter desired win length: ");
+			roomPlayers = getVal("Please enter desired amount of players: ");
+			roomWidth = getVal("Please enter desired board width: ");
+			roomDepth = getVal("Please enter desired board depth: ");
+			roomHeight = getVal("Please enter desired board height: ");
+			roomWin = getVal("Please enter desired win length: ");
 		} catch (MaliciousInputException mie) {
 			//TODO add consequence
 			mie.getMessage();
 			System.exit(0);
 		}
+		
+		
 		
 		client.createRoom(roomPlayers, roomWidth, roomDepth, roomHeight, roomWin);
 		
@@ -93,14 +94,16 @@ public class ClientTUI {
 	}
 	
 	//method to assure proper integer value from input
-	public int getInt(String stringy) throws MaliciousInputException{
+	public int getVal(String stringy) throws MaliciousInputException{
 		
 		int value = -1;
 		boolean succes;
 		
+		
+		
 		//one attempt to parse integer
 		try {
-			value = Integer.parseInt(readOut(scan, stringy));
+			value = Integer.parseInt(readOut(stringy));
 		} catch (NumberFormatException nfe1) {
 			
 			//TODO properly handle Exception
@@ -113,7 +116,7 @@ public class ClientTUI {
 				succes = true;
 				
 				try {
-					value = Integer.parseInt(readOut(scan, stringy));
+					value = Integer.parseInt(readOut(stringy));
 				} catch (NumberFormatException nfe2) {
 					//confirm failure
 					succes = false;
@@ -130,7 +133,7 @@ public class ClientTUI {
 	}
 
 	//method to translate console input into a string
-	public String readOut(Scanner scanner, String instruction) {
+	public String readOut(String instruction) {
 
 		//initialise empty string
 		String input = "";
@@ -141,10 +144,10 @@ public class ClientTUI {
 
 		do {
 			//give instruction prompt
-			System.out.print(prompt);
+			System.out.print("Please enter" + prompt);
 
 			//input is separated into individual lines that can be read
-			try (Scanner scannerLine = new Scanner(scanner.nextLine());) {
+			try (Scanner scannerLine = new Scanner(scan.nextLine());) {
 
 				//give while loop command to stop after this round
 				inputRead = true;

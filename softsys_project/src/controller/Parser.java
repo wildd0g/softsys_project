@@ -142,29 +142,42 @@ public class Parser extends Protocol {
 				case Protocol.Client.LEAVEROOM:
 					
 					endOverflowCatcher(msg, lineScanner);
-					
-					
-					//TODO cmd player leave room
-					
+					//if player in a game, remove player from game
+					if (player.getGame() != null) {
+						player.getGame().removePlayer(player);
+						player.setGame(null);
+					} else {
+						player.send.error(4);
+					}
 					
 					break;
 					
 				case Protocol.Server.STARTGAME:
-					
+					//parse the room info and store in parser field
 					Scanner roomScanner = new Scanner(lineScanner.next());
 					roomScanner.useDelimiter("|");
 					maxRoomDimensionX = Integer.parseInt(roomScanner.next());
 					maxRoomDimensionY = Integer.parseInt(roomScanner.next());
 					maxRoomDimensionZ = Integer.parseInt(roomScanner.next());
 					maxLengthToWin = Integer.parseInt(roomScanner.next());
-					endOverflowCatcher(msg, roomScanner);
 					
+					//creates array list with the player data in string format defined by parsePlayerInfo()
 					ArrayList<String[]> playerList = new ArrayList<String[]>();
 					while (lineScanner.hasNext()) {
 						playerList.add(parsePlayerInfo(lineScanner.next()));
 					}
 					
-					//TODO create game with these players
+					endOverflowCatcher(msg, roomScanner);
+					
+					//construct new game
+					Game game = new Game(0, playerList.size(), 
+							maxRoomDimensionX,
+							maxRoomDimensionZ,
+							maxRoomDimensionZ, 
+							maxLengthToWin, 
+							client);
+					
+					//TODO add client to constructor, players to game, and set game to client
 					
 					break;
 					

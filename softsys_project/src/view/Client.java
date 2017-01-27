@@ -5,42 +5,41 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import controller.Sender;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 public class Client {
-	
+
 	private static Socket sock;
 	private static int id;
-	private static name;
+	private static String name;
 	private static boolean connected;
 	private BufferedReader reader;
 	private BufferedWriter writer;
 	private ClientTUI tui;
 	private Sender sender;
-	
+
 	//TODO create declaration for start of TUI
-	
+
 	public Client() {
 		connected = false;
 		tui = new ClientTUI(this);
 		tui.start();
 	}
-	
+
 	public static void main(String[] args){
-		
+
 	}
-		
-	public void getConnected() {
+
+	public void getConnected(String simpleIP, int portNum) {
 		InetAddress address = null;
-		
+
 		//TODO ask via TUI for input
-		//tempvalues
-		String simpleIP = null;
-		int portNum = 0;
-		
+
 		//parse the given IP adress
 		try {
 			address = InetAddress.getByName(simpleIP);
@@ -48,18 +47,18 @@ public class Client {
 			//TODO properly handle Exception
 			unknown.getMessage();
 		}
-		
+
 		//assign the selected port
 		int port = portNum;
-		
-		
+
+
 		try {
 			sock = new Socket(address, port);
 		} catch (IOException io1) {
 			//TODO properly handle Exception
 			io1.getMessage();
 		}
-		
+
 		try {
 			reader = new BufferedReader(
 					new InputStreamReader(sock.getInputStream()));
@@ -69,13 +68,32 @@ public class Client {
 			//TODO properly handle Exception
 			io2.getMessage();
 		}
-		
+
 		connected = true;
-		
+
 		while (connected) {
-			
+
 		}
+
+	}
+
+	public void requestRooms() {
+
+	}
+	
+	public void joinRoom(int id) {
 		
 	}
 
+	public void createRoom(int players, int xDim, int yDim, int zDim, int winLength) {
+
+	}
+	
+	public void leaveRoom() {
+		
+	}
+	
+	public void makeMove(int xPos, int yPos) {
+		
+	}
 }

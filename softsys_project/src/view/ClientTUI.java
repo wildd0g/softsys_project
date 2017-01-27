@@ -11,10 +11,11 @@ public class ClientTUI {
 
 	public ClientTUI(Client backend) {
 		this.client = backend;
-		parser = new ClientParser();
+		parser = new ClientParser(client, this);
 		active = true;
 	}
 
+	//main method to run the TUI
 	public void start() {
 		
 		System.out.println("Hello and Welcome!");
@@ -32,7 +33,43 @@ public class ClientTUI {
 
 	}
 	
-	public String getDefaults
+	//method requesting player for the
+	//default settings for a room
+	public String getDefaults() {
+		return null;
+	}
+	
+	//method requesting player for the
+	//IP adress and port number
+	public void connectInfo() {
+		String returnString = "CONNECT";
+		
+		
+		parser.handle(returnString);
+	}
+	
+	//method requestion player for the
+	//room they want to join
+	public void roomInfo() {
+		
+	}
+	
+	//method requesting player for the 
+	//specifics of createRoom
+	public void createInfo() {
+		
+	}
+	
+	//method requesting player for the
+	//specifics of makeMove
+	public void moveInfo() {
+		
+	}
+	
+	//method to print message to the set output
+	public void printMessage(String message) {
+		
+	}
 
 	//method to translate console input into a string
 	public String readOut(Scanner scanner) {

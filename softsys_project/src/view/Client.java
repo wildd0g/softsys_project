@@ -91,9 +91,10 @@ public class Client {
 	
 	public void leaveRoom() {
 		
+		
 	}
 	
 	public void makeMove(int xPos, int yPos) {
-		
+		String send = "makeMove " + xPos + " " + yPos;
 	}
 }

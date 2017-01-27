@@ -75,6 +75,14 @@ public class Sender {
 		send(msg);
 	}
 
+	public void notifyEnd(int endCondition, int playerID) {
+		String msg = Protocol.Server.NOTIFYEND + " " + endCondition;
+		if (endCondition == 1 || endCondition == 3) {
+			msg = msg + " " + playerID;
+		}
+		send(msg);
+	}
+	
 	public void notifyMessage(String name, String message) {
 		String msg = Protocol.Server.NOTIFYMESSAGE + " " + name + " " + message + "/n";
 		send(msg);

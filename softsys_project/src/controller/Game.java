@@ -127,6 +127,8 @@ public class Game implements Runnable {
 		}
 	}
 	
+	//make a move based on x and y, tested for the max dimensions, and test if this end the game.
+	//if it doesn't end, go to nex turn.
 	public void makeMove(int x, int y, int playerID) {
 		Mark m = playerMarks.get(playerID);
 		int z = calcMoveLvl(x, y);
@@ -136,8 +138,10 @@ public class Game implements Runnable {
 			} catch (InvalidFieldException e) {
 				players[currentPlaying].send.error(3);
 			}
-			if (checkWinner() == false) {
+			if (checkEnd(playerID) == false) {
 				nextTurn();	
+			} else {
+				shutDown();
 			}
 			
 		} else {
@@ -145,6 +149,7 @@ public class Game implements Runnable {
 		}
 	}
 	
+	//calculate on what Level (z) a move on x and y goes, does not care about max dimensions
 	private int calcMoveLvl(int x, int y) {
 		int testZ = 0;
 		while (board.isField(x, y, testZ)) {
@@ -152,6 +157,7 @@ public class Game implements Runnable {
 			try {
 				empty = board.isEmptyField(x, y, testZ);
 			} catch (InvalidFieldException e) {
+				empty = true;
 			}
 			if (!empty) {
 				testZ++;
@@ -159,6 +165,24 @@ public class Game implements Runnable {
 		}
 		return testZ;
 	}
+	
+	//checks if the game is up, and sends the appropriate notefies
+	private boolean checkEnd(int playerID) {
+		Mark m = playerMarks.get(playerID);
+		boolean result = board.isWinner(m);
+		if (result) {
+			for (int i = 0; i < players.length; i++) {
+				players[i].send.notifyEnd(1, playerID);
+			}
+		} else if (board.isFull()) {
+			result = true;
+			for (int i = 0; i < players.length; i++) {
+				players[i].send.notifyEnd(2, 0);
+			}
+		}
+		return false;
+	}
+	
 	
 	//method to shut down the game as a whole
 	public Boolean shutDown() {
@@ -177,6 +201,7 @@ public class Game implements Runnable {
 	}
 	
 	//run method to allow communication with the clients
+	//TODO remove, parsing will be done by Player instances
 	public void run() {
 		running = true;
 		while (running) {

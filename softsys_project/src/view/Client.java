@@ -21,7 +21,7 @@ public class Client {
 	private BufferedReader reader;
 	private BufferedWriter writer;
 	private ClientTUI tui;
-	private Sender sender;
+	private Sender send;
 
 	//TODO create declaration for start of TUI
 
@@ -59,6 +59,7 @@ public class Client {
 			io1.getMessage();
 		}
 
+		//possibly replace with Sender
 		try {
 			reader = new BufferedReader(
 					new InputStreamReader(sock.getInputStream()));

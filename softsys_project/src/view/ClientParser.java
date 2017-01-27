@@ -12,6 +12,13 @@ public class ClientParser {
 		this.client = parserClient;
 		this.tui = TUI;
 	}
+	
+	/** !! WARNING !!
+	 * 
+	 * this document is not checkstyle appliant 
+	 * Therefore minor checkstyle violations are also not recognised
+	 * 
+	 */
 
 	
 	public void handle(String input) {

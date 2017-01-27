@@ -24,7 +24,7 @@ public class ClientTUI {
 
 		while (active) {
 
-			String input = readOut(scan);
+			String input = readOut(scan, "Please, enter input:");
 			parser.handle(input);
 
 		}
@@ -49,17 +49,36 @@ public class ClientTUI {
 		parser.handle(returnString);
 	}
 	
-	//method requestion player for the
+	//method requesting player for the
 	//room they want to join
 	public void roomInfo() {
 		//TODO implement
-		readOut
+		readOut(scan, "Please enter roomID code: ");
 	}
 	
 	//method requesting player for the 
 	//specifics of createRoom
 	public void createInfo() {
 		//TODO implement
+		int roomPlayers = -1;
+		int roomWidth = -1;
+		int roomDepth = -1;
+		int roomHeight = -1;
+		int roomWin = -1;
+		try {
+			roomPlayers = getInt("Please enter desired amount of players: ");
+			roomWidth = getInt("Please enter desired board width: ");
+			roomDepth = getInt("Please enter desired board depth: ");
+			roomHeight = getInt("Please enter desired board height: ");
+			roomWin = getInt("Please enter desired win length: ");
+		} catch (MaliciousInputException mie) {
+			//TODO add consequence
+			mie.getMessage();
+			System.exit(0);
+		}
+		
+		client.createRoom(roomPlayers, roomWidth, roomDepth, roomHeight, roomWin);
+		
 	}
 	
 	//method requesting player for the
@@ -71,6 +90,43 @@ public class ClientTUI {
 	//method to print message to the set output
 	public void printMessage(String message) {
 		//TODO implement
+	}
+	
+	//method to assure proper integer value from input
+	public int getInt(String stringy) throws MaliciousInputException{
+		
+		int value = -1;
+		boolean succes;
+		
+		//one attempt to parse integer
+		try {
+			value = Integer.parseInt(readOut(scan, stringy));
+		} catch (NumberFormatException nfe1) {
+			
+			//TODO properly handle Exception
+			nfe1.getMessage();
+			
+			//if it doesn't parse, repeat the question 22 times
+			for(int i = 0; i < 22; i++){
+				
+				//succes to potentially true
+				succes = true;
+				
+				try {
+					value = Integer.parseInt(readOut(scan, stringy));
+				} catch (NumberFormatException nfe2) {
+					//confirm failure
+					succes = false;
+					//TODO properly handle exception
+					nfe2.getMessage();
+					throw new MaliciousInputException();
+				}
+				
+				if(succes) break;
+				
+			}
+		}
+		return value;
 	}
 
 	//method to translate console input into a string
@@ -104,7 +160,7 @@ public class ClientTUI {
 		} while (!inputRead);
 
 		//After while loop closed return all content that was retrieved.
-		return input;
+		return input.trim();
 	}
 	
 	

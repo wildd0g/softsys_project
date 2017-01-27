@@ -1,40 +1,38 @@
 package controller;
 
-import java.io.IOException;
-
 import model.Board;
 import model.InvalidFieldException;
 import model.Mark;
+import view.Client;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.HashMap;
 import java.util.Map;
 
 //TODO assure Client Threadsafety
 
-public class Game implements Runnable {
+public class Game {
 	
 	public int currentPlaying = 0;
 	public Player[] players;
 	public int gameID;
 	public long timeout; 
-	private BufferedReader[] receivers;
 	public boolean running = false;
-	private Parser parser;
 	private Board board = null;
 	int maxRoomDimensionX = 4;
 	int maxRoomDimensionY = 4;
 	int maxRoomDimensionZ = 4;
 	int lengthToWin = 4;
 	private Map<Integer, Mark> playerMarks = new HashMap<Integer, Mark>();
+	private Client client;
 	
+	public Game(int id, int playerNum, int dimX, int dimY, int dimZ, int winLength, Client parent) {
+		this(id, playerNum, dimX, dimY, dimZ, winLength);
+		client = parent;
+	}
 	
 	public Game(int id, int playerNum, int dimX, int dimY, int dimZ, int winLength) {
 		players = new Player[playerNum];
-		receivers = new BufferedReader[playerNum];
-		parser = new Parser();
 		this.gameID = id;
 		timeout = System.currentTimeMillis();
 		board = new Board(dimX, dimY, dimZ, winLength, playerNum);
@@ -43,53 +41,44 @@ public class Game implements Runnable {
 		maxRoomDimensionZ = dimZ;
 		lengthToWin = winLength;
 	}
-	
+
 	//method that adds a player to this room
 	//action for command joinRoom
 	public void addPlayer(Player newPlayer) {
 		players[currentPlaying] = newPlayer; 
-		
-		//set up communication with the new player
-		try {
-			
-			receivers[currentPlaying] = 
-				new BufferedReader(new InputStreamReader(
-						players[currentPlaying].getSocket().getInputStream()
-						));
-		
-		} catch (IOException io) {
-			//TODO add exception handle
-			System.out.println(io.getMessage());
-		}
 		currentPlaying = currentPlaying + 1;
-		
 	}
-	
+
 	//method that removes a player from the room
 	//action for command leaveRoom
 	public void removePlayer(Player gonePlayer) {
-		
-		// for loop browses through the list of players logged in this room 
-		// (no need for those who added later 
-		// because they can't remove themselves until after they've been added)
-		for (int i = 0; i <= currentPlaying; i++) {
-			
-			//if the specified player is found remove it and set currentPlaying to one less
-			if (players[i].equals(gonePlayer)) {
-			
-				players[i] = null;
-				try {
-					receivers[i].close();
-					receivers[i] = null;
-				} catch (IOException io) {
-					//TODO add exception handle
-					System.out.println(io.getMessage());
+		if (!running) {
+			// for loop browses through the list of players logged in this room 
+			// (no need for those who added later 
+			// because they can't remove themselves until after they've been added)
+			for (int i = 0; i <= currentPlaying; i++) {
+
+				//if the specified player is found remove it and set currentPlaying to one less
+				if (players[i].equals(gonePlayer)) {	
+					players[i] = null;
+					currentPlaying = currentPlaying - 1;
+
+					break;
+
+				} 
+			}
+			// fix the array to plug a hole.
+			Player[] tempPlayers = new Player[players.length];
+			int j = 0;
+			for (int i = 0; i <= currentPlaying; i++) {
+				if (!players[i].equals(null)) {
+					tempPlayers[j] = players[i];
 				}
-				currentPlaying = currentPlaying - 1;
-				
-				break;
-				
-			} 
+				j++;
+			}
+			players = tempPlayers;
+		} else {
+			gonePlayer.send.error(6);
 		}
 	}
 	
@@ -108,18 +97,28 @@ public class Game implements Runnable {
 		
 		return violation;
 	}
-	
-	//method to start the game once the room is full
-	public void startGame() {
-		board.reset();
-		for (int i = 0; i < players.length; i++) {
-			playerMarks.put(players[i].getID(), Mark.values()[i+1]);
-		} 
+
+	//server's method to start the game
+	public void serverStartGame() {
+		startGame();
+		//get a random starting value for current playing
 		int randomNum = ThreadLocalRandom.current().nextInt(0, players.length);
 		currentPlaying = randomNum;
+		//start the game by triggering the next turn.
 		nextTurn();
 	}
 	
+	//method to start the game once the room is full
+	public void startGame() {
+		running = true;
+		board.reset();
+		for (int i = 0; i < players.length; i++) {
+			//assign marks to players, +1 because empty is at 0
+			playerMarks.put(players[i].getID(), Mark.values()[i + 1]);
+		} 
+	}
+	
+	//server: notify the turn switches to the next player
 	public void nextTurn() {
 		currentPlaying = (currentPlaying + 1) % players.length;
 		for (int i = 0; i < players.length; i++) {
@@ -135,8 +134,11 @@ public class Game implements Runnable {
 		if (x < maxRoomDimensionX && y < maxRoomDimensionY && z < maxRoomDimensionZ) {
 			try {
 				board.setField(x, y, z, m);
+				for (int i = 0; i < players.length; i++) {
+					players[i].send.notifyMove(playerID, x, y);
+				}
 			} catch (InvalidFieldException e) {
-				players[currentPlaying].send.error(3);
+				players[currentPlaying].send.error(5);
 			}
 			if (checkEnd(playerID) == false) {
 				nextTurn();	
@@ -145,15 +147,44 @@ public class Game implements Runnable {
 			}
 			
 		} else {
-			players[currentPlaying].send.error(3);
+			players[currentPlaying].send.error(5);
 		}
 	}
 	
-	//calculate on what Level (z) a move on x and y goes, does not care about max dimensions
+	//client: test a input move and send to server
+	public void suggestMove(int x, int y) {
+		int z = calcMoveLvl(x, y);
+		if (x < maxRoomDimensionX && y < maxRoomDimensionY && z < maxRoomDimensionZ) {
+			client.send.makeMove(x, y);
+		} else {
+			//TODO invalid move, same response as recieving error 5
+		}
+	}
+	
+	//apply the move received from the server.
+	public void notefiedMove(int x, int y, int playerID) {
+		Mark m = playerMarks.get(playerID);
+		int z = calcMoveLvl(x, y);
+		//valid move check
+		if (x < maxRoomDimensionX && y < maxRoomDimensionY && z < maxRoomDimensionZ) {
+			try {
+				board.setField(x, y, z, m);
+			} catch (InvalidFieldException e) {
+				System.out.println(e.getMessage());
+				System.out.println("How in FUCK did it get here past the check if it isn;t valid?");
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("error due to notifyMove recieved being invalid");
+			client.send.error(5);
+		}
+	}
+	
+	//calculate on what Level (z) a move on x and y goes, does not care about max dimension z
 	private int calcMoveLvl(int x, int y) {
 		int testZ = 0;
-		while (board.isField(x, y, testZ)) {
-			boolean empty = false;
+		boolean empty = false;
+		while (board.isField(x, y, testZ) && !empty) {
 			try {
 				empty = board.isEmptyField(x, y, testZ);
 			} catch (InvalidFieldException e) {
@@ -162,11 +193,11 @@ public class Game implements Runnable {
 			if (!empty) {
 				testZ++;
 			}
-		}
+		} //returned z if z is not a field or is empty
 		return testZ;
 	}
 	
-	//checks if the game is up, and sends the appropriate notefies
+	//checks if the game is over, and sends the appropriate notefies
 	private boolean checkEnd(int playerID) {
 		Mark m = playerMarks.get(playerID);
 		boolean result = board.isWinner(m);
@@ -180,50 +211,15 @@ public class Game implements Runnable {
 				players[i].send.notifyEnd(2, 0);
 			}
 		}
-		return false;
+		return result;
 	}
 	
 	
 	//method to shut down the game as a whole
 	public Boolean shutDown() {
 		boolean result = true;
-		try {
-			//close all open BufferedReaders
-			//doesn't close the socket
-			for (int i = 0; i < receivers.length; i++) {
-				receivers[i].close();
-			}
-		} catch (IOException e) {
-			//TODO properly handle exception
-			result = false;
-		}
+		
 		return result;
-	}
-	
-	//run method to allow communication with the clients
-	//TODO remove, parsing will be done by Player instances
-	public void run() {
-		running = true;
-		while (running) {
-			String input = null;
-			
-			//check all receivers continuously
-			for (int i = 0; i < receivers.length; i++) {
-				try {
-					input = receivers[i].readLine();
-				} catch (IOException io) {
-					//TODO properly handle exception
-					io.getMessage();
-				}
-				
-				//process the input
-				if (input != null) {
-					parser.parse(players[i], input);
-				}
-				//discard if empty
-				
-			}
-		}
 	}
 	
 }

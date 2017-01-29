@@ -12,6 +12,7 @@ public class Receiver {
 	protected InputStreamReader receiver;
 	protected static BufferedReader buffer;
 	public static boolean active;
+	private static Parser parser;
 	
 	public Receiver(Socket sock) {
 		
@@ -30,6 +31,7 @@ public class Receiver {
 		
 	}
 	
+	//main method looping action to continually read input
 	public static void main(String[] args) {
 		while (active) {
 			
@@ -42,13 +44,13 @@ public class Receiver {
 			}
 			
 			if(readable){ 
-				
+				try {
+					parser.parse(null, buffer.readLine());
+				} catch (IOException io3) {
+					//properly handle Exception
+					io3.getMessage();
+				}
 			}
-		}
-	}
-	
-	private synchronized void read() {
-		try {
 			
 		}
 	}

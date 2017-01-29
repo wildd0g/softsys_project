@@ -2,19 +2,21 @@ package controller;
 
 /**
  * The Class Protocol implements the protocol and provides functions to help implementing
- * the protocol.
+ * the protocol. This protocol is for Group 7, Mod02 BIT/INF 2016/2017, UTWENTE
  */
 public class Protocol {
 
 	/**
 	 * Server to client messages.
-	 * @author wimkamerman
+	 * @author Merel Meekes
 	 */
 	public class Server {
 
 		public static final String SERVERCAPABILITIES = "serverCapabilities";
 
 		public static final String SENDLISTROOMS = "sendListRooms";
+
+		public static final String ROOMCREATED = "roomCreated";
 
 		public static final String ASSIGNID = "assignID";
 
@@ -36,7 +38,7 @@ public class Protocol {
 
 	/**
 	 * Client to server messages.
-	 * @author wimkamerman
+	 * @author Merel Meekes
 	 */
 	public static class Client {
 
@@ -45,6 +47,8 @@ public class Protocol {
 		public static final String JOINROOM = "joinRoom";
 
 		public static final String GETROOMLIST = "getRoomList";
+
+		public static final String CREATEROOM = "createRoom";
 
 		public static final String LEAVEROOM = "leaveRoom";
 
@@ -70,7 +74,7 @@ public class Protocol {
 		} else if (number.equals("3")){
 			result = "The chosen room is no longer available, either it already filled up or was empty for too long";
 		} else if (number.equals("4")){
-			result = "The input given by the client isn’t valid at this moment";
+			result = "The input given by the client isnï¿½t valid at this moment";
 		} else if (number.equals("5")){
 			result = "The given move is not possible on this board";
 		} else if (number.equals("6")){

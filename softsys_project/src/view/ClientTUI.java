@@ -78,8 +78,6 @@ public class ClientTUI {
 			System.exit(0);
 		}
 		
-		
-		
 		client.createRoom(roomPlayers, roomWidth, roomDepth, roomHeight, roomWin);
 		
 	}

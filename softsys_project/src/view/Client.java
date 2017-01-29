@@ -21,7 +21,7 @@ public class Client {
 	private BufferedReader reader;
 	private BufferedWriter writer;
 	private ClientTUI tui;
-	public Sender send;
+	public Sender sender;
 
 	//TODO create declaration for start of TUI
 
@@ -59,43 +59,27 @@ public class Client {
 			io1.getMessage();
 		}
 
-		//possibly replace with Sender
-		try {
-			reader = new BufferedReader(
-					new InputStreamReader(sock.getInputStream()));
-			writer = new BufferedWriter(
-					new OutputStreamWriter(sock.getOutputStream()));
-		} catch (IOException io2) {
-			//TODO properly handle Exception
-			io2.getMessage();
-		}
-
-		connected = true;
-
-		while (connected) {
-
-		}
+		sender = new Sender(sock);
 
 	}
 
 	public void requestRooms() {
-
+		sender.getRoomList();
 	}
 	
-	public void joinRoom(int id) {
-		
+	public void joinRoom(int roomid) {
+		sender.joinRoom(roomid);
 	}
 
 	public void createRoom(int players, int xDim, int yDim, int zDim, int winLength) {
-
+		sender.createRoom(players, xDim, yDim, zDim, winLength);
 	}
 	
 	public void leaveRoom() {
-		
-		
+		sender.leaveRoom();
 	}
 	
 	public void makeMove(int xPos, int yPos) {
-		String send = "makeMove " + xPos + " " + yPos;
+		sender.makeMove(xPos, yPos);
 	}
 }

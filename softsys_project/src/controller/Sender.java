@@ -102,6 +102,15 @@ public class Sender {
 		send(msg);
 	}
 	
+	public void createRoom(int players, int dimX, int dimY, int dimZ, int winL){
+		String msg = Protocol.Client.CREATEROOM 
+				+ " " + players
+				+ " " + dimX 
+				+ " " + dimY
+				+ " " + dimZ
+				+ " " + winL;
+	}
+	
 	public void getRoomList() {
 		send(Protocol.Client.GETROOMLIST + "/n");
 	}

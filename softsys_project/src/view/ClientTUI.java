@@ -38,44 +38,83 @@ public class ClientTUI {
 	//method requesting player for the
 	//default settings for a room
 	public String getDefaults() {
-		//TODO implement
+		
+		
 		return null;
 	}
 	
 	//method requesting player for the
-	//IP adress and port number
+	//IP address and port number
 	public void connectInfo() {
-		String returnString = "CONNECT";
-		//TODO implement
 		
-		parser.handle(returnString);
+		//set invalid values
+		String simpleIP = null;
+		int portNum = -1;
+		
+		/**Readout function was used
+		 * reason: variables are uncheckable
+		 */
+		
+		// get required IP adress
+		simpleIP = readOut("Please enter the server's simple IP: ");
+		
+		// get required port number
+		try {
+			portNum = Integer.parseInt(readOut("Please enter the port number: "));
+		} catch (NumberFormatException nfe1) {
+			//properly handle Exception
+			nfe1.getMessage();
+		}
+		
+		client.getConnected(simpleIP, portNum);
+		
 	}
 	
 	//method requesting player for the
 	//room they want to join
 	public void roomInfo() {
-		//TODO implement
-		readOut("Please enter roomID code: ");
+		//set invalid roomID
+		int roomID = -1;
+		
+		//get required roomID
+		try {
+			roomID = getVal("Please enter the room ID of the room you want to join: ", "roomID");
+		} catch (MaliciousInputException mie3) {
+			//Exception exits all programs on this virtual machine
+			//TODO properly handle Exception
+			
+			mie3.getMessage();
+			
+		}
+		
+		client.joinRoom(roomID);
+		
 	}
 	
 	//method requesting player for the 
 	//specifics of createRoom
 	public void createInfo() {
+		
+		//set invalid values
 		int roomPlayers = -1;
 		int roomWidth = -1;
 		int roomDepth = -1;
 		int roomHeight = -1;
 		int roomWin = -1;
+		
+		//get required, player amount, room dimensions and win length
 		try {
 			roomPlayers = getVal("Please enter desired amount of players: ", "players");
 			roomWidth = getVal("Please enter desired board width: ", "width");
 			roomDepth = getVal("Please enter desired board depth: ", "depth");
 			roomHeight = getVal("Please enter desired board height: ", "height");
 			roomWin = getVal("Please enter desired win length: ", "win");
-		} catch (MaliciousInputException mie) {
-			//TODO add consequence
-			mie.getMessage();
-			System.exit(0);
+			
+		} catch (MaliciousInputException mie4) {
+			//Exception exits all programs on this virtual machine
+			//TODO properly handle Exception
+			mie4.getMessage();
+			
 		}
 		
 		client.createRoom(roomPlayers, roomWidth, roomDepth, roomHeight, roomWin);
@@ -85,7 +124,24 @@ public class ClientTUI {
 	//method requesting player for the
 	//specifics of makeMove
 	public void moveInfo() {
-		//TODO implement
+		
+		//set invalid values;
+		int moveX = -1;
+		int moveY = -1;
+		
+		//get required x and y coordinates
+		try {
+			moveX = getVal("Please enter column in which you want to place your tile: ", "width");
+			moveY = getVal("Please enter row in which you want to place your tile: ", "depth");
+		} catch (MaliciousInputException mie5) {
+			//Exception exits all programs on this virtual machine
+			//TODO properly handle Exception
+			mie5.getMessage();
+			
+		}
+		
+		client.makeMove(moveX, moveY);
+		
 	}
 	
 	//method to print message to the set output
@@ -136,6 +192,7 @@ public class ClientTUI {
 			} catch (NumberFormatException nfes5) {
 				System.out.println(nfes5.getMessage());
 			}
+		
 			
 		}
 		

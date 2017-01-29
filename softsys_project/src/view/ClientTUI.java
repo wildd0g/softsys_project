@@ -2,6 +2,8 @@ package view;
 
 import java.util.Scanner;
 
+import controller.Capabilities;
+
 public class ClientTUI {
 
 	private Scanner scan;
@@ -65,11 +67,11 @@ public class ClientTUI {
 		int roomHeight = -1;
 		int roomWin = -1;
 		try {
-			roomPlayers = getVal("Please enter desired amount of players: ");
-			roomWidth = getVal("Please enter desired board width: ");
-			roomDepth = getVal("Please enter desired board depth: ");
-			roomHeight = getVal("Please enter desired board height: ");
-			roomWin = getVal("Please enter desired win length: ");
+			roomPlayers = getVal("Please enter desired amount of players: ", "players");
+			roomWidth = getVal("Please enter desired board width: ", "width");
+			roomDepth = getVal("Please enter desired board depth: ", "depth");
+			roomHeight = getVal("Please enter desired board height: ", "height");
+			roomWin = getVal("Please enter desired win length: ", "win");
 		} catch (MaliciousInputException mie) {
 			//TODO add consequence
 			mie.getMessage();
@@ -94,16 +96,56 @@ public class ClientTUI {
 	}
 	
 	//method to assure proper integer value from input
-	public int getVal(String stringy) throws MaliciousInputException{
+	public int getVal(String stringy, String checker) throws MaliciousInputException{
 		
 		int value = -1;
 		boolean succes;
+		int capability = -1;
 		
+		//Switch statement uses input to identify for which values 
+		switch (checker){
+		case "players": 
+			try {
+				capability = Integer.parseInt(Capabilities.Client.AMOUNTOFPLAYERS);
+			} catch (NumberFormatException nfes1) {
+				System.out.println(nfes1.getMessage());
+			} break;
+			
+		case "width":
+			try {
+				capability = Integer.parseInt(Capabilities.Client.MAXDIMENSIONX);
+			} catch (NumberFormatException nfes2) {
+				System.out.println(nfes2.getMessage());
+			}
+			
+		case "depth":
+			try {
+				capability = Integer.parseInt(Capabilities.Client.MAXDIMENSIONY);
+			} catch (NumberFormatException nfes3) {
+				System.out.println(nfes3.getMessage());
+			}
+			
+		case "height":
+			try {
+				capability = Integer.parseInt(Capabilities.Client.MAXDIMENSIONZ);
+			} catch (NumberFormatException nfes4) {
+				System.out.println(nfes4.getMessage());
+			}
+			
+		case "win":
+			try {
+				capability = Integer.parseInt(Capabilities.Client.LENGTHTOWIN);
+			} catch (NumberFormatException nfes5) {
+				System.out.println(nfes5.getMessage());
+			}
+			
+		}
 		
 		
 		//one attempt to parse integer
 		try {
 			value = Integer.parseInt(readOut(stringy));
+			if (!(value > 0) || !(value <= capability)) value = -1;	
 		} catch (NumberFormatException nfe1) {
 			
 			//TODO properly handle Exception
@@ -117,6 +159,7 @@ public class ClientTUI {
 				
 				try {
 					value = Integer.parseInt(readOut(stringy));
+					if (!(value > 0) || !(value <= capability)) value = -1;						
 				} catch (NumberFormatException nfe2) {
 					//confirm failure
 					succes = false;

@@ -155,7 +155,7 @@ public class Game {
 	public void suggestMove(int x, int y) {
 		int z = calcMoveLvl(x, y);
 		if (x < maxRoomDimensionX && y < maxRoomDimensionY && z < maxRoomDimensionZ) {
-			client.send.makeMove(x, y);
+			client.makeMove(x, y);
 		} else {
 			//TODO invalid move, same response as recieving error 5
 		}
@@ -176,7 +176,8 @@ public class Game {
 			}
 		} else {
 			System.out.println("error due to notifyMove recieved being invalid");
-			client.send.error(5);
+			//TODO figure out what the hell these functions do...
+			client.sender.error(5);
 		}
 	}
 	
@@ -197,7 +198,7 @@ public class Game {
 		return testZ;
 	}
 	
-	//checks if the game is over, and sends the appropriate notefies
+	//checks if the game is over, and sends the appropriate notifies
 	private boolean checkEnd(int playerID) {
 		Mark m = playerMarks.get(playerID);
 		boolean result = board.isWinner(m);

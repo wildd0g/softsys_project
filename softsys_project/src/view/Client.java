@@ -20,7 +20,7 @@ public class Client {
 	private static boolean connected;
 	private BufferedReader reader;
 	private BufferedWriter writer;
-	private ClientTUI tui;
+	private static ClientTUI tui;
 	public Sender sender;
 
 	//TODO create declaration for start of TUI
@@ -28,11 +28,10 @@ public class Client {
 	public Client() {
 		connected = false;
 		tui = new ClientTUI(this);
-		tui.start();
 	}
-
-	public static void main(String[] args){
-
+	
+	public static void main(String [ ] args) {
+		tui.start();
 	}
 
 	public void getConnected(String simpleIP, int portNum) {

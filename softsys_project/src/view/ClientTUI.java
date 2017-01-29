@@ -36,14 +36,6 @@ public class ClientTUI {
 	}
 	
 	//method requesting player for the
-	//default settings for a room
-	public String getDefaults() {
-		
-		
-		return null;
-	}
-	
-	//method requesting player for the
 	//IP address and port number
 	public void connectInfo() {
 		

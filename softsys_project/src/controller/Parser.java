@@ -21,6 +21,7 @@ public class Parser extends Protocol {
 	int moveX = 0;
 	int moveY = 0;
 	String chatMsg = null;
+	Client client; 
 	
 	public Parser() {
 		
@@ -172,7 +173,7 @@ public class Parser extends Protocol {
 					//construct new game
 					Game game = new Game(0, playerList.size(), 
 							maxRoomDimensionX,
-							maxRoomDimensionZ,
+							maxRoomDimensionY,
 							maxRoomDimensionZ, 
 							maxLengthToWin, 
 							client);

@@ -6,6 +6,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import supportClasses.Sender;
+import controller.ClientGame;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -22,6 +23,7 @@ public class Client {
 	private BufferedWriter writer;
 	private static ClientTUI tui;
 	public Sender sender;
+	private ClientGame currentGame;
 
 	//TODO create declaration for start of TUI
 
@@ -80,5 +82,9 @@ public class Client {
 	
 	public void makeMove(int xPos, int yPos) {
 		sender.makeMove(xPos, yPos);
+	}
+	
+	public void setGame(ClientGame game) {
+		currentGame = game;
 	}
 }

@@ -100,7 +100,7 @@ public class Parser extends Protocol {
 							}
 							endOverflowCatcher(msg, roomScanner);
 						} catch (NumberFormatException e) {
-							//TODO send error 7
+							player.send.error(7);
 						}
 						lobbyData.add(roomData);
 					}
@@ -114,6 +114,7 @@ public class Parser extends Protocol {
 					
 					endOverflowCatcher(msg, lineScanner);
 					
+					//TODO implement the send list rooms fucntion.
 					player.send.sendListRooms();
 					
 					break;
@@ -124,7 +125,8 @@ public class Parser extends Protocol {
 					
 					endOverflowCatcher(msg, lineScanner);
 					
-					//TODO let server assign socket to specefied room
+					//TODO let server assign player to specefied room
+					//rooms.get(roomID).addPlayer(player);
 					
 					break;	
 					
@@ -140,7 +142,7 @@ public class Parser extends Protocol {
 					
 					endOverflowCatcher(msg, lineScanner);
 					
-					//TODO create player with ID, Name stc.
+					//TODO create player with ID, Name etc.
 					
 					
 					break;

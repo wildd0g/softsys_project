@@ -101,7 +101,7 @@ public class Parser extends Protocol {
 	
 					endOverflowCatcher(msg, lineScanner);
 	
-					//TODO create player with ID, Name etc.
+					client.setID(playerID);
 	
 					break;
 	

@@ -21,9 +21,10 @@ public class Client {
 	private static boolean connected;
 	private BufferedReader reader;
 	private BufferedWriter writer;
-	private static ClientTUI tui;
+	public static ClientTUI tui;
 	public Sender sender;
 	private ClientGame currentGame;
+	private ClientInput input;
 
 	//TODO create declaration for start of TUI
 
@@ -87,4 +88,17 @@ public class Client {
 	public void setGame(ClientGame game) {
 		currentGame = game;
 	}
+	
+	public void isTurn() {
+		input.determineMove(currentGame);
+	}
+	
+	public void setID(int setID) {
+		id = setID;
+	}
+	
+	public static int getID() {
+		return id;
+	}
+	
 }

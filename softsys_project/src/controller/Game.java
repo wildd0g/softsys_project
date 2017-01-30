@@ -59,6 +59,13 @@ public class Game {
 		return testZ;
 	}
 	
+	public Board getBoard() {
+		return board.deepCopy();
+	}
+	
+	public Mark getMark(int playerID) {
+		return playerMarks.get(playerID);	
+	}
 	
 	//method to shut down the game as a whole
 	public Boolean shutDown() {

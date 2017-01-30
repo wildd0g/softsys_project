@@ -149,7 +149,8 @@ public class ClientTUI {
 		boolean succes;
 		int capability = -1;
 		
-		//Switch statement uses input to identify for which values 
+		//Switch statement uses input to identify for which values
+		//TODO handle all freaking errors
 		switch (checker){
 		case "players": 
 			try {
@@ -193,21 +194,25 @@ public class ClientTUI {
 		//one attempt to parse integer
 		try {
 			value = Integer.parseInt(readOut(stringy));
-			if (!(value > 0) || !(value <= capability)) value = -1;	
+			if (!(value > 0) || !(value <= capability)) {
+				value = -1;	
+			}
 		} catch (NumberFormatException nfe1) {
 			
 			//TODO properly handle Exception
 			nfe1.getMessage();
 			
 			//if it doesn't parse, repeat the question 22 times
-			for(int i = 0; i < 22; i++){
+			for(int i = 0; i < 22; i++) {
 				
 				//succes to potentially true
 				succes = true;
 				
 				try {
 					value = Integer.parseInt(readOut(stringy));
-					if (!(value > 0) || !(value <= capability)) value = -1;						
+					if (!(value > 0) || !(value <= capability)) {
+						value = -1;						
+					}
 				} catch (NumberFormatException nfe2) {
 					//confirm failure
 					succes = false;
@@ -216,7 +221,9 @@ public class ClientTUI {
 					throw new MaliciousInputException();
 				}
 				
-				if(succes) break;
+				if(succes) {
+					break;
+				}
 				
 			}
 		}

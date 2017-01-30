@@ -237,7 +237,7 @@ public class Parser extends Protocol {
 	
 					endOverflowCatcher(msg, lineScanner);
 	
-					.joinToRoom(player, roomID);
+					controller.Server.joinToRoom(player, roomID);
 	
 					break;	
 	

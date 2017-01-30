@@ -9,11 +9,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
 
 public class Server {
 	
 	private static List<Player> nonPlaying = new ArrayList<>();
-	private static Map<Game, Player> games = new HashMap<Game, Player>();
+	private static Map<Game, Set<Player>> games = new HashMap<Game, Set<Player>>();
+	private static Map<Integer, ServerGame> activeGames = new HashMap<Integer, ServerGame>();
 
 	private static boolean receiving = true;
 	private static boolean active = true;
@@ -84,20 +86,22 @@ public class Server {
 		
 	}
 	
-	//method
-	public ServerGame getGame(int gameID) {
-		
-		return null;
-	}
-	
 	/**
 	 * methods utilised by parser
 	 */
 
 	//method that puts the player into a new game
-	public void joinToRoom(Player player, int game) {
-		getGame(game).addPlayer(player);
-		games.put(getGame(game), player);
+	public static void joinToRoom(Player player, int game) {
+		//TODO finish
+		ServerGame servGame = activeGames.get(game);
+		
+		if(servGame.players.length > games.get(servGame).size()) {
+			servGame.addPlayer(player);
+			games.put(key, value)
+		}
+		
+		activeGames.get(game).addPlayer(player);
+		games.put(activeGames.get(game), player);
 		nonPlaying.remove(player);
 	}
 	

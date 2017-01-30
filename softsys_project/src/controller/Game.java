@@ -14,7 +14,7 @@ import java.util.Map;
 public class Game {
 	
 	
-	public Player[] players; 
+	protected int[] playerIDs; 
 	public boolean running = false;
 	protected Board board = null;
 	int maxRoomDimensionX = 4;
@@ -25,7 +25,7 @@ public class Game {
 	
 	
 	public Game(int playerNum, int dimX, int dimY, int dimZ, int winLength) {
-		players = new Player[playerNum];
+		playerIDs = new int[playerNum];
 		board = new Board(dimX, dimY, dimZ, winLength, playerNum);
 		maxRoomDimensionX = dimX;
 		maxRoomDimensionY = dimY;
@@ -37,17 +37,11 @@ public class Game {
 	public void startGame() {
 		running = true;
 		board.reset();
-		for (int i = 0; i < players.length; i++) {
+		for (int i = 0; i < playerIDs.length; i++) {
 			//assign marks to players, +1 because empty is at 0
-			playerMarks.put(players[i].getID(), Mark.values()[i + 1]);
+			playerMarks.put(playerIDs[i], Mark.values()[i + 1]);
 		} 
 	}
-	
-	
-	
-	
-	
-	
 	
 	//calculate on what Level (z) a move on x and y goes, does not care about max dimension z
 	protected int calcMoveLvl(int x, int y) {
@@ -64,23 +58,6 @@ public class Game {
 			}
 		} //returned z if z is not a field or is empty
 		return testZ;
-	}
-	
-	//checks if the game is over, and sends the appropriate notifies
-	protected boolean checkEnd(int playerID) {
-		Mark m = playerMarks.get(playerID);
-		boolean result = board.isWinner(m);
-		if (result) {
-			for (int i = 0; i < players.length; i++) {
-				players[i].send.notifyEnd(1, playerID);
-			}
-		} else if (board.isFull()) {
-			result = true;
-			for (int i = 0; i < players.length; i++) {
-				players[i].send.notifyEnd(2, 0);
-			}
-		}
-		return result;
 	}
 	
 	

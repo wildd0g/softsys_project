@@ -14,6 +14,9 @@ public class ClientGame extends Game {
 			ArrayList<String[]> playerList) {
 		super(playerList.size(), dimX, dimY, dimZ, winLength);
 		client = parent;
+		for (int i = 0; i < playerList.size(); i++) {
+			//TODO store player data
+		}
 	}
 
 	// TODO move to client

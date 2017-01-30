@@ -10,11 +10,12 @@ public class ServerGame extends Game {
 	public int currentPlaying = 0;
 	public int gameID;
 	public long timeout;
-
+	public Player[] players;
 
 
 	public ServerGame(int id, int playerNum, int dimX, int dimY, int dimZ, int winLength) {
 		super(playerNum, dimX, dimY, dimZ, winLength);
+		players = new Player[playerNum];
 		this.gameID = id;
 		timeout = System.currentTimeMillis();
 	}
@@ -77,6 +78,10 @@ public class ServerGame extends Game {
 
 	//server's method to start the game
 	public void serverStartGame() {
+		for (int i = 0; i < players.length; i++) {
+			//assign marks to players, +1 because empty is at 0
+			playerIDs[i] = players[i].getID();
+		}
 		startGame();
 		//get a random starting value for current playing
 		int randomNum = ThreadLocalRandom.current().nextInt(0, players.length);
@@ -128,4 +133,22 @@ public class ServerGame extends Game {
 			players[currentPlaying].send.error(5);
 		}
 	}
+
+	//checks if the game is over, and sends the appropriate notifies
+	protected boolean checkEnd(int playerID) {
+		Mark m = playerMarks.get(playerID);
+		boolean result = board.isWinner(m);
+		if (result) {
+			for (int i = 0; i < players.length; i++) {
+				players[i].send.notifyEnd(1, playerID);
+			}
+		} else if (board.isFull()) {
+			result = true;
+			for (int i = 0; i < players.length; i++) {
+				players[i].send.notifyEnd(2, 0);
+			}
+		}
+		return result;
+	}
+
 }

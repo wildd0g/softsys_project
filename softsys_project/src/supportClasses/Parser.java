@@ -2,10 +2,13 @@ package supportClasses;
 
 import java.util.Scanner;
 
+import controller.ClientGame;
 import controller.Game;
 import controller.Player;
+import controller.ServerGame;
 
 import java.util.ArrayList;
+
 import view.Client;
 
 public class Parser extends Protocol {
@@ -151,8 +154,8 @@ public class Parser extends Protocol {
 					
 					endOverflowCatcher(msg, lineScanner);
 					//if player in a game, remove player from game
-					if (player.getGame() != null) {
-						player.getGame().removePlayer(player);
+					if (player.getGame() instanceof ServerGame) {
+						((ServerGame) player.getGame()).removePlayer(player);
 						player.setGame(null);
 					} else {
 						player.send.error(4);
@@ -161,7 +164,7 @@ public class Parser extends Protocol {
 					break;
 					
 				case Protocol.Server.STARTGAME:
-					//parse the room info and store in parser field
+					//parse the room info and store in parser fields
 					Scanner roomScanner = new Scanner(lineScanner.next());
 					roomScanner.useDelimiter("|");
 					maxRoomDimensionX = Integer.parseInt(roomScanner.next());
@@ -178,15 +181,15 @@ public class Parser extends Protocol {
 					endOverflowCatcher(msg, roomScanner);
 					
 					//construct new game
-					Game game = new Game(0, 
-							playerList.size(), 
+					ClientGame game = new ClientGame(
 							maxRoomDimensionX,
 							maxRoomDimensionY,
 							maxRoomDimensionZ, 
 							maxLengthToWin, 
-							client);
+							client,
+							playerList);
 					
-					//TODO add client to constructor, players to game, and set game to client
+					client.setGame(game);
 					
 					break;
 					

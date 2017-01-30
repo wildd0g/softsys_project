@@ -17,9 +17,7 @@ public class AIInput extends ClientInput {
 	public void determineMove(ClientGame game) {
 		Board board = game.getBoard();
 		Mark m = game.getMark(Client.getID());
-		
-		// TODO Auto-generated method stub
-
+		strat.determineMove(board, m);
 	}
 
 }

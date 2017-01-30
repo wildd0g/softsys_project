@@ -22,7 +22,7 @@ public class Client {
 	private BufferedReader reader;
 	private BufferedWriter writer;
 	public static ClientTUI tui;
-	public Sender sender;
+	public static Sender sender;
 	private ClientGame currentGame;
 	private ClientInput input;
 
@@ -81,12 +81,19 @@ public class Client {
 		sender.leaveRoom();
 	}
 	
-	public void makeMove(int xPos, int yPos) {
+	public static void makeMove(int xPos, int yPos) {
 		sender.makeMove(xPos, yPos);
 	}
 	
 	public void setGame(ClientGame game) {
 		currentGame = game;
+	}
+	
+	public void setTurn(int playerID) {
+		currentGame.currentTurn = playerID;
+		if (playerID == id) {
+			isTurn();
+		}
 	}
 	
 	public void isTurn() {

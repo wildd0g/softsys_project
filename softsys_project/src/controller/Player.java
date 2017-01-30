@@ -14,6 +14,7 @@ public class Player {
 	private Socket playerSocket;
 	private Game currentGame;
 	public Sender send;
+	public Receiver receiver;
 	
 	//constructor of a player object that can contain information about a player
 	public Player(int id, String name, Socket sock) {
@@ -21,6 +22,7 @@ public class Player {
 		this.playerName = name;
 		this.playerSocket = sock;
 		this.send = new Sender(playerSocket);
+		this.receiver = new Receiver(playerSocket);
 	}
 	
 	

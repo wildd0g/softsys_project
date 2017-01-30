@@ -3,7 +3,6 @@ package view;
 import java.util.Scanner;
 
 import controller.Server;
-import controller.ServerParser;
 import supportClasses.MaliciousInputException;
 
 public class ServerTUI {

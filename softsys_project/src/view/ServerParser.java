@@ -1,8 +1,8 @@
-package controller;
+package view;
 
 import java.util.Scanner;
 
-import view.ServerTUI;
+import controller.Server;
 
 public class ServerParser {
 	

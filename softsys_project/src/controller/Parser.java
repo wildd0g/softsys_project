@@ -2,6 +2,7 @@ package controller;
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import view.Client;
 
 public class Parser extends Protocol {
 
@@ -21,7 +22,7 @@ public class Parser extends Protocol {
 	int moveX = 0;
 	int moveY = 0;
 	String chatMsg = null;
-	Client client; 
+	view.Client client; 
 	
 	public Parser() {
 		
@@ -171,7 +172,8 @@ public class Parser extends Protocol {
 					endOverflowCatcher(msg, roomScanner);
 					
 					//construct new game
-					Game game = new Game(0, playerList.size(), 
+					Game game = new Game(0, 
+							playerList.size(), 
 							maxRoomDimensionX,
 							maxRoomDimensionY,
 							maxRoomDimensionZ, 

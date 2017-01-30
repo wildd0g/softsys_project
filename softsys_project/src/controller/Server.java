@@ -63,22 +63,24 @@ public class Server {
 				//socket reference is loaded with new attached socket
 				registrationSocket = serverSocket.accept();
 				
-				//player object is created with this as reference. 
-				//It is added to the list of players not yet in a game and is activated
-				Player newPlayer = 
-						new Player(playerCounter, "player" + playerCounter, registrationSocket);
-				nonPlaying.add(newPlayer);
-				nonPlaying.get(nonPlaying.size() - 1).activate();
-				
-				//Testcode
-				System.out.println(newPlayer.getID());
-				System.out.println(newPlayer.getName());
-				
+				connectNew(registrationSocket);
+								
 			} catch (IOException io1) {
 				//TODO handle exception properly
 				io1.getMessage();
 			}
 		}
+		
+	}
+	
+	public static synchronized void connectNew(Socket sock) {
+		
+		//player object is created with this as reference. 
+		//It is added to the list of players not yet in a game and is activated
+		Player newPlayer = 
+				new Player(playerCounter, "player" + playerCounter, registrationSocket);
+		nonPlaying.add(newPlayer);
+		nonPlaying.get(nonPlaying.size() - 1).activate();
 		
 	}
 

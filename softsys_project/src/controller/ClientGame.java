@@ -6,7 +6,6 @@ import java.util.Map;
 
 import model.InvalidFieldException;
 import model.Mark;
-import view.Client;
 
 public class ClientGame extends Game {
 

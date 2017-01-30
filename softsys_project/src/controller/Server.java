@@ -83,5 +83,25 @@ public class Server {
 		nonPlaying.get(nonPlaying.size() - 1).activate();
 		
 	}
+	
+	//method
+	public ServerGame getGame(int gameID) {
+		
+		return null;
+	}
+	
+	/**
+	 * methods utilised by parser
+	 */
+
+	//method that puts the player into a new game
+	public void joinToRoom(Player player, int game) {
+		getGame(game).addPlayer(player);
+		games.put(getGame(game), player);
+		nonPlaying.remove(player);
+	}
+	
+	
+	
 
 }

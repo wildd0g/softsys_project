@@ -1,15 +1,12 @@
-package supportclasses;
+package controller;
 
 import java.util.Scanner;
 
-import controller.ClientGame;
-import controller.Game;
-import controller.Player;
-import controller.ServerGame;
+import supportclasses.InvalidCommandException;
+import supportclasses.InvalidPipedDataException;
+import supportclasses.Protocol;
 
 import java.util.ArrayList;
-
-import view.Client;
 
 public class Parser extends Protocol {
 
@@ -29,7 +26,7 @@ public class Parser extends Protocol {
 	int moveX = 0;
 	int moveY = 0;
 	String chatMsg = null;
-	view.Client client; 
+	controller.Client client; 
 
 	public Parser() {
 
@@ -240,8 +237,7 @@ public class Parser extends Protocol {
 	
 					endOverflowCatcher(msg, lineScanner);
 	
-					//TODO let server assign player to specefied room
-					//rooms.get(roomID).addPlayer(player);
+					.joinToRoom(player, roomID);
 	
 					break;	
 	

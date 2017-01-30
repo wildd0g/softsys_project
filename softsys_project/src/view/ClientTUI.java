@@ -2,6 +2,7 @@ package view;
 
 import java.util.Scanner;
 
+import controller.Client;
 import supportclasses.Capabilities;
 import supportclasses.MaliciousInputException;
 

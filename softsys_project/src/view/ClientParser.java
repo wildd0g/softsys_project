@@ -1,7 +1,8 @@
 package view;
 
 import java.util.Scanner;
-import view.Client;
+
+import controller.Client;
 
 public class ClientParser {
 

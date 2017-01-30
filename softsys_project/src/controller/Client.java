@@ -1,4 +1,4 @@
-package view;
+package controller;
 
 import java.net.Socket;
 import java.io.IOException;
@@ -6,7 +6,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import supportclasses.Sender;
-import controller.ClientGame;
+import view.ClientTUI;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

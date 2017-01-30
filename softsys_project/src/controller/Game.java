@@ -3,7 +3,6 @@ package controller;
 import model.Board;
 import model.InvalidFieldException;
 import model.Mark;
-import view.Client;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.HashMap;

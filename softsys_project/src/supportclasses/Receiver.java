@@ -6,6 +6,8 @@ import java.io.BufferedReader;
 
 import java.net.Socket;
 
+import controller.Parser;
+
 public class Receiver {
 	
 	protected Socket socket;

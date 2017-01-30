@@ -4,15 +4,15 @@ import java.util.Scanner;
 import view.Client;
 
 public class ClientParser {
-	
+
 	Client client;
 	ClientTUI tui;
-	
-	public ClientParser(Client parserClient, ClientTUI TUI){
+
+	public ClientParser(Client parserClient, ClientTUI clientTui){
 		this.client = parserClient;
-		this.tui = TUI;
+		this.tui = clientTui;
 	}
-	
+
 	/** !! WARNING !!
 	 * 
 	 * this document is not checkstyle appliant 
@@ -20,15 +20,15 @@ public class ClientParser {
 	 * 
 	 */
 
-	
+
 	public void handle(String input) {
 		String content = input;
-		Scanner commandScanner = new Scanner(input);
+		Scanner commandScanner = new Scanner(content);
 		if (commandScanner.hasNext()) {
 			String command = commandScanner.next();
-			
+
 			switch (command) {
-				
+
 			case "CONNECT":
 				if (commandScanner.hasNext()) {
 					String simpleIP = commandScanner.next();
@@ -73,14 +73,16 @@ public class ClientParser {
 					tui.moveInfo();
 				}
 				break;
-				
+
 			default:
-				tui.printMessage("Sorry, I don't recognise that command");
+				System.out.println("Sorry, I don't recognise that command");
 			}
-			
-		}
+
+		} 
 		
-		
+		commandScanner.close();
+
+
 	}
-	
+
 }

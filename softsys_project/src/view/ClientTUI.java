@@ -137,11 +137,6 @@ public class ClientTUI {
 		
 	}
 	
-	//method to print message to the set output
-	public void printMessage(String message) {
-		//TODO implement
-	}
-	
 	//method to assure proper integer value from input
 	public int getVal(String stringy, String checker) throws MaliciousInputException{
 		
@@ -203,7 +198,7 @@ public class ClientTUI {
 			nfe1.getMessage();
 			
 			//if it doesn't parse, repeat the question 22 times
-			for(int i = 0; i < 22; i++) {
+			for (int i = 0; i < 22; i++) {
 				
 				//succes to potentially true
 				succes = true;
@@ -221,7 +216,7 @@ public class ClientTUI {
 					throw new MaliciousInputException();
 				}
 				
-				if(succes) {
+				if (succes) {
 					break;
 				}
 				

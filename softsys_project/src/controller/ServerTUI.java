@@ -2,7 +2,6 @@ package controller;
 
 import java.util.Scanner;
 
-import supportClasses.Capabilities;
 import supportClasses.MaliciousInputException;
 
 public class ServerTUI {
@@ -22,31 +21,56 @@ public class ServerTUI {
 		
 	}
 
-	public void start() {
+	public int start() throws MaliciousInputException {
 		
 		//set default port integer
 		int port = 1212;
 		
+		//define message to request for port number
+		String message = 
+				"Please, enter 4 number port number to start the server on";
+		
 		try {
 			
-			port = Integer.parseInt(readOut(
-					"Please, enter 4 number port number to start the server on"));
+			//request portnumber
+			port = Integer.parseInt(readOut(message));
 			
-			// check if entered integer is 
-			if(!(port > 999) || !(port < 10000)) { 
+			// check if entered integer is exactly 4 long
+			if (!(port > 999) || !(port < 10000)) { 
 				throw new NumberFormatException();
 			}
-			
+		
+		//catch invalid	portnumbers
 		} catch (NumberFormatException nfe1) {
 			
-			for(int i = 0; i < 22; i++) {
+			boolean succes;
+			
+			//setup a loop to request it at a maximum 22 more times.
+			for (int i = 0; i < 22; i++) {
 				
+				succes = true;
 				
+				try {
+					//request portnumber
+					port  = Integer.parseInt(readOut(message));
+					
+					// check if entered integer is exactly 4 long
+					if (!(port > 999) || !(port < 10000)) { 
+						throw new NumberFormatException();
+					}
+					
+				} catch (NumberFormatException nfe2) {
+					succes = false;
+					//Shut down server and all underlying programs on this virtual machine
+					throw new MaliciousInputException();
+				}
+				
+				if (succes) {
+					break;
+				}
 				
 			}
 			
-			//TODO properly handle Exception
-			nfe1.getMessage();
 		}
 		
 		return port;
@@ -61,6 +85,9 @@ public class ServerTUI {
 			parser.handle(input);
 
 		}
+		
+		System.out.println("Goodbye");
+		scan.close();
 		
 	}
 	

@@ -131,15 +131,26 @@ public class Game {
 	public void makeMove(int x, int y, int playerID) {
 		Mark m = playerMarks.get(playerID);
 		int z = calcMoveLvl(x, y);
+		
+		//checks against current room sizes if move is valid
 		if (x < maxRoomDimensionX && y < maxRoomDimensionY && z < maxRoomDimensionZ) {
+			
+			//tries to change board status
 			try {
+				
 				board.setField(x, y, z, m);
+
+				//notify players of made move
 				for (int i = 0; i < players.length; i++) {
 					players[i].send.notifyMove(playerID, x, y);
 				}
+				
 			} catch (InvalidFieldException e) {
+				//should never be thrown, but catch anyway
 				players[currentPlaying].send.error(5);
 			}
+			
+			//check for win condition
 			if (checkEnd(playerID) == false) {
 				nextTurn();	
 			} else {
@@ -151,6 +162,7 @@ public class Game {
 		}
 	}
 	
+	// TODO move to client
 	//client: test a input move and send to server
 	public void suggestMove(int x, int y) {
 		int z = calcMoveLvl(x, y);
@@ -161,6 +173,7 @@ public class Game {
 		}
 	}
 	
+	// TODO move to client
 	//apply the move received from the server.
 	public void notefiedMove(int x, int y, int playerID) {
 		Mark m = playerMarks.get(playerID);

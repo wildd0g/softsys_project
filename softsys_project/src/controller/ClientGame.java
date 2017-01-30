@@ -1,6 +1,8 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import model.InvalidFieldException;
 import model.Mark;
@@ -9,6 +11,7 @@ import view.Client;
 public class ClientGame extends Game {
 
 	private Client client;
+	private Map<Integer, String> playerNames = new HashMap<Integer, String>();
 
 	public ClientGame(int dimX, int dimY, int dimZ, int winLength, Client parent,
 			ArrayList<String[]> playerList) {
@@ -16,6 +19,8 @@ public class ClientGame extends Game {
 		client = parent;
 		for (int i = 0; i < playerList.size(); i++) {
 			String[] tempPlayer = playerList.get(i);
+			playerIDs[i] = Integer.parseInt(tempPlayer[0]);
+			playerNames.put(playerIDs[i], tempPlayer[1]);
 			//TODO store player data
 		}
 	}

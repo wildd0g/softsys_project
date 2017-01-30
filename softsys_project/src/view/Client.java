@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import supportClasses.Sender;
+import supportclasses.Sender;
 import controller.ClientGame;
 
 import java.io.BufferedReader;

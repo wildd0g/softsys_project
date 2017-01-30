@@ -15,6 +15,7 @@ public class ClientGame extends Game {
 		super(playerList.size(), dimX, dimY, dimZ, winLength);
 		client = parent;
 		for (int i = 0; i < playerList.size(); i++) {
+			playerList.get(i);
 			//TODO store player data
 		}
 	}

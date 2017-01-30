@@ -2,8 +2,8 @@ package view;
 
 import java.util.Scanner;
 
-import supportClasses.Capabilities;
-import supportClasses.MaliciousInputException;
+import supportclasses.Capabilities;
+import supportclasses.MaliciousInputException;
 
 public class ClientTUI extends TUI{
 

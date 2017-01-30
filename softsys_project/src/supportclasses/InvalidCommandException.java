@@ -1,4 +1,4 @@
-package supportClasses;
+package supportclasses;
 
 import controller.Player;
 

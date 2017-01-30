@@ -1,7 +1,7 @@
-package supportClasses;
+package supportclasses;
 
-import supportClasses.Protocol.Client;
-import supportClasses.Protocol.Server;
+import supportclasses.Protocol.Client;
+import supportclasses.Protocol.Server;
 
 //listing of all the current capabilities of the program, both client and server
 

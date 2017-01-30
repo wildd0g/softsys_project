@@ -3,7 +3,7 @@ package view;
 import java.util.Scanner;
 
 import controller.Server;
-import supportClasses.MaliciousInputException;
+import supportclasses.MaliciousInputException;
 
 public class ServerTUI extends TUI{
 

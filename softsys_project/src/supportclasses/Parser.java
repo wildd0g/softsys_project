@@ -30,9 +30,9 @@ public class Parser extends Protocol {
 	int moveY = 0;
 	String chatMsg = null;
 	view.Client client; 
-	
+
 	public Parser() {
-		
+
 	}
 
 	//@ require msg == valid protocol line
@@ -60,32 +60,9 @@ public class Parser extends Protocol {
 						chatSupport = true;
 					}
 					endOverflowCatcher(msg, lineScanner);
-					
-					//TODO process client based on these capabilities
-					
-					break;
 	
-				case Protocol.Client.SENDCAPABILITIES:
-					//parse string and store the variables
-					amountOfPlayers = Integer.parseInt(lineScanner.next());
-					playerName = lineScanner.next();
-					if (lineScanner.next().equals("1")) {
-						roomSupport = true;
-					}
-					maxRoomDimensionX = Integer.parseInt(lineScanner.next());
-					maxRoomDimensionY = Integer.parseInt(lineScanner.next());
-					maxRoomDimensionZ = Integer.parseInt(lineScanner.next());
-					maxLengthToWin = Integer.parseInt(lineScanner.next());
-					if (lineScanner.next().equals("1")) {
-						chatSupport = true;
-					}
-					if (lineScanner.next().equals("1")) {
-						autoRefresh = true;
-					}
-					endOverflowCatcher(msg, lineScanner);
-					
-					//TODO process this to capabilities
-					
+					//TODO process client based on these capabilities
+	
 					break;
 	
 				case Protocol.Server.SENDLISTROOMS:
@@ -107,62 +84,30 @@ public class Parser extends Protocol {
 						}
 						lobbyData.add(roomData);
 					}
-					
+	
 					//TODO process this to rooms
-					
+	
 					break;
+	
+				case Protocol.Server.ROOMCREATED:
 					
-					
-				case Protocol.Client.GETROOMLIST:
-					
-					endOverflowCatcher(msg, lineScanner);
-					
-					//TODO implement the send list rooms fucntion.
-					player.send.sendListRooms();
-					
-					break;
-				
-				case Protocol.Client.JOINROOM:
-					//parse string and store the variables
-					roomID = Integer.parseInt(lineScanner.next());
+					int roomID = Integer.parseInt(lineScanner.next());
 					
 					endOverflowCatcher(msg, lineScanner);
 					
-					//TODO let server assign player to specefied room
-					//rooms.get(roomID).addPlayer(player);
-					
-					break;	
-					
-				case Protocol.Server.ERROR:
-					System.out.println(Protocol.getError(lineScanner.next()));
-					
-					endOverflowCatcher(msg, lineScanner);
+					//TODO notify client room has been created with roomID
 					
 					break;
 					
 				case Protocol.Server.ASSIGNID:
 					playerID = Integer.parseInt(lineScanner.next());
-					
+	
 					endOverflowCatcher(msg, lineScanner);
-					
+	
 					//TODO create player with ID, Name etc.
-					
-					
+	
 					break;
-					
-				case Protocol.Client.LEAVEROOM:
-					
-					endOverflowCatcher(msg, lineScanner);
-					//if player in a game, remove player from game
-					if (player.getGame() instanceof ServerGame) {
-						((ServerGame) player.getGame()).removePlayer(player);
-						player.setGame(null);
-					} else {
-						player.send.error(4);
-					}
-					
-					break;
-					
+	
 				case Protocol.Server.STARTGAME:
 					//parse the room info and store in parser fields
 					Scanner roomScanner = new Scanner(lineScanner.next());
@@ -171,15 +116,15 @@ public class Parser extends Protocol {
 					maxRoomDimensionY = Integer.parseInt(roomScanner.next());
 					maxRoomDimensionZ = Integer.parseInt(roomScanner.next());
 					maxLengthToWin = Integer.parseInt(roomScanner.next());
-					
+	
 					//creates array list with the player data in string format defined by parsePlayerInfo()
 					ArrayList<String[]> playerList = new ArrayList<String[]>();
 					while (lineScanner.hasNext()) {
 						playerList.add(parsePlayerInfo(lineScanner.next()));
 					}
-					
+	
 					endOverflowCatcher(msg, roomScanner);
-					
+	
 					//construct new game
 					ClientGame game = new ClientGame(
 							maxRoomDimensionX,
@@ -188,34 +133,23 @@ public class Parser extends Protocol {
 							maxLengthToWin, 
 							client,
 							playerList);
-					
+	
 					client.setGame(game);
-					
+	
 					break;
-					
+	
 				case Protocol.Server.TURNOFPLAYER:
-					
+	
 					turn = Integer.parseInt(lineScanner.next());
-					
+	
 					endOverflowCatcher(msg, lineScanner);
-					
+	
 					//TODO if turn 
-					
-					break;
-	
-				case Protocol.Client.MAKEMOVE:
-	
-					moveX = Integer.parseInt(lineScanner.next());
-					moveY = Integer.parseInt(lineScanner.next());
-	
-					endOverflowCatcher(msg, lineScanner);
-	
-					//TODO server: apply move to local board and send along if valid
 	
 					break;
-					
+	
 				case Protocol.Server.NOTIFYMOVE:
-					
+	
 					playerID = Integer.parseInt(lineScanner.next()); 
 					moveX = Integer.parseInt(lineScanner.next());
 					moveY = Integer.parseInt(lineScanner.next());
@@ -227,68 +161,165 @@ public class Parser extends Protocol {
 					break;
 	
 				case Protocol.Server.NOTIFYEND:
-					
+	
 					String gameEnd = Protocol.getWin(lineScanner.next());
 					if (lineScanner.hasNext()){
 						playerID = Integer.parseInt(lineScanner.next());
 					}
-					
+	
 					endOverflowCatcher(msg, lineScanner);
-					
+	
 					//System.out.println(Protocol.getWin(lineScanner.next()));
 					//TODO client: end game based on end condition and with winner ID
 	
 					break;
-					
-				case Protocol.Client.SENDMESSAGE:
-					
-					playerID = Integer.parseInt(lineScanner.next());
-					chatMsg = lineScanner.nextLine();
-					
-					endOverflowCatcher(msg, lineScanner);
 	
-					//TODO server: send chatMsg FROM playerID to all
+				case Protocol.Server.ERROR:
+					System.out.println(Protocol.getError(lineScanner.next()));
+	
+					endOverflowCatcher(msg, lineScanner);
 	
 					break;
 	
+	
+	
 				case Protocol.Server.NOTIFYMESSAGE:
-					
+	
 					String senderName = lineScanner.next();
 					chatMsg = lineScanner.nextLine();
-					
+	
 					endOverflowCatcher(msg, lineScanner);
 	
 					//TODO client: display to chat, senderName sent chatMsg
 	
 					break;
 	
-				case Protocol.Client.REQUESTLEADERBOARD:
-					
-					endOverflowCatcher(msg, lineScanner);
-	
-					player.send.sendLeaderboard();
-	
-					break;
-					
 				case Protocol.Server.SENDLEADERBOARD:
-					
+	
 					ArrayList<String[]> leaderList = new ArrayList<String[]>();
 					while (lineScanner.hasNext()) {
 						leaderList.add(parseLeaderInfo(lineScanner.next()));
 					}
-					
+	
 					endOverflowCatcher(msg, lineScanner);
 	
 					//TODO client: display the leaderboard
 	
 					break;
+	
+	
+	
+	
+				case Protocol.Client.SENDCAPABILITIES:
+					//parse string and store the variables
+					amountOfPlayers = Integer.parseInt(lineScanner.next());
+					playerName = lineScanner.next();
+					if (lineScanner.next().equals("1")) {
+						roomSupport = true;
+					}
+					maxRoomDimensionX = Integer.parseInt(lineScanner.next());
+					maxRoomDimensionY = Integer.parseInt(lineScanner.next());
+					maxRoomDimensionZ = Integer.parseInt(lineScanner.next());
+					maxLengthToWin = Integer.parseInt(lineScanner.next());
+					if (lineScanner.next().equals("1")) {
+						chatSupport = true;
+					}
+					if (lineScanner.next().equals("1")) {
+						autoRefresh = true;
+					}
+					endOverflowCatcher(msg, lineScanner);
+	
+					//TODO process this to capabilities
+	
+					break;
+	
+	
+				case Protocol.Client.JOINROOM:
+					//parse string and store the variables
+					roomID = Integer.parseInt(lineScanner.next());
+	
+					endOverflowCatcher(msg, lineScanner);
+	
+					//TODO let server assign player to specefied room
+					//rooms.get(roomID).addPlayer(player);
+	
+					break;	
+	
+				case Protocol.Client.GETROOMLIST:
+	
+					endOverflowCatcher(msg, lineScanner);
+	
+					//TODO implement the send list rooms fucntion.
+					player.send.sendListRooms();
+	
+					break;
+	
+				case Protocol.Client.CREATEROOM:
 					
+					amountOfPlayers = Integer.parseInt(lineScanner.next());
+					maxRoomDimensionX = Integer.parseInt(lineScanner.next());
+					maxRoomDimensionY = Integer.parseInt(lineScanner.next());
+					maxRoomDimensionZ = Integer.parseInt(lineScanner.next());
+					maxLengthToWin = Integer.parseInt(lineScanner.next());
+					
+					endOverflowCatcher(msg, lineScanner);
+					
+					//TODO create room with above parameters
+					
+					break;
+					
+				case Protocol.Client.LEAVEROOM:
+	
+					endOverflowCatcher(msg, lineScanner);
+					//if player in a game, remove player from game
+					if (player.getGame() instanceof ServerGame) {
+						((ServerGame) player.getGame()).removePlayer(player);
+						player.setGame(null);
+					} else {
+						player.send.error(4);
+					}
+	
+					break;
+	
+	
+				case Protocol.Client.MAKEMOVE:
+	
+					moveX = Integer.parseInt(lineScanner.next());
+					moveY = Integer.parseInt(lineScanner.next());
+	
+					endOverflowCatcher(msg, lineScanner);
+	
+					//TODO server: apply move to local board and send along if valid
+	
+					break;
+	
+	
+				case Protocol.Client.SENDMESSAGE:
+	
+					playerID = Integer.parseInt(lineScanner.next());
+					chatMsg = lineScanner.nextLine();
+	
+					endOverflowCatcher(msg, lineScanner);
+	
+					//TODO server: send chatMsg FROM playerID to all
+	
+					break;
+	
+				case Protocol.Client.REQUESTLEADERBOARD:
+	
+					endOverflowCatcher(msg, lineScanner);
+	
+					player.send.sendLeaderboard();
+	
+					break;
+	
+	
 				default:
 					try {
 						throw new InvalidCommandException(player);
 					} catch (InvalidCommandException e) {
 					}
-				
+
 			}
 
 		} else {
@@ -297,7 +328,7 @@ public class Parser extends Protocol {
 				throw new InvalidCommandException(player);
 			} catch (InvalidCommandException e) {
 			}
-			
+
 		}
 	}
 
@@ -306,14 +337,14 @@ public class Parser extends Protocol {
 			if (scanner.hasNext()) {
 				String faultyString = scanner.next();
 				throw new InvalidPipedDataException(msg, faultyString, player);
-				
+
 			}
 		} catch (InvalidPipedDataException e) {
 		} finally {
 			scanner.close();
 		}
 	}
-	
+
 	private String[] parsePlayerInfo(String info) {
 		String[] tmpPlayer = new String[3];
 		Scanner roomScanner = new Scanner(info);
@@ -329,10 +360,10 @@ public class Parser extends Protocol {
 			roomScanner.close();
 		} catch (InvalidPipedDataException e) {
 		}
-		
+
 		return tmpPlayer;
 	}
-	
+
 	private String[] parseLeaderInfo(String info) {
 		String[] tmpPlayer = new String[4];
 		Scanner leaderScanner = new Scanner(info);
@@ -348,8 +379,8 @@ public class Parser extends Protocol {
 		} finally {
 			leaderScanner.close();
 		}
-		
+
 		return tmpPlayer;
 	}
-	
+
 }

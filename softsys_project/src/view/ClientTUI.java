@@ -2,7 +2,8 @@ package view;
 
 import java.util.Scanner;
 
-import controller.Capabilities;
+import supportClasses.Capabilities;
+import supportClasses.MaliciousInputException;
 
 public class ClientTUI {
 

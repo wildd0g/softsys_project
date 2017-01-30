@@ -1,6 +1,10 @@
-package controller;
+package supportClasses;
 
 import java.util.Scanner;
+
+import controller.Game;
+import controller.Player;
+
 import java.util.ArrayList;
 import view.Client;
 

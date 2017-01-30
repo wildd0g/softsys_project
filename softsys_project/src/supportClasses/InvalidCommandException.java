@@ -1,4 +1,6 @@
-package controller;
+package supportClasses;
+
+import controller.Player;
 
 public class InvalidCommandException extends Exception {
 

@@ -1,4 +1,4 @@
-package view;
+package supportClasses;
 
 public class MaliciousInputException extends Exception{
 

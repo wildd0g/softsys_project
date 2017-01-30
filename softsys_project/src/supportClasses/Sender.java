@@ -1,4 +1,4 @@
-package controller;
+package supportClasses;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;

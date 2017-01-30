@@ -1,4 +1,7 @@
-package controller;
+package supportClasses;
+
+import supportClasses.Protocol.Client;
+import supportClasses.Protocol.Server;
 
 //listing of all the current capabilities of the program, both client and server
 

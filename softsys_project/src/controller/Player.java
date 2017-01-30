@@ -1,6 +1,10 @@
 package controller;
 
 import java.net.Socket;
+
+import supportClasses.Receiver;
+import supportClasses.Sender;
+
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.BufferedReader;

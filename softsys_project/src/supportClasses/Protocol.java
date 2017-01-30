@@ -1,4 +1,4 @@
-package controller;
+package supportClasses;
 
 /**
  * The Class Protocol implements the protocol and provides functions to help implementing

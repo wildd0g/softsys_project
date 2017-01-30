@@ -11,6 +11,7 @@ public class ClientGame extends Game {
 
 	private Client client;
 	private Map<Integer, String> playerNames = new HashMap<Integer, String>();
+	private Map<Integer, String> playerColours = new HashMap<Integer, String>();
 
 	public ClientGame(int dimX, int dimY, int dimZ, int winLength, Client parent,
 			ArrayList<String[]> playerList) {
@@ -20,11 +21,10 @@ public class ClientGame extends Game {
 			String[] tempPlayer = playerList.get(i);
 			playerIDs[i] = Integer.parseInt(tempPlayer[0]);
 			playerNames.put(playerIDs[i], tempPlayer[1]);
-			//TODO store player data
+			playerColours.put(playerIDs[i], tempPlayer[2]);
 		}
 	}
 
-	// TODO move to client
 	//client: test a input move and send to server
 	public void suggestMove(int x, int y) {
 		int z = calcMoveLvl(x, y);
@@ -35,7 +35,6 @@ public class ClientGame extends Game {
 		}
 	}
 
-	// TODO move to client
 	//apply the move received from the server.
 	public void notefiedMove(int x, int y, int playerID) {
 		Mark m = playerMarks.get(playerID);
@@ -51,7 +50,6 @@ public class ClientGame extends Game {
 			}
 		} else {
 			System.out.println("error due to notifyMove recieved being invalid");
-			//TODO figure out what the hell these functions do...
 			client.sender.error(5);
 		}
 	}

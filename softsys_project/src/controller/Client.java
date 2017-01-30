@@ -32,7 +32,7 @@ public class Client {
 		tui = new ClientTUI(this);
 	}
 	
-	public static void main(String [ ] args) {
+	public static void main(String[] args) {
 		tui.start();
 	}
 

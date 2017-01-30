@@ -1,7 +1,9 @@
-package controller;
+package view;
 
 import java.util.Scanner;
 
+import controller.Server;
+import controller.ServerParser;
 import supportClasses.MaliciousInputException;
 
 public class ServerTUI {
@@ -20,7 +22,8 @@ public class ServerTUI {
 		scan = new Scanner(System.in);
 		
 	}
-
+	
+	//method to get information from the console 
 	public int start() throws MaliciousInputException {
 		
 		//set default port integer
@@ -77,6 +80,7 @@ public class ServerTUI {
 
 	}
 	
+	//method to handle console input while server is running
 	public void continuous() {
 		
 		while (active) {

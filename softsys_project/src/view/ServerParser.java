@@ -30,6 +30,7 @@ public class ServerParser {
 		if (commandScanner.hasNext()) {
 			String command = commandScanner.next();
 			
+			//Designed to allow implementation of more commands
 			switch (command) {
 			
 			case "EXIT":

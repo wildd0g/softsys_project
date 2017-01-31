@@ -1,7 +1,5 @@
 package controller;
 
-import model.Board;
-
 public abstract class ClientInput {
 	
 	// -- Instance variables -----------------------------------------

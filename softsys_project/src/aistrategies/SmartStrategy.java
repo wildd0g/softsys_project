@@ -1,12 +1,11 @@
 package aistrategies;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import model.Board;
 import model.Mark;
 
-public class SmartStrategy implements Strategy {
+public class SmartStrategy extends Strategy {
 
 
 	@Override
@@ -15,23 +14,18 @@ public class SmartStrategy implements Strategy {
 	}
 
 	@Override
-	public int determineMove(Board b, Mark m) {
+	public int determineMove(Board board, Mark m) {
 		// TODO Auto-generated method stub
 		//get a default random picked move 
-		Set<Integer> valid = new HashSet<Integer>();
-		for (int i = 0; i < (Board.DIM * Board.DIM); i++){
-			if (b.isEmptyField(i)){
-				valid.add(i);
-			}
-		}
+		Set<Integer[]> valid = validMoves(board);
 
 		Object[] validArray = valid.toArray();
 		int input = (int)Math.floor(Math.random() * valid.size());
 		int move = (int)validArray[input];
 
 		//check if there is a winning move (either for XX or for OO)
-		int winMoveSelf = winningMove(b.deepCopy(), m, validArray);
-		int winMoveOther = winningMove(b.deepCopy(), m.other(), validArray);
+		int winMoveSelf = winningMove(board.deepCopy(), m, validArray);
+		int winMoveOther = winningMove(board.deepCopy(), m.other(), validArray);
 		
 		//if it exists, chose that move for the computer, or to block it.
 		if (valid.contains(4)){

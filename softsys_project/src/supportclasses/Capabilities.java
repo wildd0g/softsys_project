@@ -1,8 +1,5 @@
 package supportclasses;
 
-import supportclasses.Protocol.Client;
-import supportclasses.Protocol.Server;
-
 //listing of all the current capabilities of the program, both client and server
 
 public class Capabilities {

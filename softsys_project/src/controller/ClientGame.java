@@ -9,14 +9,12 @@ import model.Mark;
 
 public class ClientGame extends Game {
 
-	private Client client;
 	private Map<Integer, String> playerNames = new HashMap<Integer, String>();
 	private Map<Integer, String> playerColours = new HashMap<Integer, String>();
 
-	public ClientGame(int dimX, int dimY, int dimZ, int winLength, Client parent,
+	public ClientGame(int dimX, int dimY, int dimZ, int winLength,
 			ArrayList<String[]> playerList) {
 		super(playerList.size(), dimX, dimY, dimZ, winLength);
-		client = parent;
 		for (int i = 0; i < playerList.size(); i++) {
 			String[] tempPlayer = playerList.get(i);
 			playerIDs[i] = Integer.parseInt(tempPlayer[0]);
@@ -29,7 +27,7 @@ public class ClientGame extends Game {
 	public void suggestMove(int x, int y) {
 		int z = calcMoveLvl(x, y);
 		if (x < maxRoomDimensionX && y < maxRoomDimensionY && z < maxRoomDimensionZ) {
-			client.makeMove(x, y);
+			Client.makeMove(x, y);
 		} else {
 			//TODO invalid move, same response as recieving error 5
 		}
@@ -50,7 +48,7 @@ public class ClientGame extends Game {
 			}
 		} else {
 			System.out.println("error due to notifyMove recieved being invalid");
-			client.sender.error(5);
+			Client.sender.error(5);
 		}
 	}
 

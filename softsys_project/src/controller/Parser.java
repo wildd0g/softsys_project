@@ -127,8 +127,7 @@ public class Parser extends Protocol {
 							maxRoomDimensionX,
 							maxRoomDimensionY,
 							maxRoomDimensionZ, 
-							maxLengthToWin, 
-							client,
+							maxLengthToWin,
 							playerList);
 	
 					client.setGame(game);

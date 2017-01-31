@@ -1,6 +1,6 @@
 package supportclasses;
 
-public class MaliciousInputException extends Exception{
+public class MaliciousInputException extends Exception {
 
 	public MaliciousInputException() {
 		super("error: Input was unreadable for too many times.");

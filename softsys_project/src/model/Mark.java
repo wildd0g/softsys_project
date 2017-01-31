@@ -23,7 +23,7 @@ public enum Mark {
      * @return the other mark is this mark is not EMPTY or EMPTY
      */
     public Mark cycle() {
-        if (this == EMPTY) {
+        if (this == HH) {
             return AA;
         } else if (this == AA) {
             return BB;
@@ -43,4 +43,27 @@ public enum Mark {
             return EMPTY;
         }
     }
+    
+    public Mark cycleReverse() {
+        if (this == BB) {
+            return AA;
+        } else if (this == CC) {
+            return BB;
+        } else if (this == DD) {
+            return CC;
+        } else if (this == EE) {
+            return DD;
+        } else if (this == FF) {
+            return EE;
+        } else if (this == GG) {
+            return FF;
+        } else if (this == HH) {
+            return GG;
+        } else if (this == AA) {
+            return HH;
+        } else {
+            return EMPTY;
+        }
+    }
+    
 }

@@ -264,7 +264,7 @@ public class Parser extends Protocol implements Runnable	 {
 					endOverflowCatcher(msg, lineScanner);
 	
 					//TODO implement the send list rooms fucntion.
-					player.send.sendListRooms();
+					player.send.sendListRooms(controller.Server.getRooms());
 	
 					break;
 	

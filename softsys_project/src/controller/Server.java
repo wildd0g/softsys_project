@@ -28,11 +28,8 @@ public class Server {
 	private static ServerSocket serverSocket = null;
 	private static int playerCounter = 0;
 	private static int gamesCounter = 0;
+	private static Server server;
 	private static ServerTUI tui;
-	
-	public Server() {
-		tui = new ServerTUI(this);
-	}
 	
 	//method to neatly shut down server
 	//closes all games
@@ -42,6 +39,10 @@ public class Server {
 	}
 	
 	public static void main(String[] args) {
+		
+		server = new Server();
+		
+		tui = new ServerTUI(server);
 			
 		int port = 1212;
 		

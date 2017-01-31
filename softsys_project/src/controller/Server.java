@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 
+import view.ServerTUI;
+
+import supportclasses.*;
+
 public class Server {
 	
 	private static List<Player> nonPlaying = new ArrayList<>();
@@ -24,6 +28,11 @@ public class Server {
 	private static ServerSocket serverSocket = null;
 	private static int playerCounter = 0;
 	private static int gamesCounter = 0;
+	private static ServerTUI tui;
+	
+	public Server() {
+		tui = new ServerTUI(this);
+	}
 	
 	//method to neatly shut down server
 	//closes all games
@@ -33,23 +42,15 @@ public class Server {
 	}
 	
 	public static void main(String[] args) {
-		//TODO handle System.exit(0);
-		if (args.length != 2) {
-			System.exit(0);
-		}
+			
+		int port = 1212;
 		
-		//assign server name and initialise port
-		String name = args[0];
-		int port = 0;
-		
-		// assign server port number
 		try {
-			port = Integer.parseInt(args[1]);
-		} catch (NumberFormatException e) {
-			System.out.println("Argument port:" + args[1] 
-					+ "is not an integer");
-			System.exit(0);
+			port = tui.start();
+		} catch (MaliciousInputException mie1) {
+			System.exit(11);
 		}
+		
 		
 		//assign server socket at listening port
 		try {

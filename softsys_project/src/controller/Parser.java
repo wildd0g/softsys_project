@@ -159,7 +159,7 @@ public class Parser extends Protocol {
 				case Protocol.Server.NOTIFYEND:
 	
 					String gameEnd = Protocol.getWin(lineScanner.next());
-					if (lineScanner.hasNext()){
+					if (lineScanner.hasNext()) {
 						playerID = Integer.parseInt(lineScanner.next());
 					}
 	

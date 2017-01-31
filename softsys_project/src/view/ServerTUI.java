@@ -5,7 +5,7 @@ import java.util.Scanner;
 import controller.Server;
 import supportclasses.MaliciousInputException;
 
-public class ServerTUI extends TUI{
+public class ServerTUI extends TUI {
 
 	private Scanner scan;
 	private Server server;

@@ -23,19 +23,18 @@ public class Client {
 	private BufferedReader reader;
 	private BufferedWriter writer;
 	public static ClientTUI tui;
+	public static Client client;
 	public static Sender sender;
 	private static Receiver receiver;
 	private ClientGame currentGame;
 	private ClientInput input;
-
-	//TODO create declaration for start of TUI
-
-	public Client() {
-		connected = false;
-		tui = new ClientTUI(this);
-	}
 	
 	public static void main(String[] args) {
+		connected  = false;
+		
+		client = new Client();
+		tui = new ClientTUI(client);
+		
 		tui.start();
 	}
 

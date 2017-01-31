@@ -9,7 +9,7 @@ import supportclasses.MaliciousInputException;
 public class ClientTUI extends TUI{
 
 	private Scanner scan;
-	private Client client;
+	private static Client client;
 	public boolean active;
 	public ClientParser parser;
 
@@ -55,9 +55,14 @@ public class ClientTUI extends TUI{
 		// get required port number
 		try {
 			portNum = Integer.parseInt(readOut("Please enter the port number: "));
+			if (portNum < 1000 || portNum > 9999) throw new NumberFormatException();
 		} catch (NumberFormatException nfe1) {
-			//properly handle Exception
-			nfe1.getMessage();
+			try {
+				getVal("Please enter the port number: ", "port");
+			} catch (MaliciousInputException mie2) {
+				//malicious input exception shuts down system. 
+				mie2.getMessage();
+			}
 		}
 		
 		client.getConnected(simpleIP, portNum);
@@ -144,6 +149,7 @@ public class ClientTUI extends TUI{
 		int value = -1;
 		boolean succes;
 		int capability = -1;
+		int minimum = -1;
 		
 		//Switch statement uses input to identify for which values
 		//TODO handle all freaking errors
@@ -151,6 +157,7 @@ public class ClientTUI extends TUI{
 		case "players": 
 			try {
 				capability = Integer.parseInt(Capabilities.Client.AMOUNTOFPLAYERS);
+				minimum = 0;
 			} catch (NumberFormatException nfes1) {
 				System.out.println(nfes1.getMessage());
 			} break;
@@ -158,6 +165,7 @@ public class ClientTUI extends TUI{
 		case "width":
 			try {
 				capability = Integer.parseInt(Capabilities.Client.MAXDIMENSIONX);
+				minimum = 0;
 			} catch (NumberFormatException nfes2) {
 				System.out.println(nfes2.getMessage());
 			}
@@ -165,6 +173,7 @@ public class ClientTUI extends TUI{
 		case "depth":
 			try {
 				capability = Integer.parseInt(Capabilities.Client.MAXDIMENSIONY);
+				minimum = 0;
 			} catch (NumberFormatException nfes3) {
 				System.out.println(nfes3.getMessage());
 			}
@@ -172,6 +181,7 @@ public class ClientTUI extends TUI{
 		case "height":
 			try {
 				capability = Integer.parseInt(Capabilities.Client.MAXDIMENSIONZ);
+				minimum = 0;
 			} catch (NumberFormatException nfes4) {
 				System.out.println(nfes4.getMessage());
 			}
@@ -179,10 +189,16 @@ public class ClientTUI extends TUI{
 		case "win":
 			try {
 				capability = Integer.parseInt(Capabilities.Client.LENGTHTOWIN);
+				minimum = 0;
 			} catch (NumberFormatException nfes5) {
 				System.out.println(nfes5.getMessage());
 			}
-		
+			
+		case "port":
+			capability = 9999;
+			minimum = 1000;
+			
+			break;	
 			
 		}
 		
@@ -190,7 +206,7 @@ public class ClientTUI extends TUI{
 		//one attempt to parse integer
 		try {
 			value = Integer.parseInt(readOut(stringy));
-			if (!(value > 0) || !(value <= capability)) {
+			if (!(value >= minimum) || !(value <= capability)) {
 				value = -1;	
 			}
 		} catch (NumberFormatException nfe1) {
@@ -206,7 +222,7 @@ public class ClientTUI extends TUI{
 				
 				try {
 					value = Integer.parseInt(readOut(stringy));
-					if (!(value > 0) || !(value <= capability)) {
+					if (!(value >= minimum) || !(value <= capability)) {
 						value = -1;						
 					}
 				} catch (NumberFormatException nfe2) {

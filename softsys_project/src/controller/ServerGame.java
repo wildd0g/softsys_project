@@ -8,6 +8,7 @@ import model.Mark;
 public class ServerGame extends Game {
 
 	public int currentPlaying = 0;
+	public int currentTurnIndex = 0;
 	public int gameID;
 	public long timeout;
 	public Player[] players;
@@ -85,16 +86,17 @@ public class ServerGame extends Game {
 		startGame();
 		//get a random starting value for current playing
 		int randomNum = ThreadLocalRandom.current().nextInt(0, players.length);
-		currentPlaying = randomNum;
+		currentTurnIndex = randomNum;
 		//start the game by triggering the next turn.
 		nextTurn();
 	}
 
 	//server: notify the turn switches to the next player
 	public void nextTurn() {
-		currentPlaying = (currentPlaying + 1) % players.length;
+		currentTurnIndex = (currentTurnIndex + 1) % players.length;
+		currentTurn = players[currentTurnIndex].getID();
 		for (int i = 0; i < players.length; i++) {
-			players[i].send.turn(players[currentPlaying].getID());
+			players[i].send.turn(currentTurn);
 		}
 	}
 
@@ -119,7 +121,7 @@ public class ServerGame extends Game {
 
 			} catch (InvalidFieldException e) {
 				//should never be thrown, but catch anyway
-				players[currentPlaying].send.error(5);
+				players[currentTurnIndex].send.error(5);
 			}
 
 			//check for win condition
@@ -130,7 +132,7 @@ public class ServerGame extends Game {
 			}
 
 		} else {
-			players[currentPlaying].send.error(5);
+			players[currentTurnIndex].send.error(5);
 		}
 	}
 

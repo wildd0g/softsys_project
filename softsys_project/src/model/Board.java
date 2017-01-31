@@ -7,11 +7,11 @@ package model;
  * @version $Revision: 1.0 $
  */
 public class Board {
-	public static int dimRow = 4;
-	public static int dimCol = 4;
-	public static int dimLvl = 4;
-	public static int winLength = 4;
-	public static int players = 2;
+	public int dimRow = 4;
+	public int dimCol = 4;
+	public int dimLvl = 4;
+	public int winLength = 4;
+	public int players = 2;
 	/**
 	 * The dimRow by dimCol by dimLvl fields of the Tic Tac Toe student.
 	 */
@@ -43,6 +43,27 @@ public class Board {
 		players = playnr;
 		reset();
 	}
+	
+	/**
+	 * Returns the size in the row dimension of the board
+	 */
+	/*@ ensures \result == dimRow;
+      @*/
+	/*@ pure @*/
+	public int getDimRow() {
+		return dimRow;
+	}
+	
+	/**
+	 * Returns the size in the column dimension of the board
+	 */
+	/*@ ensures \result == dimCol;
+      @*/
+	/*@ pure @*/
+	public int getDimCol() {
+		return dimCol;
+	}
+	
 	/**
 	 * Creates a deep copy of this field.
 	 */
@@ -146,7 +167,7 @@ public class Board {
 	}
 
 	/**
-	 * Returns true if the field referred to by the (row,col) pair it empty.
+	 * Returns true if the field referred to by the (row,col,lvl) set is empty.
 	 *
 	 * @param row
 	 *            the row of the field
@@ -160,6 +181,30 @@ public class Board {
 	public boolean isEmptyField(int row, int col, int lvl) throws InvalidFieldException {
 		return isEmptyField(index(row, col, lvl));
 	}
+	
+	/**
+	 * Returns true if the fields with the coordinates(row,col,*) has an empty field.
+	 *
+	 * @param row
+	 *            the row of the field
+	 * @param col
+	 *            the column of the field
+	 * @return true if the field is empty
+	 */
+	//@ requires this.isField(row, col, lvl);
+	//@ ensures \result == (this.getField(row, col, lvl) == Mark.EMPTY);
+	/*@pure*/
+	public boolean hasEmptyField(int row, int col) throws InvalidFieldException {
+		boolean result = false;
+		for (int i = 0; i < dimLvl; i++) {
+			result = isEmptyField(row, col, i);
+			if (result) {
+				break;
+			}
+		}
+		return result;
+	}
+	
 
 	/**
 	 * Tests if the whole student is full.

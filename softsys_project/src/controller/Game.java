@@ -4,7 +4,6 @@ import model.Board;
 import model.InvalidFieldException;
 import model.Mark;
 
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +19,7 @@ public class Game {
 	int maxRoomDimensionY = 4;
 	int maxRoomDimensionZ = 4;
 	int lengthToWin = 4;
+	int currentTurn;
 	protected Map<Integer, Mark> playerMarks = new HashMap<Integer, Mark>();
 	
 	
@@ -59,6 +59,13 @@ public class Game {
 		return testZ;
 	}
 	
+	public Board getBoard() {
+		return board.deepCopy();
+	}
+	
+	public Mark getMark(int playerID) {
+		return playerMarks.get(playerID);	
+	}
 	
 	//method to shut down the game as a whole
 	public Boolean shutDown() {

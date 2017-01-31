@@ -21,9 +21,10 @@ public class Client {
 	private static boolean connected;
 	private BufferedReader reader;
 	private BufferedWriter writer;
-	private static ClientTUI tui;
-	public Sender sender;
+	public static ClientTUI tui;
+	public static Sender sender;
 	private ClientGame currentGame;
+	private ClientInput input;
 
 	//TODO create declaration for start of TUI
 
@@ -32,7 +33,7 @@ public class Client {
 		tui = new ClientTUI(this);
 	}
 	
-	public static void main(String [ ] args) {
+	public static void main(String[] args) {
 		tui.start();
 	}
 
@@ -80,11 +81,31 @@ public class Client {
 		sender.leaveRoom();
 	}
 	
-	public void makeMove(int xPos, int yPos) {
+	public static void makeMove(int xPos, int yPos) {
 		sender.makeMove(xPos, yPos);
 	}
 	
 	public void setGame(ClientGame game) {
 		currentGame = game;
 	}
+	
+	public void setTurn(int playerID) {
+		currentGame.currentTurn = playerID;
+		if (playerID == id) {
+			isTurn();
+		}
+	}
+	
+	public void isTurn() {
+		input.determineMove(currentGame);
+	}
+	
+	public void setID(int setID) {
+		id = setID;
+	}
+	
+	public static int getID() {
+		return id;
+	}
+	
 }

@@ -107,6 +107,7 @@ public class Sender {
 				+ " " + dimY
 				+ " " + dimZ
 				+ " " + winL;
+		send(msg);
 	}
 	
 	public void getRoomList() {

@@ -31,6 +31,10 @@ public class Sender {
 		}
 	}
 	
+	public void shutDown() throws IOException {
+		sender.close();
+	}
+	
 	public void sendServerCapabilities() {
 		send(Capabilities.Server.get());
 	}

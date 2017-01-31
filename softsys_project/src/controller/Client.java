@@ -23,6 +23,7 @@ public class Client {
 	private BufferedWriter writer;
 	public static ClientTUI tui;
 	public static Sender sender;
+	private static Parser parser;
 	private ClientGame currentGame;
 	private ClientInput input;
 
@@ -62,9 +63,16 @@ public class Client {
 		}
 
 		sender = new Sender(sock);
+		parser = new Parser();
+		Thread streamInputHandler = new Thread(parser);
+        streamInputHandler.start();
 
 	}
-
+	
+	public Socket getSocket() {
+		return sock;
+	}
+	
 	public void requestRooms() {
 		sender.getRoomList();
 	}
@@ -106,6 +114,17 @@ public class Client {
 	
 	public static int getID() {
 		return id;
+	}
+	
+	public static void shutDown() {
+		try {
+			sender.shutDown();
+			parser.shutDown();
+			sock.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }

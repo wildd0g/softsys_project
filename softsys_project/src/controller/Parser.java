@@ -1,5 +1,9 @@
 package controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
 import java.util.Scanner;
 
 import supportclasses.InvalidCommandException;
@@ -8,8 +12,9 @@ import supportclasses.Protocol;
 
 import java.util.ArrayList;
 
-public class Parser extends Protocol {
-
+public class Parser extends Protocol implements Runnable	 {
+	
+	protected BufferedReader inbox;
 	Player player = null;
 	int amountOfPlayers = 0;
 	boolean roomSupport = false;
@@ -27,16 +32,19 @@ public class Parser extends Protocol {
 	int moveY = 0;
 	String chatMsg = null;
 	controller.Client client; 
-
+	boolean running = true;
+	
 	public Parser() {
-
+	}
+	
+	public Parser(Player plyr) {
+		player = plyr;
 	}
 
 	//@ require msg == valid protocol line
 	//@ ensures msg is processed
 	//TODO add check for valid time to process the sent data
-	public void parse(Player plyr, String msg) {
-		player = plyr;
+	public void parse(String msg) {
 		Scanner lineScanner = new Scanner(msg);
 		if (lineScanner.hasNext()) {
 			String word = lineScanner.next();
@@ -114,7 +122,8 @@ public class Parser extends Protocol {
 					maxRoomDimensionZ = Integer.parseInt(roomScanner.next());
 					maxLengthToWin = Integer.parseInt(roomScanner.next());
 	
-					//creates array list with the player data in string format defined by parsePlayerInfo()
+					//creates array list with the player data in string format
+					//defined by parsePlayerInfo()
 					ArrayList<String[]> playerList = new ArrayList<String[]>();
 					while (lineScanner.hasNext()) {
 						playerList.add(parsePlayerInfo(lineScanner.next()));
@@ -387,6 +396,33 @@ public class Parser extends Protocol {
 		}
 
 		return tmpPlayer;
+	}
+	
+	public void shutDown() {
+		running = false;
+	}
+
+	@Override
+	public void run() {
+		Socket sock;
+		if (player != null) {
+			sock = player.getSocket();
+		} else {
+			sock = client.getSocket();
+		}
+		try {
+			inbox = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+			while (running) {
+				String line = null;
+				line = inbox.readLine();
+				if (line != null) {
+					parse(line);
+				}
+			}
+			inbox.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

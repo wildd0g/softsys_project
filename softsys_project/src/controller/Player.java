@@ -36,6 +36,8 @@ public class Player {
 		this.playerSocket = sock;
 		this.send = new Sender(playerSocket);
 		this.receiver = new Receiver(playerSocket);
+		Thread streamInputHandler = new Thread(this.receiver);
+        streamInputHandler.start();
 		
 		//set default capabilities
 		maxPlayers = 2;
@@ -93,5 +95,16 @@ public class Player {
 	
 	public void activate() {
 		
+	}
+	
+	public void shutDown() {
+		send.shutDown();
+		receiver.shutDown();
+		try {
+			playerSocket.close();
+		} catch (IOException io1) {
+			// TODO Auto-generated catch block
+			io1.getMessage();
+		}
 	}
 }

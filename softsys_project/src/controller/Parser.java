@@ -1,9 +1,6 @@
 package controller;
 
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.Socket;
 import java.util.Scanner;
 
 import supportclasses.InvalidCommandException;
@@ -12,9 +9,8 @@ import supportclasses.Protocol;
 
 import java.util.ArrayList;
 
-public class Parser extends Protocol implements Runnable	 {
+public class Parser extends Protocol {
 	
-	protected BufferedReader inbox;
 	Player player = null;
 	int amountOfPlayers = 0;
 	boolean roomSupport = false;
@@ -398,31 +394,5 @@ public class Parser extends Protocol implements Runnable	 {
 		return tmpPlayer;
 	}
 	
-	public void shutDown() {
-		running = false;
-	}
-
-	@Override
-	public void run() {
-		Socket sock;
-		if (player != null) {
-			sock = player.getSocket();
-		} else {
-			sock = client.getSocket();
-		}
-		try {
-			inbox = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-			while (running) {
-				String line = null;
-				line = inbox.readLine();
-				if (line != null) {
-					parse(line);
-				}
-			}
-			inbox.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
+	
 }

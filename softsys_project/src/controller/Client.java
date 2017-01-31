@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import supportclasses.Receiver;
 import supportclasses.Sender;
 import view.ClientTUI;
 
@@ -23,7 +24,7 @@ public class Client {
 	private BufferedWriter writer;
 	public static ClientTUI tui;
 	public static Sender sender;
-	private static Parser parser;
+	private static Receiver receiver;
 	private ClientGame currentGame;
 	private ClientInput input;
 
@@ -63,8 +64,8 @@ public class Client {
 		}
 
 		sender = new Sender(sock);
-		parser = new Parser();
-		Thread streamInputHandler = new Thread(parser);
+		receiver = new Receiver(sock);
+		Thread streamInputHandler = new Thread(receiver);
         streamInputHandler.start();
 
 	}
@@ -117,13 +118,13 @@ public class Client {
 	}
 	
 	public static void shutDown() {
+		sender.shutDown();
+		receiver.shutDown();
 		try {
-			sender.shutDown();
-			parser.shutDown();
 			sock.close();
-		} catch (IOException e) {
+		} catch (IOException io1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			io1.getMessage();
 		}
 	}
 	

@@ -38,6 +38,8 @@ public class Player {
 		this.receiver = new Receiver(playerSocket);
 		Thread streamInputHandler = new Thread(this.receiver);
         streamInputHandler.start();
+        
+        System.out.println("player one: is active!");
 		
 		//set default capabilities
 		maxPlayers = 2;

@@ -98,12 +98,13 @@ public class Player {
 	}
 	
 	public void shutDown() {
+		send.shutDown();
+		receiver.shutDown();
 		try {
-			send.shutDown();
+			playerSocket.close();
 		} catch (IOException io1) {
-			//properly handle Exception
+			// TODO Auto-generated catch block
 			io1.getMessage();
 		}
-		receiver.shutDown();
 	}
 }

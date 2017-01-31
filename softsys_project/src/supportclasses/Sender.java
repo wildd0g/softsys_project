@@ -31,8 +31,13 @@ public class Sender {
 		}
 	}
 	
-	public void shutDown() throws IOException {
-		sender.close();
+	public void shutDown() {
+		try {
+			sender.close();
+		} catch (IOException io1) {
+			// TODO Auto-generated catch block
+			io1.getMessage();
+		}
 	}
 	
 	public void sendServerCapabilities() {

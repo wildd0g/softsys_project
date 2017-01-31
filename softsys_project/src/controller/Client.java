@@ -118,13 +118,13 @@ public class Client {
 	}
 	
 	public static void shutDown() {
+		sender.shutDown();
+		receiver.shutDown();
 		try {
-			sender.shutDown();
-			receiver.shutDown();
 			sock.close();
-		} catch (IOException e) {
+		} catch (IOException io1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			io1.getMessage();
 		}
 	}
 	

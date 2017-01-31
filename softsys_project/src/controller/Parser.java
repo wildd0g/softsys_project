@@ -268,9 +268,7 @@ public class Parser extends Protocol {
 					maxLengthToWin = Integer.parseInt(lineScanner.next());
 					
 					endOverflowCatcher(msg, lineScanner);
-					
-					//TODO create room with above parameters
-					
+										
 					break;
 					
 				case Protocol.Client.LEAVEROOM:
@@ -307,6 +305,7 @@ public class Parser extends Protocol {
 					endOverflowCatcher(msg, lineScanner);
 	
 					//TODO server: send chatMsg FROM playerID to all
+					//currently leaving out chat
 	
 					break;
 	
@@ -317,6 +316,8 @@ public class Parser extends Protocol {
 					player.send.sendLeaderboard();
 	
 					break;
+					
+					//currently leaving out leaderboard
 	
 	
 				default:

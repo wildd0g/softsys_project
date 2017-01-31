@@ -126,6 +126,11 @@ public class Server {
 		
 	}  
 	
+	//method that retrieves the list of all present games
+	public static List<ServerGame> getRooms() {
+		
+	}
+	
 	
 	
 

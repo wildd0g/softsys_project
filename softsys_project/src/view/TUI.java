@@ -6,6 +6,12 @@ import java.util.Scanner;
 
 public class TUI { 
 	
+	Scanner scan;
+	
+	public TUI() {
+		scan = new Scanner(System.in);
+	}
+	
 	//method to translate console input into a string
 	public String readOut(String instruction) {
 

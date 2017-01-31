@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.HashSet;
 
 public class Server {
 	
@@ -22,6 +23,7 @@ public class Server {
 	private static Socket registrationSocket = null;
 	private static ServerSocket serverSocket = null;
 	private static int playerCounter = 0;
+	private static int gamesCounter = 0;
 	
 	//method to neatly shut down server
 	//closes all games
@@ -132,6 +134,40 @@ public class Server {
 		returnList.addAll(games.keySet());
 		return returnList;
 	}
+	
+	//method that creates a new game 
+	public static void createNew(
+			int amountOfPlayers, 
+			int maxRoomDimensionX,
+			int maxRoomDimensionY,
+			int maxRoomDimensionZ,
+			int maxLengthToWin
+			) {
+		
+		ServerGame newGame = new ServerGame(
+				gamesCounter,
+				amountOfPlayers,
+				maxRoomDimensionX,
+				maxRoomDimensionY,
+				maxRoomDimensionZ,
+				maxLengthToWin);
+		
+		activeGames.put(gamesCounter, newGame);
+		games.put(newGame, new HashSet<Player>());
+		
+		gamesCounter++;
+				
+	}
+	
+	//method that processes move made by a new player
+	public static void processMove(Player player, int moveX, int moveY) {
+		
+		ServerGame tempGame = (ServerGame)player.getGame();
+				tempGame.makeMove(moveX, moveY, player.getID());
+		
+	}
+	
+	//method that 
 	
 	
 	

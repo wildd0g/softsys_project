@@ -100,6 +100,7 @@ public class Sender {
 
 	public void sendLeaderboard() {
 		//TODO send the leaderboard.
+		//currently leaving it out.
 		String msg = Protocol.Server.SENDLEADERBOARD;
 	}
 	

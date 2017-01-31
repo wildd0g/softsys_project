@@ -20,6 +20,19 @@ public class ServerGame extends Game {
 		this.gameID = id;
 		timeout = System.currentTimeMillis();
 	}
+	
+	//method to retrieve string of information on this game
+	public String getGame() {
+		String returnString = "";
+		returnString = returnString 
+				+ " " + gameID
+				+ "|" + players.length 
+				+ "|" + maxRoomDimensionX
+				+ "|" + maxRoomDimensionY
+				+ "|" + maxRoomDimensionZ
+				+ "|" + lengthToWin;
+		return returnString;
+	}
 
 	//method that adds a player to this room
 	//action for command joinRoom

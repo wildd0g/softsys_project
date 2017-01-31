@@ -76,6 +76,7 @@ public class Player {
 	
 	public String getCapabilities() {
 		//TODO finish
+		return null;
 	}
 	
 	public String getName() {

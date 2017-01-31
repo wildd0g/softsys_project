@@ -14,7 +14,7 @@ import java.util.Set;
 public class Server {
 	
 	private static List<Player> nonPlaying = new ArrayList<>();
-	private static Map<Game, Set<Player>> games = new HashMap<Game, Set<Player>>();
+	private static Map<ServerGame, Set<Player>> games = new HashMap<>();
 	private static Map<Integer, ServerGame> activeGames = new HashMap<Integer, ServerGame>();
 
 	private static boolean receiving = true;
@@ -89,20 +89,48 @@ public class Server {
 	/**
 	 * methods utilised by parser
 	 */
+	
+	//method that sets capabilities of a player
+	public static void setCapabilities(Player player,
+			int amountOfPlayers, 
+			String name, 
+			int maxDimX,
+			int maxDimY,
+			int maxDimZ,
+			int maxWin,
+			boolean chat,
+			boolean refresh){
+		
+		//use player function to set capabilities
+		player.setCapabilities(
+				amountOfPlayers, 
+				name, 
+				maxDimX, 
+				maxDimY, 
+				maxDimZ, 
+				maxWin, 
+				chat, 
+				refresh);
+	}
 
 	//method that puts the player into a new game
 	public static void joinToRoom(Player player, int game) {
-		//TODO finish
 		ServerGame servGame = activeGames.get(game);
+		Set<Player> playersInGame = games.get(servGame); 
 		
 		if(servGame.players.length > games.get(servGame).size()) {
 			servGame.addPlayer(player);
-			games.put(key, value)
+			playersInGame.add(player);
+			games.put(servGame, playersInGame);
 		}
 		
-		activeGames.get(game).addPlayer(player);
-		games.put(activeGames.get(game), player);
-		nonPlaying.remove(player);
+	}  
+	
+	//method that retrieves the list of all present games
+	public static List<ServerGame> getRooms() {
+		List<ServerGame> returnList = new ArrayList<>(); 
+		returnList.addAll(games.keySet());
+		return returnList;
 	}
 	
 	

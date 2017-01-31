@@ -234,7 +234,17 @@ public class Parser extends Protocol implements Runnable	 {
 					}
 					endOverflowCatcher(msg, lineScanner);
 	
-					//TODO process this to capabilities
+					controller.Server.setCapabilities(
+								player,
+								amountOfPlayers,
+								playerName,
+								maxRoomDimensionX,
+								maxRoomDimensionY,
+								maxRoomDimensionZ,
+								maxLengthToWin,
+								chatSupport,
+								roomSupport
+							);
 	
 					break;
 	

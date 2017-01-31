@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
+import java.util.List;
+
+import controller.ServerGame;
+
 public class Sender {
 
 	protected Socket playerSocket;
@@ -35,9 +39,14 @@ public class Sender {
 		send(Capabilities.Server.get());
 	}
 	
-	public void sendListRooms() {
-		//TODO send the list of all rooms.
+	public void sendListRooms(List<ServerGame> gamesList) {
 		String msg = Protocol.Server.SENDLISTROOMS;
+		
+		for(int i = 0; i < gamesList.size(); i++) {
+			msg = msg + gamesList.get(i).getGame();
+		}
+		
+		send(msg);
 	}
 	
 	public void turn(int playerID) {

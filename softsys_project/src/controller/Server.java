@@ -14,7 +14,7 @@ import java.util.Set;
 public class Server {
 	
 	private static List<Player> nonPlaying = new ArrayList<>();
-	private static Map<Game, Set<Player>> games = new HashMap<Game, Set<Player>>();
+	private static Map<ServerGame, Set<Player>> games = new HashMap<>();
 	private static Map<Integer, ServerGame> activeGames = new HashMap<Integer, ServerGame>();
 
 	private static boolean receiving = true;
@@ -128,7 +128,9 @@ public class Server {
 	
 	//method that retrieves the list of all present games
 	public static List<ServerGame> getRooms() {
-		
+		List<ServerGame> returnList = new ArrayList<>(); 
+		returnList.addAll(games.keySet());
+		return returnList;
 	}
 	
 	

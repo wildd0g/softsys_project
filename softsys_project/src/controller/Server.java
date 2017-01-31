@@ -89,21 +89,42 @@ public class Server {
 	/**
 	 * methods utilised by parser
 	 */
+	
+	//method that sets capabilities of a player
+	public static void setCapabilities(Player player,
+			int amountOfPlayers, 
+			String name, 
+			int maxDimX,
+			int maxDimY,
+			int maxDimZ,
+			int maxWin,
+			boolean chat,
+			boolean refresh){
+		
+		//use player function to set capabilities
+		player.setCapabilities(
+				amountOfPlayers, 
+				name, 
+				maxDimX, 
+				maxDimY, 
+				maxDimZ, 
+				maxWin, 
+				chat, 
+				refresh);
+	}
 
 	//method that puts the player into a new game
 	public static void joinToRoom(Player player, int game) {
-		//TODO finish
 		ServerGame servGame = activeGames.get(game);
+		Set<Player> playersInGame = games.get(servGame); 
 		
 		if(servGame.players.length > games.get(servGame).size()) {
 			servGame.addPlayer(player);
-			games.put(key, value)
+			playersInGame.add(player);
+			games.put(servGame, playersInGame);
 		}
 		
-		activeGames.get(game).addPlayer(player);
-		games.put(activeGames.get(game), player);
-		nonPlaying.remove(player);
-	}
+	}  
 	
 	
 	

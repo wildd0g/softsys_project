@@ -23,7 +23,6 @@ public class Sender {
 			sender.write(msg);
 			sender.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

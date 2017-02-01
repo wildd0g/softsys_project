@@ -70,7 +70,7 @@ public class Player {
 		this.refresh = refreshOn;
 	}
 		
-	public void setGame(Game game) {
+	public void setGame(ServerGame game) {
 		this.currentGame = game;
 	}
 	

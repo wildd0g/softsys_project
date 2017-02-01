@@ -34,8 +34,14 @@ public class ClientParser {
 					if (!Client.connected) {
 						if (commandScanner.hasNext()) {
 							String simpleIP = commandScanner.next();
-							int portNum = Integer.parseInt(commandScanner.next());
-							client.getConnected(simpleIP, portNum);
+							if (commandScanner.hasNext()){
+								int portNum = Integer.parseInt(commandScanner.next());
+								if (portNum < 10000 && portNum > 999){
+									client.getConnected(simpleIP, portNum);
+								}
+							} else {
+								tui.connectInfo();
+							}
 						} else {
 							tui.connectInfo();
 						}
@@ -74,10 +80,14 @@ public class ClientParser {
 				case "MAKEMOVE":
 					if (commandScanner.hasNext()) {
 						int xPos = Integer.parseInt(commandScanner.next());
-						int yPos = Integer.parseInt(commandScanner.next());
-						if(xPos >= 0 && xPos < client.getGame().maxRoomDimensionX 
-							&& yPos >= 0 && yPos < client.getGame().maxRoomDimensionY) { 
-						Client.makeMove(xPos, yPos);
+						if (commandScanner.hasNext()){
+							int yPos = Integer.parseInt(commandScanner.next());
+							if(xPos >= 0 && xPos < client.getGame().maxRoomDimensionX 
+									&& yPos >= 0 && yPos < client.getGame().maxRoomDimensionY) { 
+								Client.makeMove(xPos, yPos);
+								} else {
+									tui.moveInfo();
+								}
 						} else {
 							tui.moveInfo();
 						}

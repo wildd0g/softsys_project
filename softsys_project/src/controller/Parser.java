@@ -80,16 +80,23 @@ public class Parser extends Protocol {
 								roomData[i] = Integer.parseInt(roomScanner.next());
 							}
 							endOverflowCatcher(msg, roomScanner);
+							
 						} catch (NumberFormatException e) {
-							player.send.error(7);
+							controller.Client.sender.error(7);
+							Scanner debugScanner = new Scanner(room);
+							debugScanner.useDelimiter("|");
+							while (debugScanner.hasNext()) {
+								System.out.println(debugScanner.next());
+							}
+							debugScanner.close();
 						}
 						lobbyData.add(roomData);
 					}
-	
+
 					controller.Client.printRooms(lobbyData);
-	
+
 					break;
-	
+
 				case Protocol.Server.ROOMCREATED:
 					
 					int roomID = Integer.parseInt(lineScanner.next());
@@ -105,7 +112,7 @@ public class Parser extends Protocol {
 	
 					endOverflowCatcher(msg, lineScanner);
 	
-					client.setID(playerID);
+					controller.Client.setID(playerID);
 	
 					break;
 	

@@ -54,8 +54,8 @@ public class Capabilities {
 			}
 			return 	Protocol.Client.SENDCAPABILITIES + " " + 
 					AMOUNTOFPLAYERS + " " + 
+					name + " " +
 					ROOMSUPPORT + " " + 
-					MAXDIMENSIONS + " " + 
 					MAXDIMENSIONX + " " + 
 					MAXDIMENSIONY + " " + 
 					MAXDIMENSIONZ + " " + 

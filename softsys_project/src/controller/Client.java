@@ -115,7 +115,7 @@ public class Client {
 		input.determineMove(currentGame);
 	}
 	
-	public void setID(int setID) {
+	public static void setID(int setID) {
 		id = setID;
 	}
 	

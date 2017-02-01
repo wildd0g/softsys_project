@@ -17,7 +17,8 @@ public class AIInput extends ClientInput {
 	public void determineMove(ClientGame game) {
 		Board board = game.getBoard();
 		Mark m = game.getMark(Client.getID());
-		strat.determineMove(board, m);
+		int[] move = strat.determineMove(board, m);
+		Client.makeMove(move[0], move[1]);
 	}
 
 }

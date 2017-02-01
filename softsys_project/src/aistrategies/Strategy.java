@@ -12,7 +12,7 @@ public abstract class Strategy {
 	public abstract String getName(); //return strategy name
 	
 	//return a next legal move for Board b and player with Mark m.
-	public abstract void determineMove(Board b, Mark m);
+	public abstract int[] determineMove(Board b, Mark m);
 	
 	protected Set<Integer[]> validMoves(Board board) {
 		Set<Integer[]> valid = new HashSet<Integer[]>();

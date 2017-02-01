@@ -342,7 +342,11 @@ public class Parser extends Protocol {
 	
 				default:
 					try {
-						throw new InvalidCommandException(player);
+						if (player != null) {
+							throw new InvalidCommandException(player);
+						} else {
+							throw new InvalidCommandException(client);
+						}
 					} catch (InvalidCommandException e) {
 					}
 

@@ -25,12 +25,12 @@ public class ServerGame extends Game {
 	public String getGame() {
 		String returnString = "";
 		returnString = returnString 
-				+ "\n " + gameID + "\n"
-				+ "|" + players.length + "\n" 
-				+ "|" + maxRoomDimensionX + "\n"
-				+ "|" + maxRoomDimensionY + "\n"
-				+ "|" + maxRoomDimensionZ + "\n"
-				+ "|" + lengthToWin + "\n";
+				+ " " + gameID
+				+ "|" + players.length 
+				+ "|" + maxRoomDimensionX
+				+ "|" + maxRoomDimensionY
+				+ "|" + maxRoomDimensionZ
+				+ "|" + lengthToWin;
 		return returnString;
 	}
 

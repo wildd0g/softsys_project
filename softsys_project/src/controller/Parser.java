@@ -260,7 +260,6 @@ public class Parser extends Protocol {
 	
 					endOverflowCatcher(msg, lineScanner);
 	
-					//TODO implement the send list rooms fucntion.
 					player.send.sendListRooms(controller.Server.getRooms());
 	
 					break;

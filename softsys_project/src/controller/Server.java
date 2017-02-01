@@ -126,8 +126,8 @@ public class Server {
 			player.send.sendListRooms(getRooms());
 		} else {
 			boolean foundRoom = false;
-			Iterator<ServerGame> itt = games.keySet().iterator();
-			for (int i = 0; i < games.keySet().size(); i++) {
+			Iterator<ServerGame> itt = availableGames.iterator();
+			for (int i = 0; i < availableGames.size(); i++) {
 				ServerGame thisGame = itt.next();
 				if (thisGame.defaultGame) {
 					joinToRoom(player, thisGame.gameID);
@@ -137,7 +137,7 @@ public class Server {
 			}
 			if (!foundRoom) {
 				int newRoom = createNew(2, 4, 4, 4, 4);
-				joinToRoom(player, activeGames.get(newRoom).gameID);
+				joinToRoom(player, availableGames.get(newRoom).gameID);
 			}
 		}
 		
@@ -149,15 +149,20 @@ public class Server {
 		Set<Player> playersInGame = games.get(servGame); 
 		
 		if (servGame.players.length > games.get(servGame).size()) {
+			
 			servGame.addPlayer(player);
 			playersInGame.add(player);
+			
 			player.setGame(servGame);
 			player.send.assignID(player.getID());
+			
 			games.put(servGame, playersInGame);
+			
 			if (servGame.players.length == games.get(servGame).size()) {
 				availableGames.remove(servGame);
 				servGame.serverStartGame();
 			}
+			
 		} else {
 			player.send.error(3);
 			player.send.sendListRooms(getRooms());

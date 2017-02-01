@@ -9,10 +9,6 @@ import supportclasses.Receiver;
 import supportclasses.Sender;
 import view.ClientTUI;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 
 import java.util.ArrayList;
 
@@ -22,8 +18,6 @@ public class Client {
 	private static int id;
 	public static String name;
 	public static boolean connected;
-	private BufferedReader reader;
-	private BufferedWriter writer;
 	public static ClientTUI tui;
 	public static Client client;
 	public static Sender sender;
@@ -102,6 +96,10 @@ public class Client {
 	
 	public void setGame(ClientGame game) {
 		currentGame = game;
+	}
+	
+	public ClientGame getGame() {
+		return currentGame;
 	}
 	
 	public void setTurn(int playerID) {

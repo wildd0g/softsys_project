@@ -2,11 +2,16 @@ package view;
 
 import java.util.Scanner;
 
+import model.Board;
+import model.Mark;
+import aistrategies.NaiveStrategy;
+import aistrategies.Strategy;
 import controller.Client;
+import controller.ClientGame;
 import supportclasses.Capabilities;
 import supportclasses.MaliciousInputException;
 
-public class ClientTUI extends TUI{
+public class ClientTUI extends TUI {
 
 	private Scanner scan;
 	private Client client;
@@ -156,7 +161,7 @@ public class ClientTUI extends TUI{
 	}
 	
 	//method to assure proper integer value from input
-	public int getVal(String stringy, String checker) throws MaliciousInputException{
+	public int getVal(String stringy, String checker) throws MaliciousInputException {
 		
 		int value = -1;
 		boolean succes;
@@ -165,53 +170,58 @@ public class ClientTUI extends TUI{
 		
 		//Switch statement uses input to identify for which values
 		//TODO handle all freaking errors
-		switch (checker){
-		case "players": 
-			try {
-				capability = Integer.parseInt(Capabilities.Client.AMOUNTOFPLAYERS);
-				minimum = 0;
-			} catch (NumberFormatException nfes1) {
-				System.out.println(nfes1.getMessage());
-			} break;
-			
-		case "width":
-			try {
-				capability = Integer.parseInt(Capabilities.Client.MAXDIMENSIONX);
-				minimum = 0;
-			} catch (NumberFormatException nfes2) {
-				System.out.println(nfes2.getMessage());
-			}
-			
-		case "depth":
-			try {
-				capability = Integer.parseInt(Capabilities.Client.MAXDIMENSIONY);
-				minimum = 0;
-			} catch (NumberFormatException nfes3) {
-				System.out.println(nfes3.getMessage());
-			}
-			
-		case "height":
-			try {
-				capability = Integer.parseInt(Capabilities.Client.MAXDIMENSIONZ);
-				minimum = 0;
-			} catch (NumberFormatException nfes4) {
-				System.out.println(nfes4.getMessage());
-			}
-			
-		case "win":
-			try {
-				capability = Integer.parseInt(Capabilities.Client.LENGTHTOWIN);
-				minimum = 0;
-			} catch (NumberFormatException nfes5) {
-				System.out.println(nfes5.getMessage());
-			}
-			
-		case "port":
-			capability = 9999;
-			minimum = 1000;
-			
-			break;	
-			
+		switch (checker) {
+			case "players": 
+				try {
+					capability = Integer.parseInt(Capabilities.Client.AMOUNTOFPLAYERS);
+					minimum = 0;
+				} catch (NumberFormatException nfes1) {
+					System.out.println(nfes1.getMessage());
+				} 
+				break;
+				
+			case "width":
+				try {
+					capability = Integer.parseInt(Capabilities.Client.MAXDIMENSIONX);
+					minimum = 0;
+				} catch (NumberFormatException nfes2) {
+					System.out.println(nfes2.getMessage());
+				}
+				break;
+				
+			case "depth":
+				try {
+					capability = Integer.parseInt(Capabilities.Client.MAXDIMENSIONY);
+					minimum = 0;
+				} catch (NumberFormatException nfes3) {
+					System.out.println(nfes3.getMessage());
+				}
+				break;
+				
+			case "height":
+				try {
+					capability = Integer.parseInt(Capabilities.Client.MAXDIMENSIONZ);
+					minimum = 0;
+				} catch (NumberFormatException nfes4) {
+					System.out.println(nfes4.getMessage());
+				}
+				break;
+				
+			case "win":
+				try {
+					capability = Integer.parseInt(Capabilities.Client.LENGTHTOWIN);
+					minimum = 0;
+				} catch (NumberFormatException nfes5) {
+					System.out.println(nfes5.getMessage());
+				}
+				break;
+				
+			case "port":
+				capability = 9999;
+				minimum = 1000;
+				
+				break;	
+				
 		}
 		
 		
@@ -228,18 +238,34 @@ public class ClientTUI extends TUI{
 			//TODO properly handle Exception
 			nfe1.getMessage();
 			
+			boolean playing = false;
+			if (Client.client.getGame() != null) {
+				playing = true;
+			}
+			
 			//if it doesn't parse, repeat the question 22 times
 			for (int i = 0; i < 22; i++) {
 				
-				if (input.equals("HINT")) {
-					
+				if (playing) {
+					if (input.equals("HINT")) {
+						Strategy hint = new NaiveStrategy();
+						ClientGame game = Client.client.getGame();
+						Board b = game.getBoard();
+						Mark m = game.getMark(Client.getID());
+						int[] hintMove = hint.determineMove(b, m);
+						this.printWrite("Try this one: hight: "
+								+ hintMove[0] + ", Width: " + hintMove[1]);
+					} else {
+						this.printWrite("tip: use 'HINT'");
+					}
 				}
+				
 				
 				//succes to potentially true
 				succes = true;
 				
 				try {
-					input = readOut(stringy + " tip: use 'HINT'");
+					input = readOut(stringy);
 					value = Integer.parseInt(input);
 					if (!(value >= minimum) || !(value <= capability)) {
 						value = -1;						

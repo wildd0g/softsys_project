@@ -10,7 +10,7 @@ public class AIInput extends ClientInput {
 	private Strategy strat;
 	
 	AIInput() {
-		strat = new NaiveStrategy();
+		strat = new SmartStrategy();
 	}
 	
 	@Override

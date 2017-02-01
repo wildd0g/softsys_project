@@ -70,7 +70,7 @@ public class Client {
         streamInputHandler.start();
         
         //autorefresh is set to false, can be changed if implemented
-        sender.sendCapabilities(simpleIP, false);
+        sender.sendCapabilities(name, false);
         
         connected = true;
 
@@ -115,7 +115,7 @@ public class Client {
 		input.determineMove(currentGame);
 	}
 	
-	public void setID(int setID) {
+	public static void setID(int setID) {
 		id = setID;
 	}
 	

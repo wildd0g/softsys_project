@@ -106,7 +106,8 @@ public class Parser extends Protocol {
 					endOverflowCatcher(msg, lineScanner);
 					
 					controller.Client.tui.printWrite("A new room was created with ID: " + roomID);
-					
+					controller.Client.tui.printWrite("joining the room...");
+					controller.Client.client.joinRoom(roomID);
 					break;
 					
 				case Protocol.Server.ASSIGNID:

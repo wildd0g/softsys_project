@@ -5,7 +5,6 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 import controller.Client;
-import controller.ClientGame;
 
 public class ClientParser {
 
@@ -67,7 +66,7 @@ public class ClientParser {
 					break;
 				
 				case "JOINROOM":
-					if (client.getGame() != null) {
+					if (client.getGame() == null) {
 						if (commandScanner.hasNext()) {
 							int roomID = Integer.parseInt(commandScanner.next());
 							client.joinRoom(roomID);
@@ -80,8 +79,7 @@ public class ClientParser {
 					break;
 				
 				case "CREATEROOM":
-					ClientGame game = Client.client.getGame();
-					if (game.equals(null)) {
+					if (client.getGame() == null) {
 						if (commandScanner.hasNext()) {
 							int players = Integer.parseInt(commandScanner.next());
 							int xDim = Integer.parseInt(commandScanner.next());
@@ -98,10 +96,10 @@ public class ClientParser {
 					break;
 				
 				case "LEAVE":
-					if(client.getGame() != null){
+					if (client.getGame() != null) {
 						client.leaveRoom();
 					} else {
-						
+						Client.tui.printWrite("not in a game");
 					}
 					break;
 				
@@ -139,7 +137,7 @@ public class ClientParser {
 								"LEAVE to leave the room you are presently in \n" +
 								"MAKEMOVE during a game to set your move \n" +
 								"EXIT to shut down the system"
-								);
+						);
 					} else {
 						System.out.println("Sorry, you are not connected" + 
 								" please use CONNECT first before continuing.");

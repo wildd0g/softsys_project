@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.net.Socket;
 
+import controller.Client;
 import controller.Parser;
 import controller.Player;
 
@@ -47,23 +48,33 @@ public class Receiver implements Runnable {
 		parser = new Parser(player);
 		String line;
 		while (active) {
+			
+			if(!socket.isClosed()) {
 
-			line = null;
-			try {
-				line = buffer.readLine();
-			} catch (IOException io3) {
-				//properly handle Exception
-				io3.getMessage();
-			}
-
-			if (line != null) {
-				if (player != null) {
-					System.out.println(player.getName() + " " + line);
-				} else {
-					System.out.println(line);
+				line = null;
+				try {
+					line = buffer.readLine();
+				} catch (IOException io3) {
+					//properly handle Exception
+					io3.getMessage();
 				}
-				parser.parse(line);
-			}	
+
+				if (line != null) {
+					if (player != null) {
+						System.out.println(player.getName() + " " + line);
+					} else {
+						System.out.println(line);
+					}
+					parser.parse(line);
+				}	
+			} else {
+				if(player != null) {
+					player.shutDown();
+				} else {
+					controller.Client.shutDown();
+				}
+				
+			}
 		}
 		try {
 			buffer.close();
@@ -71,6 +82,7 @@ public class Receiver implements Runnable {
 			//properly handle Exception
 			io4.getMessage();
 		}
+		
 
 	}
 	

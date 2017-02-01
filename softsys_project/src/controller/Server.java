@@ -25,7 +25,6 @@ public class Server {
 	private static Map<Integer, ServerGame> activeGames = new HashMap<Integer, ServerGame>();
 
 	private static boolean receiving = true;
-	private static boolean active = true;
 	private static Socket registrationSocket = null;
 	private static ServerSocket serverSocket = null;
 	private static int playerCounter = 0;
@@ -97,7 +96,7 @@ public class Server {
 	}
 	
 	/**
-	 * methods utilised by parser
+	 * methods utilised by parser.
 	 */
 	
 	//method that sets capabilities of a player

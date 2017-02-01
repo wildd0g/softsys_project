@@ -1,6 +1,5 @@
 package controller;
 
-import java.io.BufferedReader;
 import java.util.Scanner;
 
 import supportclasses.InvalidCommandException;
@@ -70,7 +69,7 @@ public class Parser extends Protocol {
 							maxRoomDimensionZ,
 							maxLengthToWin,
 							chatSupport
-							);
+					);
 	
 					break;
 	
@@ -202,7 +201,7 @@ public class Parser extends Protocol {
 	
 					endOverflowCatcher(msg, lineScanner);
 	
-					//TODO client: display to chat, senderName sent chatMsg
+					controller.Client.tui.printWrite(senderName + " said: " + chatMsg);
 	
 					break;
 	
@@ -251,7 +250,7 @@ public class Parser extends Protocol {
 								maxLengthToWin,
 								chatSupport,
 								roomSupport
-							);
+					);
 	
 					break;
 	

@@ -33,11 +33,11 @@ public class ServerParser {
 			//Designed to allow implementation of more commands
 			switch (command) {
 			
-			case "EXIT":
-				server.serverShutDown();
-				break;
-			default:
-				System.out.println("Sorry, I don't recognise that command");
+				case "EXIT":
+					server.serverShutDown();
+					break;
+				default:
+					System.out.println("Sorry, I don't recognise that command");
 				
 			}
 			

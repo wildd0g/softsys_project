@@ -103,7 +103,7 @@ public class Server {
 			int maxDimZ,
 			int maxWin,
 			boolean chat,
-			boolean refresh){
+			boolean refresh) {
 		
 		//use player function to set capabilities
 		player.setCapabilities(
@@ -122,7 +122,7 @@ public class Server {
 		ServerGame servGame = activeGames.get(game);
 		Set<Player> playersInGame = games.get(servGame); 
 		
-		if(servGame.players.length > games.get(servGame).size()) {
+		if (servGame.players.length > games.get(servGame).size()) {
 			servGame.addPlayer(player);
 			playersInGame.add(player);
 			games.put(servGame, playersInGame);
@@ -143,9 +143,8 @@ public class Server {
 			int maxRoomDimensionX,
 			int maxRoomDimensionY,
 			int maxRoomDimensionZ,
-			int maxLengthToWin
-			) {
-		
+			int maxLengthToWin) {
+
 		ServerGame newGame = new ServerGame(
 				gamesCounter,
 				amountOfPlayers,
@@ -153,25 +152,25 @@ public class Server {
 				maxRoomDimensionY,
 				maxRoomDimensionZ,
 				maxLengthToWin);
-		
+
 		activeGames.put(gamesCounter, newGame);
 		games.put(newGame, new HashSet<Player>());
-		
+
 		gamesCounter++;
-				
+
 	}
-	
+
 	//method that processes move made by a new player
 	public static void processMove(Player player, int moveX, int moveY) {
-		
-		ServerGame tempGame = (ServerGame)player.getGame();
-				tempGame.makeMove(moveX, moveY, player.getID());
-		
+
+		ServerGame tempGame = (ServerGame) player.getGame();
+		tempGame.makeMove(moveX, moveY, player.getID());
+
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 
 }

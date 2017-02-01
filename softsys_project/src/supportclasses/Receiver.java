@@ -18,11 +18,11 @@ public class Receiver implements Runnable {
 	private Parser parser;
 	
 	public Receiver(Socket sock, Player plyr) {
+		this(sock);
 		player = plyr;
 	}
 	
 	public Receiver(Socket sock) {
-		parser = new Parser(player);
 		socket = sock;
 		
 		try {
@@ -39,12 +39,12 @@ public class Receiver implements Runnable {
 	}
 
 	public void shutDown() {
-		System.out.println(" player " + player.getName() + " is shutting down");
 		active = false;
 	}
 
 	@Override
 	public void run() {
+		parser = new Parser(player);
 		String line;
 		while (active) {
 
@@ -57,6 +57,9 @@ public class Receiver implements Runnable {
 			}
 
 			if (line != null) {
+				if (player != null) {
+					System.out.println(player.getName() + " ");
+				}
 				System.out.println(line);
 				parser.parse(line);
 			}	

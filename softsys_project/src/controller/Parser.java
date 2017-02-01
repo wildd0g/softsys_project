@@ -82,7 +82,7 @@ public class Parser extends Protocol {
 						room = lineScanner.next();
 						int[] roomData = new int[6];
 						Scanner roomScanner = new Scanner(room);
-						roomScanner.useDelimiter("|");
+						roomScanner.useDelimiter("[|]");
 						try {
 							for (int i = 0; i < 6; i++) {
 								roomData[i] = Integer.parseInt(roomScanner.next());
@@ -91,13 +91,6 @@ public class Parser extends Protocol {
 							
 						} catch (NumberFormatException e) {
 							controller.Client.sender.error(7);
-							Scanner debugScanner = new Scanner(room);
-							debugScanner.useDelimiter("|");
-							System.out.println(debugScanner.delimiter());
-							while (debugScanner.hasNext()) {
-								System.out.println(debugScanner.next());
-							}
-							debugScanner.close();
 						}
 						lobbyData.add(roomData);
 					}
@@ -128,7 +121,7 @@ public class Parser extends Protocol {
 				case Protocol.Server.STARTGAME:
 					//parse the room info and store in parser fields
 					Scanner roomScanner = new Scanner(lineScanner.next());
-					roomScanner.useDelimiter("|");
+					roomScanner.useDelimiter("[|]");
 					maxRoomDimensionX = Integer.parseInt(roomScanner.next());
 					maxRoomDimensionY = Integer.parseInt(roomScanner.next());
 					maxRoomDimensionZ = Integer.parseInt(roomScanner.next());
@@ -381,7 +374,7 @@ public class Parser extends Protocol {
 	private String[] parsePlayerInfo(String info) {
 		String[] tmpPlayer = new String[3];
 		Scanner roomScanner = new Scanner(info);
-		roomScanner.useDelimiter("|");
+		roomScanner.useDelimiter("[|]");
 		try {
 			for (int i = 0; i < 3; i++) {
 				tmpPlayer[i] = roomScanner.next();
@@ -400,7 +393,7 @@ public class Parser extends Protocol {
 	private String[] parseLeaderInfo(String info) {
 		String[] tmpPlayer = new String[4];
 		Scanner leaderScanner = new Scanner(info);
-		leaderScanner.useDelimiter("|");
+		leaderScanner.useDelimiter("[|]");
 		try {
 			for (int i = 0; i < 4; i++) {
 				tmpPlayer[i] = leaderScanner.next();

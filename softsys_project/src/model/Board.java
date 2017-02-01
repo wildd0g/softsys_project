@@ -46,6 +46,7 @@ public class Board {
 	
 	/**
 	 * Returns the size in the row dimension of the board
+	 * @return int dimRow, the row size
 	 */
 	/*@ ensures \result == dimRow;
       @*/
@@ -56,6 +57,7 @@ public class Board {
 	
 	/**
 	 * Returns the size in the column dimension of the board
+	 * @return int dimRow, the column size
 	 */
 	/*@ ensures \result == dimCol;
       @*/
@@ -98,8 +100,10 @@ public class Board {
 	}
 
 	/**
-	 * Returns true if ix is a valid index of a field on the student.
-	 * @return true if 0 <= index < DIM*DIM
+	 * Returns true if index is a valid index of a field on the student.
+	 * @param i
+	 * 			the number of the field (see NUMBERING)
+	 * @return true if 0 <= i < dimRow * dimCol * dimLvl
 	 */
 	//@ ensures \result == (0 <= index && index < DIMROW * DIMCOL * DIMLVL);
 	/*@pure*/
@@ -109,8 +113,13 @@ public class Board {
 
 	/**
 	 * Returns true of the (row,col) pair refers to a valid field on the student.
-	 *
-	 * @return true if 0 <= row < DIM && 0 <= col < DIM
+	 * @param row
+	 * 				the row of the location
+	 * @param col
+	 * 				the column of the location
+	 * @param lvl
+	 * 				the level of the location
+	 * @return true if 0 <= row < dimRow && 0 <= col < dimCol && 0 <= lvl < dimLvl
 	 */
 	//@ ensures \result == (0 <= row && row < dimRow && 0 <= col && col < dimCol &&
 	/*@ 0 <= lvl && lvl <= dimLvl);

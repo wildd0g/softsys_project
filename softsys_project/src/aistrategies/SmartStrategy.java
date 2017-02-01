@@ -32,9 +32,9 @@ public class SmartStrategy extends Strategy {
 		
 		//if it exists, chose that move for the computer, or to block it.
 		Integer[] base = {-1, -1};
-		if (winMoveSelf.equals(base)) {
+		if (!Arrays.equals(base, winMoveSelf)) {
 			move = winMoveSelf;
-		} else if (winMoveOther.equals(base)) {
+		} else if (!Arrays.equals(base, winMoveOther)) {
 			move = winMoveOther;
 		}
 
@@ -49,7 +49,7 @@ public class SmartStrategy extends Strategy {
 			
 			Integer[] moveSet = (Integer[]) validArray[i];
 			testMove(testB, moveSet[0], moveSet[1], m);
-			if (testB.hasWinner()) {
+			if (testB.isWinner(m)) {
 				move = moveSet;
 				break;
 			}

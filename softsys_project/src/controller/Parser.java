@@ -154,7 +154,7 @@ public class Parser extends Protocol {
 	
 					endOverflowCatcher(msg, lineScanner);
 	
-					client.setTurn(turn);
+					controller.Client.client.setTurn(turn);
 	
 					break;
 	

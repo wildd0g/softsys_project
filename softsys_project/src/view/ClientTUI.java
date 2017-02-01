@@ -9,7 +9,7 @@ import supportclasses.MaliciousInputException;
 public class ClientTUI extends TUI{
 
 	private Scanner scan;
-	private static Client client;
+	private Client client;
 	public boolean active;
 	public ClientParser parser;
 
@@ -27,8 +27,8 @@ public class ClientTUI extends TUI{
 
 		String name = "";
 		name = readOut("Please, enter a username: ");
-		client.name = name;
-		System.out.println("Welcome, " + client.name);
+		Client.name = name;
+		System.out.println("Welcome, " + Client.name);
 
 		while (active) {
 

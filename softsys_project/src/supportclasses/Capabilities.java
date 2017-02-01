@@ -9,7 +9,8 @@ public class Capabilities {
 		public static final String AMOUNTOFPLAYERS = "8";			//supports this many players
 		public static final String ROOMSUPPORT = "0";				//supports rooms, 0 or 1
 		public static final String MAXDIMENSIONS = "" + 			//dimensions bound because
-				Math.floor(Math.cbrt(Integer.MAX_VALUE - 5)).intVlalue;	//the int in board[int] 
+					((Double) Math.floor(
+					Math.cbrt(Integer.MAX_VALUE - 5))).intValue();	//the max int in board[int] 
 		public static final String MAXDIMENSIONX = MAXDIMENSIONS;	//has a maximum.
 		public static final String MAXDIMENSIONY = MAXDIMENSIONS;	//Dimension maximum
 		public static final String MAXDIMENSIONZ = MAXDIMENSIONS;	//becomes the cube root of this.

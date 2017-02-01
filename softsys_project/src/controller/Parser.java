@@ -93,6 +93,7 @@ public class Parser extends Protocol {
 							controller.Client.sender.error(7);
 							Scanner debugScanner = new Scanner(room);
 							debugScanner.useDelimiter("|");
+							System.out.println(debugScanner.delimiter());
 							while (debugScanner.hasNext()) {
 								System.out.println(debugScanner.next());
 							}
@@ -107,7 +108,7 @@ public class Parser extends Protocol {
 
 				case Protocol.Server.ROOMCREATED:
 					
-					int roomID = Integer.parseInt(lineScanner.next());
+					roomID = Integer.parseInt(lineScanner.next());
 					
 					endOverflowCatcher(msg, lineScanner);
 					

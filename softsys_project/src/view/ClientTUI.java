@@ -6,7 +6,7 @@ import controller.Client;
 import supportclasses.Capabilities;
 import supportclasses.MaliciousInputException;
 
-public class ClientTUI extends TUI {
+public class ClientTUI extends TUI{
 
 	private Scanner scan;
 	private static Client client;
@@ -14,7 +14,7 @@ public class ClientTUI extends TUI {
 	public ClientParser parser;
 
 	public ClientTUI(Client backend) {
-		ClientTUI.client = backend;
+		this.client = backend;
 		parser = new ClientParser(client, this);
 		active = true;
 	}
@@ -71,6 +71,10 @@ public class ClientTUI extends TUI {
 				
 		client.getConnected(simpleIP, portNum);
 		
+	}
+	
+	public void printWrite(String stringy) {
+		System.out.println(stringy);
 	}
 	
 	//method requesting player for the
@@ -143,7 +147,7 @@ public class ClientTUI extends TUI {
 			
 		}
 		
-		Client.makeMove(moveX, moveY);
+		client.makeMove(moveX, moveY);
 		
 	}
 	
@@ -246,7 +250,4 @@ public class ClientTUI extends TUI {
 		return value;
 	}
 
-	public void shutDown() {
-		active = false;
-	}
 }

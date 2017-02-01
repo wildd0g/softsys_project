@@ -14,6 +14,8 @@ import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
+import java.util.ArrayList;
+
 public class Client {
 
 	private static Socket sock;
@@ -119,6 +121,19 @@ public class Client {
 	
 	public static int getID() {
 		return id;
+	}
+	
+	public static void printRooms(ArrayList<int[]> rooms) {
+		String roomPrint = "";
+		for(int i = 0; i < rooms.size(); i++) {
+			roomPrint = "Room ID: " + rooms.get[i].get(0)
+					+ "Amount of Players: " + rooms[i].get(1)
+					+ "Room Width(X): " + rooms[i].get(2)
+					+ "Room Depth(Y): " + rooms[i].get(3)
+					+ "Room Height(Z): " + rooms[i].get(4)
+					+ "Room Win Length: " + rooms[i].get(5);
+			tui.printWrite(roomPrint);
+		}
 	}
 	
 	public static void shutDown() {

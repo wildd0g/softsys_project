@@ -5,10 +5,6 @@ import java.net.Socket;
 import supportclasses.Receiver;
 import supportclasses.Sender;
 
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 
 public class Player {

@@ -20,7 +20,7 @@ import supportclasses.*;
 public class Server {
 	
 	private static List<Player> nonPlaying = new ArrayList<>();
-	private static List<ServerGame> nonStarted = new ArrayList<>();
+	private static List<ServerGame> availableGames = new ArrayList<>();
 	private static Map<ServerGame, Set<Player>> games = new HashMap<>();
 	private static Map<Integer, ServerGame> activeGames = new HashMap<Integer, ServerGame>();
 
@@ -122,20 +122,20 @@ public class Server {
 				chat, 
 				refresh);
 		
-		if(refresh){
+		if (refresh) {
 			player.send.sendListRooms(getRooms());
 		} else {
 			boolean foundRoom = false;
 			Iterator<ServerGame> itt = games.keySet().iterator();
-			for(int i = 0; i < games.keySet().size(); i++){
+			for (int i = 0; i < games.keySet().size(); i++) {
 				ServerGame thisGame = itt.next();
-				if(thisGame.defaultGame){
+				if (thisGame.defaultGame) {
 					thisGame.addPlayer(player);
 					foundRoom = true;
 					break;
 				}
 			}
-			if (!foundRoom){
+			if (!foundRoom) {
 				int newRoom = createNew(2, 4, 4, 4, 4);
 				activeGames.get(newRoom).addPlayer(player);
 				player.send.assignID(player.getID());
@@ -154,6 +154,7 @@ public class Server {
 			playersInGame.add(player);
 			games.put(servGame, playersInGame);
 			if (servGame.players.length == games.get(servGame).size()) {
+				availableGames.remove(servGame);
 				servGame.serverStartGame();
 			}
 		} else {
@@ -165,10 +166,7 @@ public class Server {
 	
 	//method that retrieves the list of all present games
 	public static List<ServerGame> getRooms() {
-		//TODO change to only available games
-		List<ServerGame> returnList = new ArrayList<>(); 
-		returnList.addAll(games.keySet());
-		return returnList;
+		return availableGames;
 	}
 	
 	//method that creates a new game 
@@ -190,6 +188,7 @@ public class Server {
 
 		activeGames.put(gameID, newGame);
 		games.put(newGame, new HashSet<Player>());
+		availableGames.add(newGame);
 
 		gamesCounter++;
 		

@@ -101,7 +101,7 @@ public class Server {
 	 */
 	
 	//method that sets capabilities of a player
-	public static void setCapabilities(Player player,
+	public synchronized static void setCapabilities(Player player,
 			int amountOfPlayers, 
 			String name, 
 			int maxDimX,
@@ -121,6 +121,7 @@ public class Server {
 				maxWin, 
 				chat, 
 				refresh);
+		
 		if(refresh){
 			player.send.sendListRooms(getRooms());
 		} else {
@@ -144,7 +145,7 @@ public class Server {
 	}
 
 	//method that puts the player into a new game
-	public static void joinToRoom(Player player, int game) {
+	public synchronized static void joinToRoom(Player player, int game) {
 		ServerGame servGame = activeGames.get(game);
 		Set<Player> playersInGame = games.get(servGame); 
 		
@@ -171,7 +172,7 @@ public class Server {
 	}
 	
 	//method that creates a new game 
-	public static int createNew(
+	public synchronized static int createNew(
 			int amountOfPlayers, 
 			int maxRoomDimensionX,
 			int maxRoomDimensionY,
@@ -196,7 +197,7 @@ public class Server {
 
 	}
 	
-	public static void leaveRoom(Player player) {
+	public synchronized static void leaveRoom(Player player) {
 		nonPlaying.add(player);
 		player.send.sendListRooms(getRooms());
 	}

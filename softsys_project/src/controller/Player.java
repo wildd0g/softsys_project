@@ -35,7 +35,7 @@ public class Player {
 		this.playerName = name;
 		this.playerSocket = sock;
 		this.send = new Sender(playerSocket);
-		this.receiver = new Receiver(playerSocket);
+		this.receiver = new Receiver(playerSocket, this);
 		Thread streamInputHandler = new Thread(this.receiver);
         streamInputHandler.start();
         

@@ -10,7 +10,7 @@ public class Capabilities {
 		public static final String ROOMSUPPORT = "0";				//supports rooms, 0 or 1
 		public static final String MAXDIMENSIONS = "" + 			//dimensions bound because
 					((Double) Math.floor(
-					Math.cbrt(Integer.MAX_VALUE - 5))).intValue();	//the max int in board[int] 
+					Math.cbrt(Integer.MAX_VALUE - 5))).intValue();  //int in board[int]	 
 		public static final String MAXDIMENSIONX = MAXDIMENSIONS;	//has a maximum.
 		public static final String MAXDIMENSIONY = MAXDIMENSIONS;	//Dimension maximum
 		public static final String MAXDIMENSIONZ = MAXDIMENSIONS;	//becomes the cube root of this.
@@ -27,7 +27,7 @@ public class Capabilities {
 					MAXDIMENSIONY + " " + 
 					MAXDIMENSIONZ + " " + 
 					LENGTHTOWIN + " " + 
-					CHATSUPPORT;  
+					CHATSUPPORT + "\n";  
 		}
 	}
 
@@ -35,8 +35,9 @@ public class Capabilities {
 	public static class Client {
 		public static final String AMOUNTOFPLAYERS = "8";			//supports this many players
 		public static final String ROOMSUPPORT = "0";				//supports rooms, 0 or 1
-		public static final String MAXDIMENSIONS = 					//dimensions bound because
-				"" + Math.floor(Math.cbrt(Integer.MAX_VALUE - 5));	//the int in board[int] 
+		public static final String MAXDIMENSIONS = "" + 			//dimensions bound because
+				((Double) Math.floor(
+				Math.cbrt(Integer.MAX_VALUE - 5))).intValue();		//int in board[int]	 
 		public static final String MAXDIMENSIONX = MAXDIMENSIONS;	//has a maximum.
 		public static final String MAXDIMENSIONY = MAXDIMENSIONS;	//Dimension maximum
 		public static final String MAXDIMENSIONZ = MAXDIMENSIONS;	//becomes the cube root of this.
@@ -60,7 +61,7 @@ public class Capabilities {
 					MAXDIMENSIONZ + " " + 
 					LENGTHTOWIN + " " + 
 					CHATSUPPORT + " " +  
-					refreshString;					
+					refreshString + "\n";					
 		}
 	}
 

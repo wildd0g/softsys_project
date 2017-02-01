@@ -13,8 +13,8 @@ public class Receiver implements Runnable {
 	protected Player player = null;
 	protected Socket socket;
 	protected InputStreamReader receiver;
-	protected static BufferedReader buffer;
-	public static boolean active;
+	protected BufferedReader buffer;
+	protected boolean active;
 	private Parser parser;
 	
 	public Receiver(Socket sock, Player plyr) {
@@ -39,30 +39,27 @@ public class Receiver implements Runnable {
 	}
 
 	public void shutDown() {
+		System.out.println(" player " + player.getName() + " is shutting down");
 		active = false;
 	}
-	
+
 	@Override
 	public void run() {
+		String line;
 		while (active) {
 
-			boolean readable = false;
-
+			line = null;
 			try {
-				readable = buffer.ready();
-			} catch (IOException io2) {
-				io2.getMessage();
+				line = buffer.readLine();
+			} catch (IOException io3) {
+				//properly handle Exception
+				io3.getMessage();
 			}
 
-			if (readable) { 
-				try {
-					parser.parse(buffer.readLine());
-				} catch (IOException io3) {
-					//properly handle Exception
-					io3.getMessage();
-				}
-			}
-
+			if (line != null) {
+				System.out.println(line);
+				parser.parse(line);
+			}	
 		}
 		try {
 			buffer.close();
@@ -70,6 +67,7 @@ public class Receiver implements Runnable {
 			//properly handle Exception
 			io4.getMessage();
 		}
-	}
 
+	}
+	
 }

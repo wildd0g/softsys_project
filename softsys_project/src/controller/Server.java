@@ -20,6 +20,7 @@ import supportclasses.*;
 public class Server {
 	
 	private static List<Player> nonPlaying = new ArrayList<>();
+	private static List<ServerGame> nonStarted = new ArrayList<>();
 	private static Map<ServerGame, Set<Player>> games = new HashMap<>();
 	private static Map<Integer, ServerGame> activeGames = new HashMap<Integer, ServerGame>();
 
@@ -88,6 +89,8 @@ public class Server {
 				new Player(playerCounter, "player" + playerCounter, registrationSocket);
 		nonPlaying.add(newPlayer);
 		nonPlaying.get(nonPlaying.size() - 1).activate();
+		
+		newPlayer.send.sendServerCapabilities();
 		
 	}
 	

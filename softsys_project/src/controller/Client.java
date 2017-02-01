@@ -123,7 +123,13 @@ public class Client {
 		return id;
 	}
 	
-	public static void receiveCapabilities() {
+	public static void receiveCapabilities(int amountOfPlayers,
+			boolean roomSupport,
+			int maxRoomDimensionX,
+			int maxRoomDimensionY,
+			int maxRoomDimensionZ,
+			int maxLengthToWin,
+			boolean chatSupport) {
 		
 	}
 	

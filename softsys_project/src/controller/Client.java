@@ -137,14 +137,19 @@ public class Client {
 	}
 	
 	public static void shutDown() {
-		sender.shutDown();
-		receiver.shutDown();
-		try {
-			sock.close();
-		} catch (IOException io1) {
-			// TODO Auto-generated catch block
-			io1.getMessage();
+		System.out.println("starting shutdown protocol");
+		tui.shutDown();
+		if (connected) {
+			sender.shutDown();
+			receiver.shutDown();
+			try {
+				sock.close();
+			} catch (IOException io1) {
+				// TODO Auto-generated catch block
+				io1.getMessage();
+			}
 		}
 	}
+	
 	
 }

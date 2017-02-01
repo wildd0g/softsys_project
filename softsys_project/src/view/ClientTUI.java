@@ -6,7 +6,7 @@ import controller.Client;
 import supportclasses.Capabilities;
 import supportclasses.MaliciousInputException;
 
-public class ClientTUI extends TUI{
+public class ClientTUI extends TUI {
 
 	private Scanner scan;
 	private static Client client;
@@ -14,7 +14,7 @@ public class ClientTUI extends TUI{
 	public ClientParser parser;
 
 	public ClientTUI(Client backend) {
-		this.client = backend;
+		ClientTUI.client = backend;
 		parser = new ClientParser(client, this);
 		active = true;
 	}
@@ -143,7 +143,7 @@ public class ClientTUI extends TUI{
 			
 		}
 		
-		client.makeMove(moveX, moveY);
+		Client.makeMove(moveX, moveY);
 		
 	}
 	
@@ -246,4 +246,7 @@ public class ClientTUI extends TUI{
 		return value;
 	}
 
+	public void shutDown() {
+		active = false;
+	}
 }

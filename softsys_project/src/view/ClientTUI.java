@@ -249,5 +249,8 @@ public class ClientTUI extends TUI{
 		}
 		return value;
 	}
-
+	
+	public void shutDown() {
+		active = false;
+	}
 }

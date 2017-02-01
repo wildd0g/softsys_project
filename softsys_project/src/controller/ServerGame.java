@@ -23,9 +23,10 @@ public class ServerGame extends Game {
 		this.gameID = id;
 		timeout = System.currentTimeMillis();
 		roomData = new int[]{dimX, dimY, dimZ, winLength};
-		hexcolours = new String[]{"ff0000", "0000ff", "ffd700", "00ffff", "00ff00", "800080", "ffa500", "ffc0cb"}; 
+		hexcolours = new String[]{"ff0000", "0000ff", "ffd700", "00ffff",
+								  "00ff00", "800080", "ffa500", "ffc0cb"}; 
 	}
-	
+
 	//method to retrieve string of information on this game
 	public String getGame() {
 		String returnString = "";
@@ -135,9 +136,9 @@ public class ServerGame extends Game {
 	public void makeMove(int x, int y, int playerID) {
 		Mark m = playerMarks.get(playerID);
 		int z = calcMoveLvl(x, y);
-
+		boolean isTurn = playerID == currentTurn;
 		//checks against current room sizes if move is valid
-		if (x < maxRoomDimensionX && y < maxRoomDimensionY && z < maxRoomDimensionZ) {
+		if (x < maxRoomDimensionX && y < maxRoomDimensionY && z < maxRoomDimensionZ && isTurn) {
 
 			//tries to change board status
 			try {
@@ -161,6 +162,8 @@ public class ServerGame extends Game {
 				shutDown();
 			}
 
+		} else if (!isTurn) {
+			players[currentTurnIndex].send.error(4);
 		} else {
 			players[currentTurnIndex].send.error(5);
 		}

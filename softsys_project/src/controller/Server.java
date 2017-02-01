@@ -205,8 +205,7 @@ public class Server {
 	//method that processes move made by a new player
 	public static void processMove(Player player, int moveX, int moveY) {
 
-		ServerGame tempGame = (ServerGame) player.getGame();
-		tempGame.makeMove(moveX, moveY, player.getID());
+		player.getGame().makeMove(moveX, moveY, player.getID());
 
 	}
 

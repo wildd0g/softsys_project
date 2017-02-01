@@ -91,7 +91,7 @@ public class Player {
 		return playerID;
 	}
 
-	public Game getGame() {
+	public ServerGame getGame() {
 		return this.currentGame;
 	}
 	

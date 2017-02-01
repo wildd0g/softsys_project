@@ -269,12 +269,12 @@ public class Board {
 		} catch (InvalidFieldException e) {
 			e.printStackTrace();
 		}
-		int rowMin = Math.max(0,      0      - dir[0] * length);
-		int rowMax = Math.min(dimRow, dimRow - dir[0] * length);
-		int colMin = Math.max(0,      0      - dir[1] * length);
-		int colMax = Math.min(dimCol, dimCol - dir[1] * length);
-		int lvlMin = Math.max(0,      0      - dir[2] * length);
-		int lvlMax = Math.min(dimLvl, dimLvl - dir[2] * length);
+		int rowMin = Math.max(0,      0      - dir[0] * (length - 1));
+		int rowMax = Math.min(dimRow, dimRow - dir[0] * (length - 1));
+		int colMin = Math.max(0,      0      - dir[1] * (length - 1));
+		int colMax = Math.min(dimCol, dimCol - dir[1] * (length - 1));
+		int lvlMin = Math.max(0,      0      - dir[2] * (length - 1));
+		int lvlMax = Math.min(dimLvl, dimLvl - dir[2] * (length - 1));
 		
 		boolean result = false;
 		

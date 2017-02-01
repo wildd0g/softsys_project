@@ -29,6 +29,7 @@ public class Player {
 	
 	//constructor of a player object that can contain information about a player
 	public Player(int id, String name, Socket sock) {
+		this.currentGame = null;
 		this.playerID = id;
 		this.playerName = name;
 		this.playerSocket = sock;
@@ -105,6 +106,11 @@ public class Player {
 	}
 	
 	public void shutDown() {
+		// if player is in an active game shut it down
+		if(getGame() != null) {
+			getGame().shutDown(playerID, true);
+		} 
+		
 		send.shutDown();
 		receiver.shutDown();
 		try {

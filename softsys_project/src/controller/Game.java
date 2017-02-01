@@ -78,11 +78,4 @@ public class Game {
 		return playerMarks.get(playerID);	
 	}
 	
-	//method to shut down the game as a whole
-	public Boolean shutDown() {
-		boolean result = true;
-		
-		return result;
-	}
-	
 }

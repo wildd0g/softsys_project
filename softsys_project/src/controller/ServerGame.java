@@ -159,7 +159,7 @@ public class ServerGame extends Game {
 			if (checkEnd(playerID) == false) {
 				nextTurn();	
 			} else {
-				shutDown();
+				shutDown(playerID, false);
 			}
 
 		} else if (!isTurn) {
@@ -184,6 +184,19 @@ public class ServerGame extends Game {
 			}
 		}
 		return result;
+	}
+	
+	public void shutDown(int playerID, boolean disconnect){
+		if (disconnect) {
+			for (int i = 0; i < players.length; i++) {
+				if (players[i].getID() != playerID){
+					players[i].send.notifyEnd(3, playerID);
+				} 
+			}
+		} 
+		
+		removeGame(this);
+		
 	}
 
 }

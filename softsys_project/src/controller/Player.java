@@ -107,7 +107,7 @@ public class Player {
 	
 	public void shutDown() {
 		// if player is in an active game shut it down
-		if(getGame() != null) {
+		if (getGame() != null) {
 			getGame().shutDown(playerID, true);
 		} 
 		

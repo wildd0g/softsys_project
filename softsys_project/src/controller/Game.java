@@ -32,11 +32,11 @@ public class Game {
 		maxRoomDimensionZ = dimZ;
 		lengthToWin = winLength;
 		
-		if(playerNum == 2 
+		if (playerNum == 2 
 				&& maxRoomDimensionX == 4 
 				&& maxRoomDimensionY == 4 
 				&& maxRoomDimensionY == 4
-				&& lengthToWin == 4){
+				&& lengthToWin == 4) {
 			defaultGame = true;
 		} else {
 			defaultGame = false;

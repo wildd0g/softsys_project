@@ -1,7 +1,5 @@
 package view;
 
-import java.util.Scanner;
-
 import model.Board;
 import model.Mark;
 import aistrategies.NaiveStrategy;

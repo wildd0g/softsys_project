@@ -47,7 +47,7 @@ public class Sender {
 	public void sendListRooms(List<ServerGame> gamesList) {
 		String msg = Protocol.Server.SENDLISTROOMS;
 		
-		for(int i = 0; i < gamesList.size(); i++) {
+		for (int i = 0; i < gamesList.size(); i++) {
 			msg = msg + gamesList.get(i).getGame();
 		}
 		msg = msg + "\n";
@@ -108,7 +108,8 @@ public class Sender {
 	public void sendLeaderboard() {
 		//TODO send the leaderboard.
 		//currently leaving it out.
-		String msg = Protocol.Server.SENDLEADERBOARD + "\n";
+		//String msg = Protocol.Server.SENDLEADERBOARD + "\n";
+		this.error(4);
 	}
 	
 	public void sendCapabilities(String name, boolean autoRefresh) {
@@ -120,7 +121,7 @@ public class Sender {
 		send(msg);
 	}
 	
-	public void createRoom(int players, int dimX, int dimY, int dimZ, int winL){
+	public void createRoom(int players, int dimX, int dimY, int dimZ, int winL) {
 		String msg = Protocol.Client.CREATEROOM 
 				+ " " + players
 				+ " " + dimX 

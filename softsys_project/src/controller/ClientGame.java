@@ -29,7 +29,8 @@ public class ClientGame extends Game {
 		if (x < maxRoomDimensionX && y < maxRoomDimensionY && z < maxRoomDimensionZ) {
 			Client.makeMove(x, y);
 		} else {
-			//TODO invalid move, same response as recieving error 5
+			Client.tui.printWrite("invalid move, please try again");
+			Client.client.isTurn();
 		}
 	}
 

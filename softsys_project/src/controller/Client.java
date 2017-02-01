@@ -123,9 +123,10 @@ public class Client {
 		return id;
 	}
 	
+	//method that formats the printing of room information sent by server
 	public static void printRooms(ArrayList<int[]> rooms) {
 		String roomPrint = "";
-		for(int i = 0; i < rooms.size(); i++) {
+		for (int i = 0; i < rooms.size(); i++) {
 			roomPrint = "Room ID: " + rooms.get(i)[0]
 					+ "Amount of Players: " + rooms.get(i)[1]
 					+ "Room Width(X): " + rooms.get(i)[2]

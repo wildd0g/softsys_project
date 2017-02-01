@@ -39,6 +39,7 @@ public class TUI {
 				while (scannerLine.hasNext()) {
 					input = input + " " + scannerLine.next();
 				}
+				scannerLine.close();
 			}
 		} while (!inputRead);
 

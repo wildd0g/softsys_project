@@ -126,12 +126,12 @@ public class Client {
 	public static void printRooms(ArrayList<int[]> rooms) {
 		String roomPrint = "";
 		for(int i = 0; i < rooms.size(); i++) {
-			roomPrint = "Room ID: " + rooms.get[i].get(0)
-					+ "Amount of Players: " + rooms[i].get(1)
-					+ "Room Width(X): " + rooms[i].get(2)
-					+ "Room Depth(Y): " + rooms[i].get(3)
-					+ "Room Height(Z): " + rooms[i].get(4)
-					+ "Room Win Length: " + rooms[i].get(5);
+			roomPrint = "Room ID: " + rooms.get(i)[0]
+					+ "Amount of Players: " + rooms.get(i)[1]
+					+ "Room Width(X): " + rooms.get(i)[2]
+					+ "Room Depth(Y): " + rooms.get(i)[3]
+					+ "Room Height(Z): " + rooms.get(i)[4]
+					+ "Room Win Length: " + rooms.get(i)[5];
 			tui.printWrite(roomPrint);
 		}
 	}

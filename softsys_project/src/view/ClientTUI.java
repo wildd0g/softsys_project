@@ -34,7 +34,9 @@ public class ClientTUI extends TUI {
 		name = readOut("Please, enter a username: ");
 		Client.name = name;
 		System.out.println("Welcome, " + Client.name);
-
+		String controling = readOut("Are you a 'HUMAN' or an 'AI'?");
+		Client.client.setInput(controling);
+		
 		while (active) {
 
 			String input = readOut("Please, enter input:");

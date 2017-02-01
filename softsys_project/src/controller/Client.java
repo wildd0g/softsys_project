@@ -129,6 +129,18 @@ public class Client {
 		id = setID;
 	}
 	
+	public void setInput(String controling) {
+		if (controling.equals("AI")) {
+			input = new AIInput();
+		} else if (controling.equals("HUMAN")) {
+			input = new HumanInput();
+		} else {
+			tui.printWrite("Clearly you are a human, only humans make mistakes");
+			input = new HumanInput();
+		}
+		
+	}
+	
 	public static int getID() {
 		return id;
 	}

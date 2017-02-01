@@ -179,7 +179,7 @@ public class Parser extends Protocol {
 	
 					endOverflowCatcher(msg, lineScanner);
 					
-					client.endGame(gameEnd, playerID);
+					controller.Client.client.endGame(gameEnd, playerID);
 	
 					//System.out.println(Protocol.getWin(lineScanner.next()));
 					//TODO client: end game based on end condition and with winner ID

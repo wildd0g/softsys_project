@@ -70,15 +70,16 @@ public class Sender {
 	}
 	
 	public void startGame(int[] roomData, String[][] players) {
-		String msg = Protocol.Server.STARTGAME +
-				roomData[0] + "|" +
-				roomData[1] + "|" +
-				roomData[2] + "|" +
-				roomData[3] + "|";
+		String msg = Protocol.Server.STARTGAME 
+				+ " " + roomData[0]
+				+ "|" + roomData[1]
+				+ "|" + roomData[2]
+				+ "|" + roomData[3];
 		for (int i = 0; i < players.length; i++) {
-			msg = msg + players[i][0] +
-					players[i][1] +
-					players[i][2];
+			msg = msg 
+				+ " " + players[i][0] 
+				+ "|" + players[i][1] 
+				+ "|" + players[i][2];
 		}
 		msg = msg + "\n";
 		send(msg);

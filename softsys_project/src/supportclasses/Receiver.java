@@ -59,6 +59,8 @@ public class Receiver implements Runnable {
 			if (line != null) {
 				if (player != null) {
 					System.out.println(player.getName() + " " + line);
+				} else {
+					System.out.println(line);
 				}
 				parser.parse(line);
 			}	

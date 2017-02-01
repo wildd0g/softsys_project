@@ -62,7 +62,15 @@ public class Parser extends Protocol {
 					}
 					endOverflowCatcher(msg, lineScanner);
 	
-					controller.Client.receiveCapabilities();
+					controller.Client.receiveCapabilities(
+							amountOfPlayers,
+							roomSupport,
+							maxRoomDimensionX,
+							maxRoomDimensionY,
+							maxRoomDimensionZ,
+							maxLengthToWin,
+							chatSupport
+							);
 	
 					break;
 	

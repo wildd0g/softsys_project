@@ -115,12 +115,16 @@ public class Client {
 		input.determineMove(currentGame);
 	}
 	
-	public static void setID(int setID) {
+	public void setID(int setID) {
 		id = setID;
 	}
 	
 	public static int getID() {
 		return id;
+	}
+	
+	public static void receiveCapabilities() {
+		
 	}
 	
 	//method that formats the printing of room information sent by server

@@ -151,6 +151,7 @@ public class Server {
 		if (servGame.players.length > games.get(servGame).size()) {
 			servGame.addPlayer(player);
 			playersInGame.add(player);
+			player.setGame(servGame);
 			player.send.assignID(player.getID());
 			games.put(servGame, playersInGame);
 			if (servGame.players.length == games.get(servGame).size()) {

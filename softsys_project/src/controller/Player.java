@@ -16,7 +16,7 @@ public class Player {
 	private int playerID;
 	private String playerName;
 	private Socket playerSocket;
-	private Game currentGame;
+	private ServerGame currentGame;
 	public Sender send;
 	public Receiver receiver;
 	

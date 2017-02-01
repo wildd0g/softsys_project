@@ -100,6 +100,10 @@ public class Client {
 		sender.makeMove(xPos, yPos);
 	}
 	
+	public void receiveMove(int playerID, int moveX, int moveY) {
+		currentGame.notefiedMove(moveX, moveY, playerID);
+	}
+	
 	public void setGame(ClientGame game) {
 		currentGame = game;
 	}
@@ -115,6 +119,12 @@ public class Client {
 	
 	public void isTurn() {
 		input.determineMove(currentGame);
+	}
+	
+	public void endGame(String condition, int winnerID) {
+		tui.printWrite("Game has ended because of " + winnerID);
+		tui.printWrite(condition);
+		currentGame = null;
 	}
 	
 	public static void setID(int setID) {

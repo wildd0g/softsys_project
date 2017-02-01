@@ -144,7 +144,7 @@ public class Parser extends Protocol {
 							maxRoomDimensionZ, 
 							maxLengthToWin,
 							playerList);
-	
+					game.startGame();
 					controller.Client.client.setGame(game);
 	
 					break;

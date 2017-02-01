@@ -100,7 +100,7 @@ public class ClientTUI extends TUI {
 				for (int k = 0; k < b.dimCol; k++) {
 					try {
 						Mark m = b.getField(j, k, i);
-						line = line + "\t" + m;
+						line = line + "\t" + m.toString();
 					} catch (InvalidFieldException e) {
 						this.printWrite("the board viewer is screwing up...");
 					}

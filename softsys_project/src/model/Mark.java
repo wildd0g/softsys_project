@@ -22,51 +22,101 @@ public enum Mark {
      * 
      * @return the other mark is this mark is not EMPTY or EMPTY
      */
-    public Mark cycle() {
-        if (this == HH) {
+    public Mark cycle(int players) {
+        if (this == EMPTY) {
             return AA;
         } else if (this == AA) {
             return BB;
         } else if (this == BB) {
-            return CC;
+        	if (players > 2) {
+        		return CC;
+        	} else {
+        		return EMPTY.cycle(players);
+        	}
         } else if (this == CC) {
-            return DD;
+        	if (players > 3) {
+        		return DD;
+        	} else {
+        		return EMPTY.cycle(players);
+        	}
         } else if (this == DD) {
-            return EE;
+        	if (players > 4) {
+        		return EE;
+        	} else {
+        		return EMPTY.cycle(players);
+        	}
         } else if (this == EE) {
-            return FF;
+        	if (players > 5) {
+        		return FF;
+        	} else {
+        		return EMPTY.cycle(players);
+        	}
         } else if (this == FF) {
-            return GG;
+        	if (players > 6) {
+        		return GG;
+        	} else {
+        		return EMPTY.cycle(players);
+        	}
         } else if (this == GG) {
-            return HH;
+        	if (players > 7) {
+        		return HH;
+        	} else {
+        		return EMPTY.cycle(players);
+        	}
+        } else if (this == HH) {
+        	return EMPTY.cycle(players);
         } else {
             return EMPTY;
         }
     }
     
-    public Mark cycleReverse() {
+    public Mark cycleReverse(int players) {
         if (this == BB) {
             return AA;
         } else if (this == CC) {
             return BB;
         } else if (this == DD) {
-            return CC;
+        	if (players > 2) {
+        		return CC;
+        	} else {
+        		return CC.cycleReverse(players);
+        	}
         } else if (this == EE) {
-            return DD;
+        	if (players > 3) {
+        		return DD;
+        	} else {
+        		return DD.cycleReverse(players);
+        	}
         } else if (this == FF) {
-            return EE;
+        	if (players > 4) {
+        		return EE;
+        	} else {
+        		return EE.cycleReverse(players);
+        	}
         } else if (this == GG) {
-            return FF;
+        	if (players > 5) {
+        		return FF;
+        	} else {
+        		return FF.cycleReverse(players);
+        	}
         } else if (this == HH) {
-            return GG;
+        	if (players > 6) {
+        		return GG;
+        	} else {
+        		return GG.cycleReverse(players);
+        	}
         } else if (this == AA) {
-            return HH;
+        	if (players > 7) {
+        		return HH;
+        	} else {
+        		return HH.cycleReverse(players);
+        	}
         } else {
             return EMPTY;
         }
     }
     
-    //@override
+    @Override
     public String toString() {
     	if (this == AA) {
             return "AA";

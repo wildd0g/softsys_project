@@ -446,7 +446,7 @@ public class Board {
 		Mark m = Mark.EMPTY;
 		Boolean hasWinner = false;
 		for (int i = 0; i < players; i++) {
-			m = m.cycle();
+			m = m.cycle(players);
 			isWinner(m);
 			if (hasWinner) {
 				break;

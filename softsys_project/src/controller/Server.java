@@ -59,6 +59,7 @@ public class Server {
 		//assign server socket at listening port
 		try {
 			serverSocket = new ServerSocket(port);
+			serverSocket.setReuseAddress(true);
 		} catch (IOException io) {
 			System.out.println("Couldn't create a socket on this port");
 			System.out.println(io.getMessage());

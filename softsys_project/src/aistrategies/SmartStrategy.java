@@ -27,7 +27,8 @@ public class SmartStrategy extends Strategy {
 
 		//check if there is a winning move (either for XX or for OO)
 		Integer[] winMoveSelf = winningMove(board.deepCopy(), m, validArray);
-		Integer[] winMoveOther = winningMove(board.deepCopy(), m.cycleReverse(), validArray);
+		Integer[] winMoveOther = winningMove(board.deepCopy(), 
+				m.cycleReverse(board.players), validArray);
 		
 		//if it exists, chose that move for the computer, or to block it.
 		Integer[] base = {-1, -1};

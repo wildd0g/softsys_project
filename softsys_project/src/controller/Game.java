@@ -15,10 +15,10 @@ public class Game {
 	protected int[] playerIDs; 
 	public boolean running = false;
 	protected Board board = null;
-	int maxRoomDimensionX = 4;
-	int maxRoomDimensionY = 4;
-	int maxRoomDimensionZ = 4;
-	int lengthToWin = 4;
+	public int maxRoomDimensionX = 4;
+	public int maxRoomDimensionY = 4;
+	public int maxRoomDimensionZ = 4;
+	public int lengthToWin = 4;
 	int currentTurn;
 	public boolean defaultGame; 
 	protected Map<Integer, Mark> playerMarks = new HashMap<Integer, Mark>();

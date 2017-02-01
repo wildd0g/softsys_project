@@ -75,7 +75,12 @@ public class ClientParser {
 					if (commandScanner.hasNext()) {
 						int xPos = Integer.parseInt(commandScanner.next());
 						int yPos = Integer.parseInt(commandScanner.next());
+						if(xPos >= 0 && xPos < client.getGame().maxRoomDimensionX 
+							&& yPos >= 0 && yPos < client.getGame().maxRoomDimensionY) { 
 						Client.makeMove(xPos, yPos);
+						} else {
+							tui.moveInfo();
+						}
 					} else {
 						tui.moveInfo();
 					}

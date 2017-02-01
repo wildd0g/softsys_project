@@ -166,7 +166,7 @@ public class Parser extends Protocol {
 	
 					endOverflowCatcher(msg, lineScanner);
 	
-					client.receiveMove(playerID, moveX, moveY);
+					controller.Client.client.receiveMove(playerID, moveX, moveY);
 	
 					break;
 	

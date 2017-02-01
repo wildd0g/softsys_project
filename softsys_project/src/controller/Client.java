@@ -131,6 +131,8 @@ public class Client {
 			int maxLengthToWin,
 			boolean chatSupport) {
 		
+		
+		
 	}
 	
 	//method that formats the printing of room information sent by server

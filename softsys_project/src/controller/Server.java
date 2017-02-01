@@ -137,7 +137,7 @@ public class Server {
 			}
 			if (!foundRoom) {
 				int newRoom = createNew(2, 4, 4, 4, 4);
-				joinToRoom(player, availableGames.get(newRoom).gameID);
+				joinToRoom(player, newRoom);
 			}
 		}
 		

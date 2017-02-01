@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.List;
 import java.util.Scanner;
 
 import supportclasses.InvalidCommandException;
@@ -327,7 +328,19 @@ public class Parser extends Protocol {
 	
 					//TODO server: send chatMsg FROM playerID to all
 					//currently leaving out chat
-	
+					List<Player> recievers = null;
+					if (player.getGame() == null) {
+						recievers = controller.Server.getNonPlaying();	
+					}
+					
+					
+					for (int i = 0; i < recievers.size(); i++) {
+						Player reciever = recievers.get(i);
+						if ((boolean) reciever.getCapabilities().get(6)) {
+							reciever.send.notifyMessage(player.getName(), chatMsg);
+						}
+					}
+					
 					break;
 	
 				case Protocol.Client.REQUESTLEADERBOARD:

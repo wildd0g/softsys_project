@@ -139,41 +139,49 @@ public class Server {
 				joinToRoom(player, newRoom);
 			}
 		}
-		
+
 	}
 
 	//method that puts the player into a new game
 	public synchronized static void joinToRoom(Player player, int game) {
-		ServerGame servGame = activeGames.get(game);
-		Set<Player> playersInGame = games.get(servGame); 
-		
-		if (servGame.players.length > games.get(servGame).size()) {
-			
-			servGame.addPlayer(player);
-			playersInGame.add(player);
-			
-			player.setGame(servGame);
-			player.send.assignID(player.getID());
-			
-			games.put(servGame, playersInGame);
-			
-			if (servGame.players.length == games.get(servGame).size()) {
-				availableGames.remove(servGame);
-				servGame.serverStartGame();
-			}
-			
+		if (!activeGames.containsKey(game)) {
+			player.send.error(2);
 		} else {
-			player.send.error(3);
-			player.send.sendListRooms(getRooms());
+			ServerGame servGame = activeGames.get(game);
+			Set<Player> playersInGame = games.get(servGame); 
+
+			if (servGame.players.length > games.get(servGame).size()) {
+
+				servGame.addPlayer(player);
+				playersInGame.add(player);
+
+				player.setGame(servGame);
+				player.send.assignID(player.getID());
+
+				games.put(servGame, playersInGame);
+
+				if (servGame.players.length == games.get(servGame).size()) {
+					availableGames.remove(servGame);
+					servGame.serverStartGame();
+				}
+				nonPlaying.remove(player);
+			} else {
+				player.send.error(3);
+				player.send.sendListRooms(getRooms());
+			}
 		}
-		
 	}  
 	
 	//method that retrieves the list of all present games
 	public static List<ServerGame> getRooms() {
 		return availableGames;
 	}
-	
+
+	//method that retrieves the list of all players not in games
+	public static List<Player> getNonPlaying() {
+		return nonPlaying;
+	}
+
 	//method that creates a new game 
 	public synchronized static int createNew(
 			int amountOfPlayers, 

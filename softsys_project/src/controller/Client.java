@@ -106,6 +106,7 @@ public class Client {
 	
 	public void setTurn(int playerID) {
 		currentGame.currentTurn = playerID;
+		tui.printWrite("Wait for turn of: playerID");
 		if (playerID == id) {
 			isTurn();
 		}

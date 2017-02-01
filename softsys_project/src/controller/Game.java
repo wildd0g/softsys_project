@@ -20,6 +20,7 @@ public class Game {
 	int maxRoomDimensionZ = 4;
 	int lengthToWin = 4;
 	int currentTurn;
+	public boolean defaultGame; 
 	protected Map<Integer, Mark> playerMarks = new HashMap<Integer, Mark>();
 	
 	
@@ -30,6 +31,16 @@ public class Game {
 		maxRoomDimensionY = dimY;
 		maxRoomDimensionZ = dimZ;
 		lengthToWin = winLength;
+		
+		if(playerNum == 2 
+				&& maxRoomDimensionX == 4 
+				&& maxRoomDimensionY == 4 
+				&& maxRoomDimensionY == 4
+				&& lengthToWin == 4){
+			defaultGame = true;
+		} else {
+			defaultGame = false;
+		}
 	}
 	
 	//method to start the game once the room is full

@@ -12,6 +12,9 @@ public class ServerGame extends Game {
 	public int gameID;
 	public long timeout;
 	public Player[] players;
+	public String[] playerInfo;
+	public String[] hexcolours;
+	private int[] roomData;
 
 
 	public ServerGame(int id, int playerNum, int dimX, int dimY, int dimZ, int winLength) {
@@ -19,6 +22,8 @@ public class ServerGame extends Game {
 		players = new Player[playerNum];
 		this.gameID = id;
 		timeout = System.currentTimeMillis();
+		roomData = new int[]{dimX, dimY, dimZ, winLength};
+		hexcolours = new String[]{"ff0000", "0000ff", "ffd700", "00ffff", "00ff00", "800080", "ffa500", "ffc0cb"}; 
 	}
 	
 	//method to retrieve string of information on this game
@@ -92,10 +97,22 @@ public class ServerGame extends Game {
 
 	//server's method to start the game
 	public void serverStartGame() {
+		
+		String[][] playerArray = new String[players.length][3];
+		
 		for (int i = 0; i < players.length; i++) {
-			//assign marks to players, +1 because empty is at 0
 			playerIDs[i] = players[i].getID();
+			//assign marks to players, +1 because empty is at 0
+			playerInfo[0] = "" + playerIDs[i];
+			playerInfo[1] = players[i].getName();
+			playerInfo[2] = hexcolours[i];
+			
+			playerArray[i] = new String[]{playerInfo[0], playerInfo[1], playerInfo[2]};
 		}
+		for (int i = 0; i < players.length; i++) {
+			players[i].send.startGame(roomData, playerArray);
+		}
+		
 		startGame();
 		//get a random starting value for current playing
 		int randomNum = ThreadLocalRandom.current().nextInt(0, players.length);

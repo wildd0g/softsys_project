@@ -96,7 +96,7 @@ public class Parser extends Protocol {
 					
 					endOverflowCatcher(msg, lineScanner);
 					
-					//TODO notify client room has been created with roomID
+					controller.Client.tui.printWrite("A new room was created with ID: " + roomID);
 					
 					break;
 					
@@ -288,6 +288,7 @@ public class Parser extends Protocol {
 					if (player.getGame() instanceof ServerGame) {
 						((ServerGame) player.getGame()).removePlayer(player);
 						player.setGame(null);
+						controller.Server.leaveRoom(player);
 					} else {
 						player.send.error(4);
 					}

@@ -147,12 +147,16 @@ public class Server {
 			servGame.addPlayer(player);
 			playersInGame.add(player);
 			games.put(servGame, playersInGame);
+		} else {
+			player.send.error(3);
+			player.send.sendListRooms(getRooms());
 		}
 		
 	}  
 	
 	//method that retrieves the list of all present games
 	public static List<ServerGame> getRooms() {
+		//TODO change to only available games
 		List<ServerGame> returnList = new ArrayList<>(); 
 		returnList.addAll(games.keySet());
 		return returnList;
@@ -182,6 +186,11 @@ public class Server {
 		
 		return gameID;
 
+	}
+	
+	public static void leaveRoom(Player player) {
+		nonPlaying.add(player);
+		player.send.sendListRooms(getRooms());
 	}
 
 	//method that processes move made by a new player

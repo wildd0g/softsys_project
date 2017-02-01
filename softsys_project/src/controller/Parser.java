@@ -62,7 +62,7 @@ public class Parser extends Protocol {
 					}
 					endOverflowCatcher(msg, lineScanner);
 	
-					//TODO process client based on these capabilities
+					controller.Client.receiveCapabilities();
 	
 					break;
 	

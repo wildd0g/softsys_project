@@ -49,6 +49,7 @@ public class ClientTUI extends TUI {
 	
 	//method requesting player for the
 	//IP address and port number
+	//@ ensures portNum 1000 <= portNum && portNum < 10000
 	public void connectInfo() {
 		
 		//set invalid values
@@ -88,7 +89,7 @@ public class ClientTUI extends TUI {
 	public void displayBoard() {
 		ClientGame game = Client.client.getGame();
 		Board b = game.getBoard();
-		for (int i = 0; i < b.dimLvl; i++) {
+		for (int i = b.dimLvl - 1; i >= 0; i--) {
 			this.printWrite("");
 			this.printWrite("");
 			this.printWrite("Showing level " + i + "below:");

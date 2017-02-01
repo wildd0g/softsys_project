@@ -30,13 +30,25 @@ public class Parser extends Protocol {
 	controller.Client client; 
 	boolean running = true;
 	
+	/**
+	 * General constructor meant for a client.
+	 * 
+	 */
 	public Parser() {
 	}
-	
+	/**
+	 * Constructor that also sets the player meant for the server.
+	 * @param plyr
+	 */
+	//@ ensures this.player == player
 	public Parser(Player plyr) {
 		player = plyr;
 	}
 
+	/**
+	 * Parses the given message and calls methods with inputs as required.
+	 * @param msg
+	 */
 	//@ require msg == valid protocol line
 	//@ ensures msg is processed
 	//TODO add check for valid time to process the sent data
@@ -77,12 +89,16 @@ public class Parser extends Protocol {
 				case Protocol.Server.SENDLISTROOMS:
 					//parse string and store the variables
 					String room = null;
+					//list that will contain all the rooms in the lobby
 					ArrayList<int[]> lobbyData = new ArrayList<int[]>();
+					//parse data for 1 room
 					while (lineScanner.hasNext()) {
 						room = lineScanner.next();
+						//array that will contain data of this room
 						int[] roomData = new int[6];
 						Scanner roomScanner = new Scanner(room);
 						roomScanner.useDelimiter("[|]");
+						//parse every datapoint of the room
 						try {
 							for (int i = 0; i < 6; i++) {
 								roomData[i] = Integer.parseInt(roomScanner.next());
@@ -92,9 +108,10 @@ public class Parser extends Protocol {
 						} catch (NumberFormatException e) {
 							controller.Client.sender.error(7);
 						}
+						//add room to lobby list
 						lobbyData.add(roomData);
 					}
-
+					//print the lobby
 					controller.Client.printRooms(lobbyData);
 
 					break;
@@ -370,7 +387,17 @@ public class Parser extends Protocol {
 
 		}
 	}
-
+	
+	/**
+	 * Checks if the given scanner has another entry, 
+	 * throw and handle an exception and send an error if it has, 
+	 * and closes the scanner regardless.
+	 * @param msg
+	 *  			the origional parsed message
+	 * @param scanner
+	 * 				the scanner that neads to be checked and closed
+	 */
+	//@ensures scanner == null
 	private void endOverflowCatcher(String msg, Scanner scanner) {
 		try {
 			if (scanner.hasNext()) {
@@ -384,6 +411,16 @@ public class Parser extends Protocol {
 		}
 	}
 
+	/**
+	 * Parses the player info in a given piped block and returns
+	 * the information in a string array.
+	 * @param info
+	 * 				The piped player info 
+	 * @return String[] tmpPlayer
+	 * 				A string array with the info of the piped player
+	 */
+	//@ requires !info.contains(" ");
+	/*@pure@*/
 	private String[] parsePlayerInfo(String info) {
 		String[] tmpPlayer = new String[3];
 		Scanner roomScanner = new Scanner(info);
@@ -402,7 +439,16 @@ public class Parser extends Protocol {
 
 		return tmpPlayer;
 	}
-
+	/**
+	 * Parses the leader board info in a given piped block and returns
+	 * the information in a string array.
+	 * @param info
+	 * 				The piped leader board info 
+	 * @return String[] tmpPlayer
+	 * 				A string array with the info of the piped player
+	 */
+	//@ requires !info.contains(" ");
+	/*@pure@*/
 	private String[] parseLeaderInfo(String info) {
 		String[] tmpPlayer = new String[4];
 		Scanner leaderScanner = new Scanner(info);

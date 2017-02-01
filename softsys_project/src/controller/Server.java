@@ -130,16 +130,14 @@ public class Server {
 			for (int i = 0; i < games.keySet().size(); i++) {
 				ServerGame thisGame = itt.next();
 				if (thisGame.defaultGame) {
-					thisGame.addPlayer(player);
-					player.send.assignID(player.getID());
+					joinToRoom(player, thisGame.gameID);
 					foundRoom = true;
 					break;
 				}
 			}
 			if (!foundRoom) {
 				int newRoom = createNew(2, 4, 4, 4, 4);
-				activeGames.get(newRoom).addPlayer(player);
-				player.send.assignID(player.getID());
+				joinToRoom(player, activeGames.get(newRoom).gameID);
 			}
 		}
 		
@@ -153,6 +151,7 @@ public class Server {
 		if (servGame.players.length > games.get(servGame).size()) {
 			servGame.addPlayer(player);
 			playersInGame.add(player);
+			player.send.assignID(player.getID());
 			games.put(servGame, playersInGame);
 			if (servGame.players.length == games.get(servGame).size()) {
 				availableGames.remove(servGame);

@@ -166,7 +166,7 @@ public class Parser extends Protocol {
 	
 					endOverflowCatcher(msg, lineScanner);
 	
-					//TODO client: apply verefied move to local board
+					client.receiveMove(playerID, moveX, moveY);
 	
 					break;
 	
@@ -178,6 +178,8 @@ public class Parser extends Protocol {
 					}
 	
 					endOverflowCatcher(msg, lineScanner);
+					
+					client.endGame(gameEnd, playerID);
 	
 					//System.out.println(Protocol.getWin(lineScanner.next()));
 					//TODO client: end game based on end condition and with winner ID

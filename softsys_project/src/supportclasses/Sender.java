@@ -50,22 +50,22 @@ public class Sender {
 		for(int i = 0; i < gamesList.size(); i++) {
 			msg = msg + gamesList.get(i).getGame();
 		}
-		
+		msg = msg + "\n";
 		send(msg);
 	}
 	
 	public void turn(int playerID) {
-		String msg = Protocol.Server.TURNOFPLAYER + " " + playerID + "/n";
+		String msg = Protocol.Server.TURNOFPLAYER + " " + playerID + "\n";
 		send(msg);
 	}
 	
 	public void error(int error) {
-		String msg = Protocol.Server.ERROR + " " + error + "/n";
+		String msg = Protocol.Server.ERROR + " " + error + "\n";
 		send(msg);
 	}
 	
 	public void assignID(int playerID) {
-		String msg = Protocol.Server.ASSIGNID + " " + playerID + "/n";
+		String msg = Protocol.Server.ASSIGNID + " " + playerID + "\n";
 		send(msg);
 	}
 	
@@ -80,33 +80,34 @@ public class Sender {
 					players[i][1] +
 					players[i][2];
 		}
+		msg = msg + "\n";
 		send(msg);
 	}
 
 	public void notifyMove(int playerID, int x, int y) {
 		String msg = Protocol.Server.NOTIFYMOVE + " " +
 					playerID + " " +
-					x + " " + y + "/n";
+					x + " " + y + "\n";
 		send(msg);
 	}
 
 	public void notifyEnd(int endCondition, int playerID) {
 		String msg = Protocol.Server.NOTIFYEND + " " + endCondition;
 		if (endCondition == 1 || endCondition == 3) {
-			msg = msg + " " + playerID;
+			msg = msg + " " + playerID + "\n";
 		}
 		send(msg);
 	}
 	
 	public void notifyMessage(String name, String message) {
-		String msg = Protocol.Server.NOTIFYMESSAGE + " " + name + " " + message + "/n";
+		String msg = Protocol.Server.NOTIFYMESSAGE + " " + name + " " + message + "\n";
 		send(msg);
 	}
 
 	public void sendLeaderboard() {
 		//TODO send the leaderboard.
 		//currently leaving it out.
-		String msg = Protocol.Server.SENDLEADERBOARD;
+		String msg = Protocol.Server.SENDLEADERBOARD + "\n";
 	}
 	
 	public void sendCapabilities(String name, boolean autoRefresh) {
@@ -114,7 +115,7 @@ public class Sender {
 	}
 	
 	public void joinRoom(int roomID) {
-		String msg = Protocol.Client.JOINROOM + " " + roomID + "/n";
+		String msg = Protocol.Client.JOINROOM + " " + roomID + "\n";
 		send(msg);
 	}
 	
@@ -124,7 +125,8 @@ public class Sender {
 				+ " " + dimX 
 				+ " " + dimY
 				+ " " + dimZ
-				+ " " + winL;
+				+ " " + winL
+				+ "\n";
 		send(msg);
 	}
 	
@@ -134,24 +136,24 @@ public class Sender {
 	}
 	
 	public void getRoomList() {
-		send(Protocol.Client.GETROOMLIST + "/n");
+		send(Protocol.Client.GETROOMLIST + "\n");
 	}
 	
 	public void leaveRoom() {
-		send(Protocol.Client.LEAVEROOM + "/n");
+		send(Protocol.Client.LEAVEROOM + "\n");
 	}
 	
 	public void makeMove(int x, int y) {
-		String msg = Protocol.Client.MAKEMOVE + " " + x + " " + y + "/n";
+		String msg = Protocol.Client.MAKEMOVE + " " + x + " " + y + "\n";
 		send(msg);
 	}
 	
 	public void sendMessage(String message) {
-		String msg = Protocol.Client.SENDMESSAGE + " " + message + "/n";
+		String msg = Protocol.Client.SENDMESSAGE + " " + message + "\n";
 		send(msg);
 	}
 	
 	public void requestLeaderboard() {
-		send(Protocol.Client.REQUESTLEADERBOARD + "/n");
+		send(Protocol.Client.REQUESTLEADERBOARD + "\n");
 	}
 }

@@ -13,7 +13,7 @@ public class TUI {
 	}
 	
 	//method to translate console input into a string
-	public String readOut(String instruction) {
+	public synchronized String readOut(String instruction) {
 
 		//initialise empty string
 		String input = "";
@@ -21,28 +21,30 @@ public class TUI {
 		boolean inputRead = false;		
 		//store string message
 		String prompt = instruction;
-
-		do {
-			//give instruction prompt
-			System.out.print(prompt);
-
-			//input is separated into individual lines that can be read
-			try (Scanner scannerLine = new Scanner(scan.nextLine());) {
+		
+		System.out.print(prompt);
+		String read = null;
+		
+		while (!inputRead) {
+			read = scan.nextLine();
+			if (read != null) {
+				Scanner scannerLine = new Scanner(read);
 
 				//give while loop command to stop after this round
 				inputRead = true;
 
 				//give the first word to input
-				input = scannerLine.next();
+				input = "";
 
 				//add more words to input separated by spaces if there are more.
 				while (scannerLine.hasNext()) {
 					input = input + " " + scannerLine.next();
 				}
 				scannerLine.close();
-			}
-		} while (!inputRead);
 
+			}
+		}
+		
 		//After while loop closed return all content that was retrieved.
 		return input.trim();
 	}

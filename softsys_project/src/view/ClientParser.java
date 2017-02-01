@@ -31,7 +31,7 @@ public class ClientParser {
 			switch (command) {
 
 			case "CONNECT":
-				if (!client.connected) {
+				if (!Client.connected) {
 				if (commandScanner.hasNext()) {
 					String simpleIP = commandScanner.next();
 					int portNum = Integer.parseInt(commandScanner.next());
@@ -73,16 +73,16 @@ public class ClientParser {
 				if (commandScanner.hasNext()) {
 					int xPos = Integer.parseInt(commandScanner.next());
 					int yPos = Integer.parseInt(commandScanner.next());
-					client.makeMove(xPos, yPos);
+					Client.makeMove(xPos, yPos);
 				} else {
 					tui.moveInfo();
 				}
 				break;
 			case "EXIT": 
-				client.shutDown();
+				Client.shutDown();
 				break;
 			case "START":
-				if(client.connected) {
+				if(Client.connected) {
 					client.requestRooms();
 				} else {
 					System.out.println("Sorry, you are not connected and cannot do that at this moment.");

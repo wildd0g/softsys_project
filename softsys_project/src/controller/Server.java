@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import view.ServerTUI;
 
@@ -115,6 +116,26 @@ public class Server {
 				maxWin, 
 				chat, 
 				refresh);
+		if(refresh){
+			player.send.sendListRooms(getRooms());
+		} else {
+			boolean foundRoom = false;
+			Iterator<ServerGame> itt = games.keySet().iterator();
+			for(int i = 0; i < games.keySet().size(); i++){
+				ServerGame thisGame = itt.next();
+				if(thisGame.defaultGame){
+					thisGame.addPlayer(player);
+					foundRoom = true;
+					break;
+				}
+			}
+			if (!foundRoom){
+				int newRoom = createNew(2, 4, 4, 4, 4);
+				activeGames.get(newRoom).addPlayer(player);
+				player.send.assignID(player.getID());
+			}
+		}
+		
 	}
 
 	//method that puts the player into a new game
@@ -126,38 +147,50 @@ public class Server {
 			servGame.addPlayer(player);
 			playersInGame.add(player);
 			games.put(servGame, playersInGame);
+		} else {
+			player.send.error(3);
+			player.send.sendListRooms(getRooms());
 		}
 		
 	}  
 	
 	//method that retrieves the list of all present games
 	public static List<ServerGame> getRooms() {
+		//TODO change to only available games
 		List<ServerGame> returnList = new ArrayList<>(); 
 		returnList.addAll(games.keySet());
 		return returnList;
 	}
 	
 	//method that creates a new game 
-	public static void createNew(
+	public static int createNew(
 			int amountOfPlayers, 
 			int maxRoomDimensionX,
 			int maxRoomDimensionY,
 			int maxRoomDimensionZ,
 			int maxLengthToWin) {
 
+		int gameID = gamesCounter;
 		ServerGame newGame = new ServerGame(
-				gamesCounter,
+				gameID,
 				amountOfPlayers,
 				maxRoomDimensionX,
 				maxRoomDimensionY,
 				maxRoomDimensionZ,
 				maxLengthToWin);
 
-		activeGames.put(gamesCounter, newGame);
+		activeGames.put(gameID, newGame);
 		games.put(newGame, new HashSet<Player>());
 
 		gamesCounter++;
+		
+		return gameID;
 
+	}
+	
+	public static void leaveRoom(Player player) {
+		nonPlaying.add(player);
+		player.send.sendListRooms(getRooms());
 	}
 
 	//method that processes move made by a new player

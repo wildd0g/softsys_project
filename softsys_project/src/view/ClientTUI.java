@@ -99,7 +99,8 @@ public class ClientTUI extends TUI {
 				
 				for (int k = 0; k < b.dimCol; k++) {
 					try {
-						line = line + "\t" + b.getField(j, k, i);
+						Mark m = b.getField(j, k, i);
+						line = line + "\t" + m;
 					} catch (InvalidFieldException e) {
 						this.printWrite("the board viewer is screwing up...");
 					}
@@ -247,8 +248,11 @@ public class ClientTUI extends TUI {
 				capability = 9999;
 				minimum = 1000;
 				
-				break;	
+				break;
 				
+			case "roomID":
+				capability = 9999;
+				minimum = 0;
 		}
 		
 		

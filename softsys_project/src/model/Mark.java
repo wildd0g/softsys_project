@@ -66,4 +66,26 @@ public enum Mark {
         }
     }
     
+    //@override
+    public String toString() {
+    	if (this == AA) {
+            return "AA";
+        } else if (this == BB) {
+            return "BB";
+        } else if (this == CC) {
+            return "DD";
+        } else if (this == DD) {
+            return "DD";
+        } else if (this == EE) {
+            return "EE";
+        } else if (this == FF) {
+            return "FF";
+        } else if (this == GG) {
+            return "GG";
+        } else if (this == HH) {
+        	return "HH";
+        } else {
+            return "EMPTY";
+        }
+    }
 }

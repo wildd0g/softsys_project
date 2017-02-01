@@ -22,7 +22,7 @@ public class Client {
 	public static Client client;
 	public static Sender sender;
 	private static Receiver receiver;
-	private ClientGame currentGame;
+	private ClientGame currentGame = null;
 	private ClientInput input;
 	
 	public static void main(String[] args) {

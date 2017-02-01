@@ -326,13 +326,7 @@ public class Parser extends Protocol {
 	
 					endOverflowCatcher(msg, lineScanner);
 	
-					//TODO server: send chatMsg FROM playerID to all
-					//currently leaving out chat
-					List<Player> recievers = null;
-					if (player.getGame() == null) {
-						recievers = controller.Server.getNonPlaying();	
-					}
-					
+					List<Player> recievers = controller.Server.getRoomMates(player);
 					
 					for (int i = 0; i < recievers.size(); i++) {
 						Player reciever = recievers.get(i);

@@ -2,6 +2,7 @@ package view;
 
 import model.Board;
 import model.Mark;
+import model.InvalidFieldException;
 import aistrategies.NaiveStrategy;
 import aistrategies.Strategy;
 import controller.Client;
@@ -82,6 +83,32 @@ public class ClientTUI extends TUI {
 	
 	public void printWrite(String stringy) {
 		System.out.println(stringy);
+	}
+	
+	public void displayBoard() {
+		ClientGame game = Client.client.getGame();
+		Board b = game.getBoard();
+		for (int i = 0; i < b.dimLvl; i++) {
+			this.printWrite("");
+			this.printWrite("");
+			this.printWrite("Showing level " + i + "below:");
+			
+			for (int j = 0; j < b.dimRow; j++) {
+				this.printWrite("");
+				String line = "";
+				
+				for (int k = 0; k < b.dimCol; k++) {
+					try {
+						line = line + "\t" + b.getField(j, k, i);
+					} catch (InvalidFieldException e) {
+						this.printWrite("the board viewer is screwing up...");
+					}
+				}
+				
+				this.printWrite(line);
+			}
+			
+		}
 	}
 	
 	//method requesting player for the

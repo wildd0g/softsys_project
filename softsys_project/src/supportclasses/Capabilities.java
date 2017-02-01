@@ -15,7 +15,7 @@ public class Capabilities {
 		public static final String MAXDIMENSIONY = MAXDIMENSIONS;	//Dimension maximum
 		public static final String MAXDIMENSIONZ = MAXDIMENSIONS;	//becomes the cube root of this.
 		public static final String LENGTHTOWIN = MAXDIMENSIONS;		//^^
-		public static final String CHATSUPPORT = "0";				//supports chat, 0 or 1
+		public static final String CHATSUPPORT = "1";				//supports chat, 0 or 1
 
 		//Generates pre-formated string for the serverCapabilities message,
 		public static String get() {

@@ -5,6 +5,7 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 import controller.Client;
+import controller.ClientGame;
 
 public class ClientParser {
 
@@ -26,7 +27,7 @@ public class ClientParser {
 
 	public void handle(String input) {
 		String content = input;
-		boolean possible = true;;
+		boolean possible = true;
 		Scanner commandScanner = new Scanner(content);
 		if (commandScanner.hasNext()) {
 			String command = commandScanner.next();
@@ -38,7 +39,7 @@ public class ClientParser {
 						if (commandScanner.hasNext()) {
 							String simpleIP = null;
 							try {
-								 simpleIP = commandScanner.next();
+								simpleIP = commandScanner.next();
 								InetAddress.getByName(simpleIP);
 							} catch (UnknownHostException unknown) {
 								possible = false;
@@ -66,7 +67,7 @@ public class ClientParser {
 					break;
 				
 				case "JOINROOM":
-					if(client.getGame() != null) {
+					if (client.getGame() != null) {
 						if (commandScanner.hasNext()) {
 							int roomID = Integer.parseInt(commandScanner.next());
 							client.joinRoom(roomID);
@@ -79,7 +80,8 @@ public class ClientParser {
 					break;
 				
 				case "CREATEROOM":
-					if(client.getGame() != null){
+					ClientGame game = Client.client.getGame();
+					if (game.equals(null)) {
 						if (commandScanner.hasNext()) {
 							int players = Integer.parseInt(commandScanner.next());
 							int xDim = Integer.parseInt(commandScanner.next());

@@ -1,10 +1,8 @@
 package controller;
 
 import java.io.IOException;
-
 import java.net.Socket;
 import java.net.ServerSocket;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -14,7 +12,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import view.ServerTUI;
-
 import supportclasses.*;
 
 public class Server {
@@ -180,6 +177,17 @@ public class Server {
 	//method that retrieves the list of all players not in games
 	public static List<Player> getNonPlaying() {
 		return nonPlaying;
+	}
+	
+	public static List<Player> getRoomMates(Player player) {
+		List<Player> roomMates = new ArrayList<Player>();
+		if (player.getGame() == null) {
+			roomMates = controller.Server.getNonPlaying();	
+		} else {
+			Set<Player> playerSet = games.get(player); 
+			roomMates.addAll(playerSet); 
+		}
+		return roomMates;
 	}
 
 	//method that creates a new game 

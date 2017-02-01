@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.net.Socket;
 
-import controller.Client;
 import controller.Parser;
 import controller.Player;
 
@@ -49,7 +48,7 @@ public class Receiver implements Runnable {
 		String line;
 		while (active) {
 			
-			if(!socket.isClosed()) {
+			if (!socket.isClosed()) {
 
 				line = null;
 				try {
@@ -68,7 +67,7 @@ public class Receiver implements Runnable {
 					parser.parse(line);
 				}	
 			} else {
-				if(player != null) {
+				if (player != null) {
 					player.shutDown();
 				} else {
 					controller.Client.shutDown();

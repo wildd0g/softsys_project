@@ -36,6 +36,11 @@ public class Server {
 		receiving  = false;
 	}
 	
+	public static void removeGame(ServerGame stopGame) {
+		activeGames.remove(stopGame);
+		games.remove(stopGame.gameID);
+	}
+	
 	public static void main(String[] args) {
 		
 		server = new Server();

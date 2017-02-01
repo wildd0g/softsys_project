@@ -101,13 +101,13 @@ public class ServerGame extends Game {
 		String[][] playerArray = new String[players.length][3];
 		
 		for (int i = 0; i < players.length; i++) {
+			String[] playerData = new String[3];
 			playerIDs[i] = players[i].getID();
-			//assign marks to players, +1 because empty is at 0
-			playerInfo[0] = "" + playerIDs[i];
-			playerInfo[1] = players[i].getName();
-			playerInfo[2] = hexcolours[i];
 			
-			playerArray[i] = new String[]{playerInfo[0], playerInfo[1], playerInfo[2]};
+			playerData[0] = "" + playerIDs[i];
+			playerData[1] = players[i].getName();
+			playerData[2] = hexcolours[i];
+			playerArray[i] = playerData;
 		}
 		for (int i = 0; i < players.length; i++) {
 			players[i].send.startGame(roomData, playerArray);

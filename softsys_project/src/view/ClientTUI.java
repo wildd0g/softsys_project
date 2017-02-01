@@ -59,7 +59,9 @@ public class ClientTUI extends TUI{
 		// get required port number
 		try {
 			portNum = Integer.parseInt(readOut("Please enter the port number: "));
-			if (portNum < 1000 || portNum > 9999) throw new NumberFormatException();
+			if (portNum < 1000 || portNum > 9999) {
+				throw new NumberFormatException();
+			}
 		} catch (NumberFormatException nfe1) {
 			try {
 				getVal("Please enter the port number: ", "port");
@@ -136,6 +138,8 @@ public class ClientTUI extends TUI{
 		int moveX = -1;
 		int moveY = -1;
 		
+		
+		
 		//get required x and y coordinates
 		try {
 			moveX = getVal("Please enter column in which you want to place your tile: ", "width");
@@ -147,7 +151,7 @@ public class ClientTUI extends TUI{
 			
 		}
 		
-		client.makeMove(moveX, moveY);
+		Client.makeMove(moveX, moveY);
 		
 	}
 	
@@ -212,8 +216,10 @@ public class ClientTUI extends TUI{
 		
 		
 		//one attempt to parse integer
+		String input = "";
 		try {
-			value = Integer.parseInt(readOut(stringy));
+			input = readOut(stringy);
+			value = Integer.parseInt(input);
 			if (!(value >= minimum) || !(value <= capability)) {
 				value = -1;	
 			}
@@ -225,11 +231,16 @@ public class ClientTUI extends TUI{
 			//if it doesn't parse, repeat the question 22 times
 			for (int i = 0; i < 22; i++) {
 				
+				if (input.equals("HINT")) {
+					
+				}
+				
 				//succes to potentially true
 				succes = true;
 				
 				try {
-					value = Integer.parseInt(readOut(stringy));
+					input = readOut(stringy + " tip: use 'HINT'");
+					value = Integer.parseInt(input);
 					if (!(value >= minimum) || !(value <= capability)) {
 						value = -1;						
 					}

@@ -30,67 +30,70 @@ public class ClientParser {
 
 			switch (command) {
 
-			case "CONNECT":
-				if (!Client.connected) {
-				if (commandScanner.hasNext()) {
-					String simpleIP = commandScanner.next();
-					int portNum = Integer.parseInt(commandScanner.next());
-					client.getConnected(simpleIP, portNum);
-				} else {
-					tui.connectInfo();
-				}
-				} else {
-					System.out.println("Sorry, you are already connected and cannot perform this action again.");
-				}
-				break;
-			case "REFRESH":
-				client.requestRooms();
-				break;
-			case "JOINROOM":
-				if (commandScanner.hasNext()) {
-					int roomID = Integer.parseInt(commandScanner.next());
-					client.joinRoom(roomID);
-				} else {
-					tui.roomInfo();
-				}
-				break;
-			case "CREATEROOM":
-				if (commandScanner.hasNext()) {
-					int players = Integer.parseInt(commandScanner.next());
-					int xDim = Integer.parseInt(commandScanner.next());
-					int yDim = Integer.parseInt(commandScanner.next());
-					int zDim = Integer.parseInt(commandScanner.next());
-					int winLength = Integer.parseInt(commandScanner.next());
-					client.createRoom(players, xDim, yDim, zDim, winLength);
-				} else {
-					tui.createInfo();
-				}
-				break;
-			case "LEAVE":
-				client.leaveRoom();
-				break;
-			case "MAKEMOVE":
-				if (commandScanner.hasNext()) {
-					int xPos = Integer.parseInt(commandScanner.next());
-					int yPos = Integer.parseInt(commandScanner.next());
-					Client.makeMove(xPos, yPos);
-				} else {
-					tui.moveInfo();
-				}
-				break;
-			case "EXIT": 
-				Client.shutDown();
-				break;
-			case "START":
-				if(Client.connected) {
+				case "CONNECT":
+					if (!Client.connected) {
+						if (commandScanner.hasNext()) {
+							String simpleIP = commandScanner.next();
+							int portNum = Integer.parseInt(commandScanner.next());
+							client.getConnected(simpleIP, portNum);
+						} else {
+							tui.connectInfo();
+						}
+					} else {
+						System.out.println(
+								"Sorry, you are already connected" + 
+								" and cannot perform this action again.");
+					}
+					break;
+				case "REFRESH":
 					client.requestRooms();
-				} else {
-					System.out.println("Sorry, you are not connected and cannot do that at this moment.");
-				}
-				break;
-
-			default:
-				System.out.println("Sorry, I don't recognise that command");
+					break;
+				case "JOINROOM":
+					if (commandScanner.hasNext()) {
+						int roomID = Integer.parseInt(commandScanner.next());
+						client.joinRoom(roomID);
+					} else {
+						tui.roomInfo();
+					}
+					break;
+				case "CREATEROOM":
+					if (commandScanner.hasNext()) {
+						int players = Integer.parseInt(commandScanner.next());
+						int xDim = Integer.parseInt(commandScanner.next());
+						int yDim = Integer.parseInt(commandScanner.next());
+						int zDim = Integer.parseInt(commandScanner.next());
+						int winLength = Integer.parseInt(commandScanner.next());
+						client.createRoom(players, xDim, yDim, zDim, winLength);
+					} else {
+						tui.createInfo();
+					}
+					break;
+				case "LEAVE":
+					client.leaveRoom();
+					break;
+				case "MAKEMOVE":
+					if (commandScanner.hasNext()) {
+						int xPos = Integer.parseInt(commandScanner.next());
+						int yPos = Integer.parseInt(commandScanner.next());
+						Client.makeMove(xPos, yPos);
+					} else {
+						tui.moveInfo();
+					}
+					break;
+				case "EXIT": 
+					Client.shutDown();
+					break;
+				case "START":
+					if (Client.connected) {
+						client.requestRooms();
+					} else {
+						System.out.println("Sorry, you are not connected" + 
+								" and cannot do that at this moment.");
+					}
+					break;
+	
+				default:
+					System.out.println("Sorry, I don't recognise that command");
 			}
 
 		} 

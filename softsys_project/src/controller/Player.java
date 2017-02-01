@@ -2,6 +2,8 @@ package controller;
 
 import java.net.Socket;
 
+import java.util.ArrayList;
+
 import supportclasses.Receiver;
 import supportclasses.Sender;
 
@@ -74,9 +76,16 @@ public class Player {
 		return playerSocket;
 	}
 	
-	public String getCapabilities() {
-		//TODO finish
-		return null;
+	public ArrayList<Object> getCapabilities() {
+		ArrayList<Object> capabilities = new ArrayList<Object>();
+		capabilities.add(maxPlayers);
+		capabilities.add(maxX);
+		capabilities.add(maxY);
+		capabilities.add(maxZ);
+		capabilities.add(maxWin);
+		capabilities.add(chat);
+		capabilities.add(refresh);
+		return capabilities;
 	}
 	
 	public String getName() {

@@ -7,7 +7,7 @@ public class Capabilities {
 	//server listing
 	public static class Server {
 		public static final String AMOUNTOFPLAYERS = "8";			//supports this many players
-		public static final String ROOMSUPPORT = "0";				//supports rooms, 0 or 1
+		public static final String ROOMSUPPORT = "1";				//supports rooms, 0 or 1
 		public static final String MAXDIMENSIONS = "" + 			//dimensions bound because
 					((Double) Math.floor(
 					Math.cbrt(Integer.MAX_VALUE - 5))).intValue();  //int in board[int]	 
@@ -33,7 +33,7 @@ public class Capabilities {
 	//client listing
 	public static class Client {
 		public static final String AMOUNTOFPLAYERS = "8";			//supports this many players
-		public static final String ROOMSUPPORT = "0";				//supports rooms, 0 or 1
+		public static final String ROOMSUPPORT = "1";				//supports rooms, 0 or 1
 		public static final String MAXDIMENSIONS = "" + 			//dimensions bound because
 				((Double) Math.floor(
 				Math.cbrt(Integer.MAX_VALUE - 5))).intValue();		//int in board[int]	 

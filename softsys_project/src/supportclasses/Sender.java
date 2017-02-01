@@ -132,7 +132,7 @@ public class Sender {
 	}
 	
 	public void roomCreated(int roomID) {
-		String msg = Protocol.Server.ROOMCREATED + " " + roomID;
+		String msg = Protocol.Server.ROOMCREATED + " " + roomID + "\n";
 		send(msg);
 	}
 	

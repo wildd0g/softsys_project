@@ -152,6 +152,9 @@ public class Server {
 			servGame.addPlayer(player);
 			playersInGame.add(player);
 			games.put(servGame, playersInGame);
+			if(servGame.players.length == games.get(servGame).size()){
+				servGame.startGame();
+			}
 		} else {
 			player.send.error(3);
 			player.send.sendListRooms(getRooms());

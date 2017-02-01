@@ -21,10 +21,14 @@ public class ClientTUI extends TUI{
 
 	//main method to run the TUI
 	public void start() {
-		
-		System.out.println("Hello and Welcome!");
-		
+			
 		scan = new Scanner(System.in);
+		
+
+		String name = "";
+		name = readOut("Please, enter a username: ");
+		client.name = name;
+		System.out.println("Welcome, " + client.name);
 
 		while (active) {
 
@@ -64,7 +68,7 @@ public class ClientTUI extends TUI{
 				mie2.getMessage();
 			}
 		}
-		
+				
 		client.getConnected(simpleIP, portNum);
 		
 	}

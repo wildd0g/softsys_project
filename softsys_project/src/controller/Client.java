@@ -18,8 +18,8 @@ public class Client {
 
 	private static Socket sock;
 	private static int id;
-	private static String name;
-	private static boolean connected;
+	public static String name;
+	public static boolean connected;
 	private BufferedReader reader;
 	private BufferedWriter writer;
 	public static ClientTUI tui;
@@ -66,6 +66,11 @@ public class Client {
 		receiver = new Receiver(sock);
 		Thread streamInputHandler = new Thread(receiver);
         streamInputHandler.start();
+        
+        //autorefresh is set to false, can be changed if implemented
+        sender.sendCapabilities(simpleIP, false);
+        
+        connected = true;
 
 	}
 	

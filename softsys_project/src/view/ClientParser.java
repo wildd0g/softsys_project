@@ -6,12 +6,12 @@ import controller.Client;
 
 public class ClientParser {
 
-	Client client;
-	ClientTUI tui;
+	private static Client client;
+	private static ClientTUI tui;
 
-	public ClientParser(Client parserClient, ClientTUI clientTui){
-		this.client = parserClient;
-		this.tui = clientTui;
+	public ClientParser(Client parserClient, ClientTUI clientTui) {
+		client = parserClient;
+		tui = clientTui;
 	}
 
 	/** !! WARNING !!
@@ -31,12 +31,16 @@ public class ClientParser {
 			switch (command) {
 
 			case "CONNECT":
+				if (!client.connected) {
 				if (commandScanner.hasNext()) {
 					String simpleIP = commandScanner.next();
 					int portNum = Integer.parseInt(commandScanner.next());
 					client.getConnected(simpleIP, portNum);
 				} else {
 					tui.connectInfo();
+				}
+				} else {
+					System.out.println("Sorry, you are already connected and cannot perform this action again.");
 				}
 				break;
 			case "REFRESH":
@@ -72,6 +76,16 @@ public class ClientParser {
 					client.makeMove(xPos, yPos);
 				} else {
 					tui.moveInfo();
+				}
+				break;
+			case "EXIT": 
+				client.shutDown();
+				break;
+			case "START":
+				if(client.connected) {
+					client.requestRooms();
+				} else {
+					System.out.println("Sorry, you are not connected and cannot do that at this moment.");
 				}
 				break;
 

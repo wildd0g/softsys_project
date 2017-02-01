@@ -24,7 +24,7 @@ public class TUI {
 
 		do {
 			//give instruction prompt
-			System.out.print("Please enter" + prompt);
+			System.out.print(prompt);
 
 			//input is separated into individual lines that can be read
 			try (Scanner scannerLine = new Scanner(scan.nextLine());) {

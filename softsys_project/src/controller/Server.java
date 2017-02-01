@@ -153,8 +153,8 @@ public class Server {
 			servGame.addPlayer(player);
 			playersInGame.add(player);
 			games.put(servGame, playersInGame);
-			if(servGame.players.length == games.get(servGame).size()){
-				servGame.startGame();
+			if (servGame.players.length == games.get(servGame).size()) {
+				servGame.serverStartGame();
 			}
 		} else {
 			player.send.error(3);

@@ -90,6 +90,8 @@ public class Server {
 		nonPlaying.add(newPlayer);
 		nonPlaying.get(nonPlaying.size() - 1).activate();
 		
+		playerCounter++;
+		
 		newPlayer.send.sendServerCapabilities();
 		
 	}

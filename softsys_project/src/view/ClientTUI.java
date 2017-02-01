@@ -13,7 +13,7 @@ import supportclasses.MaliciousInputException;
 
 public class ClientTUI extends TUI {
 
-	private Scanner scan;
+//	private Scanner scan;
 	private Client client;
 	public boolean active;
 	public ClientParser parser;
@@ -27,7 +27,7 @@ public class ClientTUI extends TUI {
 	//main method to run the TUI
 	public void start() {
 			
-		scan = new Scanner(System.in);
+		//scan = new Scanner(System.in);
 		
 
 		String name = "";

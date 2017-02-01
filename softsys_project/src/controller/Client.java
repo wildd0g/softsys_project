@@ -238,7 +238,7 @@ public class Client {
 		
 	}
 	/**
-	 * Returns the player Id of the client
+	 * Returns the player Id of the client.
 	 * @return id
 	 * 				The clients player ID
 	 */
@@ -248,7 +248,8 @@ public class Client {
 	}
 	
 	/**
-	 * Stores the capabilities the server has, or it would, but it doesn't do anything with it at the moment.
+	 * Stores the capabilities the server has, or it would, 
+	 * but it doesn't do anything with it at the moment.
 	 * @param amountOfPlayers
 	 * 						maximum amount of players
 	 * @param roomSupport

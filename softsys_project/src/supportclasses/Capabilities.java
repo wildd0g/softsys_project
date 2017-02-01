@@ -21,8 +21,7 @@ public class Capabilities {
 		public static String get() {
 			return  Protocol.Server.SERVERCAPABILITIES + " " + 
 					AMOUNTOFPLAYERS + " " + 
-					ROOMSUPPORT + " " + 
-					MAXDIMENSIONS + " " + 
+					ROOMSUPPORT + " " +  
 					MAXDIMENSIONX + " " + 
 					MAXDIMENSIONY + " " + 
 					MAXDIMENSIONZ + " " + 

@@ -1,5 +1,7 @@
 package view;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 import controller.Client;
@@ -24,6 +26,7 @@ public class ClientParser {
 
 	public void handle(String input) {
 		String content = input;
+		boolean possible = true;;
 		Scanner commandScanner = new Scanner(content);
 		if (commandScanner.hasNext()) {
 			String command = commandScanner.next();
@@ -33,8 +36,14 @@ public class ClientParser {
 				case "CONNECT":
 					if (!Client.connected) {
 						if (commandScanner.hasNext()) {
-							String simpleIP = commandScanner.next();
-							if (commandScanner.hasNext()) {
+							String simpleIP = null;
+							try {
+								 simpleIP = commandScanner.next();
+								InetAddress.getByName(simpleIP);
+							} catch (UnknownHostException unknown) {
+								possible = false;
+							}
+							if (commandScanner.hasNext() && possible) {
 								int portNum = Integer.parseInt(commandScanner.next());
 								if (portNum < 10000 && portNum > 999) {
 									client.getConnected(simpleIP, portNum);
@@ -51,32 +60,49 @@ public class ClientParser {
 								" and cannot perform this action again.");
 					}
 					break;
+				
 				case "REFRESH":
 					client.requestRooms();
 					break;
+				
 				case "JOINROOM":
-					if (commandScanner.hasNext()) {
-						int roomID = Integer.parseInt(commandScanner.next());
-						client.joinRoom(roomID);
+					if(client.getGame() != null) {
+						if (commandScanner.hasNext()) {
+							int roomID = Integer.parseInt(commandScanner.next());
+							client.joinRoom(roomID);
+						} else {
+							tui.roomInfo();
+						}
 					} else {
-						tui.roomInfo();
+						System.out.println("Sorry, you can't do that at this moment");
 					}
 					break;
+				
 				case "CREATEROOM":
-					if (commandScanner.hasNext()) {
-						int players = Integer.parseInt(commandScanner.next());
-						int xDim = Integer.parseInt(commandScanner.next());
-						int yDim = Integer.parseInt(commandScanner.next());
-						int zDim = Integer.parseInt(commandScanner.next());
-						int winLength = Integer.parseInt(commandScanner.next());
-						client.createRoom(players, xDim, yDim, zDim, winLength);
+					if(client.getGame() != null){
+						if (commandScanner.hasNext()) {
+							int players = Integer.parseInt(commandScanner.next());
+							int xDim = Integer.parseInt(commandScanner.next());
+							int yDim = Integer.parseInt(commandScanner.next());
+							int zDim = Integer.parseInt(commandScanner.next());
+							int winLength = Integer.parseInt(commandScanner.next());
+							client.createRoom(players, xDim, yDim, zDim, winLength);
+						} else {
+							tui.createInfo();
+						}
 					} else {
-						tui.createInfo();
+						System.out.println("Sorry, you can't do that at this moment");
 					}
 					break;
+				
 				case "LEAVE":
-					client.leaveRoom();
+					if(client.getGame() != null){
+						client.leaveRoom();
+					} else {
+						
+					}
 					break;
+				
 				case "MAKEMOVE":
 					if (commandScanner.hasNext()) {
 						int xPos = Integer.parseInt(commandScanner.next());
@@ -95,15 +121,26 @@ public class ClientParser {
 						tui.moveInfo();
 					}
 					break;
+				
 				case "EXIT": 
 					Client.shutDown();
 					break;
+				
 				case "START":
 					if (Client.connected) {
-						client.requestRooms();
+						System.out.println(
+								"You can use the following commands: \n" +
+								"REFRESH allows you to see open rooms on the server \n" +
+								"CREATEROOM create a new room \n" +
+								"JOINROOM if you know the id " + 
+								"of the room you want to participate in \n" +
+								"LEAVE to leave the room you are presently in \n" +
+								"MAKEMOVE during a game to set your move \n" +
+								"EXIT to shut down the system"
+								);
 					} else {
 						System.out.println("Sorry, you are not connected" + 
-								" and cannot do that at this moment.");
+								" please use CONNECT first before continuing.");
 					}
 					break;
 	

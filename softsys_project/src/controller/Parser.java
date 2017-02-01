@@ -297,7 +297,7 @@ public class Parser extends Protocol {
 	
 					endOverflowCatcher(msg, lineScanner);
 	
-					//TODO server: apply move to local board and send along if valid
+					controller.Server.processMove(player, moveX, moveY);
 	
 					break;
 	

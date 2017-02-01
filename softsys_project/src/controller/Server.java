@@ -35,7 +35,11 @@ public class Server {
 	public void serverShutDown() {
 		receiving  = false;
 	}
-	
+	/**
+	 * Stop and remove a given game.
+	 * @param stopGame
+	 * 					the game to stop and remove
+	 */
 	public static void removeGame(ServerGame stopGame) {
 		activeGames.remove(stopGame);
 		games.remove(stopGame.gameID);
@@ -82,7 +86,11 @@ public class Server {
 		}
 		
 	}
-	
+	/**
+	 * Create a new player after accepting a socket connection.
+	 * @param sock
+	 * 			the player's socket
+	 */
 	public static synchronized void connectNew(Socket sock) {
 		
 		//player object is created with this as reference. 
@@ -98,10 +106,28 @@ public class Server {
 		
 	}
 	
-	/**
-	 * methods utilised by parser.
-	 */
 	
+	/**
+	 * Methods utilized by parser.
+	 * @param player
+	 * 				player object to set capabilities of
+	 * @param amountOfPlayers
+	 * 				maximum amount of players this player can handle
+	 * @param name
+	 * 				name of the player
+	 * @param maxDimX
+	 * 				maximum row size
+	 * @param maxDimY
+	 * 				maximum column size
+	 * @param maxDimZ
+	 * 				maximum level size
+	 * @param maxWin
+	 * 				maximum win length
+	 * @param chat
+	 * 				supports chat or not
+	 * @param refresh
+	 * 				wants to auto refresh the lobby listing, though we can't do that
+	 */
 	//method that sets capabilities of a player
 	public synchronized static void setCapabilities(Player player,
 			int amountOfPlayers, 
@@ -145,7 +171,14 @@ public class Server {
 
 	}
 
-	//method that puts the player into a new game
+	/**
+	 * Method that puts the player into a new game.
+	 * @param player
+	 * 				Player object of player to move
+	 * @param game
+	 * 				Game to move to
+	 */
+	//@ requires availableGames.contains(game);
 	public synchronized static void joinToRoom(Player player, int game) {
 		if (!activeGames.containsKey(game)) {
 			player.send.error(2);
@@ -175,7 +208,12 @@ public class Server {
 		}
 	}  
 	
-	//method that retrieves the list of all present games
+	/**
+	 * Method that retrieves the list of all present games.
+	 * @return availableGames
+	 * 				All the available games in list format
+	 */
+	/*@pure*/
 	public static List<ServerGame> getRooms() {
 		return availableGames;
 	}

@@ -129,7 +129,7 @@ public class Server {
 					break;
 				}
 			}
-			if(!foundRoom){
+			if (!foundRoom){
 				int newRoom = createNew(2, 4, 4, 4, 4);
 				activeGames.get(newRoom).addPlayer(player);
 				player.send.assignID(player.getID());

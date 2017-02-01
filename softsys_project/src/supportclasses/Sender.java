@@ -128,6 +128,11 @@ public class Sender {
 		send(msg);
 	}
 	
+	public void roomCreated(int roomID) {
+		String msg = Protocol.Server.ROOMCREATED + " " + roomID;
+		send(msg);
+	}
+	
 	public void getRoomList() {
 		send(Protocol.Client.GETROOMLIST + "/n");
 	}

@@ -272,6 +272,12 @@ public class Parser extends Protocol {
 					maxLengthToWin = Integer.parseInt(lineScanner.next());
 					
 					endOverflowCatcher(msg, lineScanner);
+					
+					player.send.roomCreated(controller.Server.createNew(amountOfPlayers, 
+							maxRoomDimensionX, 
+							maxRoomDimensionY, 
+							maxRoomDimensionY, 
+							maxLengthToWin));
 										
 					break;
 					

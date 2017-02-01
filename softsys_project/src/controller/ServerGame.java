@@ -186,16 +186,17 @@ public class ServerGame extends Game {
 		return result;
 	}
 	
-	public void shutDown(int playerID, boolean disconnect){
+	public void shutDown(int playerID, boolean disconnect) {
 		if (disconnect) {
 			for (int i = 0; i < players.length; i++) {
-				if (players[i].getID() != playerID){
+				if (players[i].getID() != playerID) {
 					players[i].send.notifyEnd(3, playerID);
+					controller.Server.getNonPlaying().add(players[i]);
 				} 
 			}
 		} 
 		
-		removeGame(this);
+		controller.Server.removeGame(this);
 		
 	}
 

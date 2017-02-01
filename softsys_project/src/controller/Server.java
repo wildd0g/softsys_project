@@ -131,6 +131,7 @@ public class Server {
 				ServerGame thisGame = itt.next();
 				if (thisGame.defaultGame) {
 					thisGame.addPlayer(player);
+					player.send.assignID(player.getID());
 					foundRoom = true;
 					break;
 				}

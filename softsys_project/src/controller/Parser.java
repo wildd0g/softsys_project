@@ -87,7 +87,6 @@ public class Parser extends Protocol {
 					}
 	
 					controller.Client.printRooms(lobbyData);
-					//TODO process this to rooms
 	
 					break;
 	

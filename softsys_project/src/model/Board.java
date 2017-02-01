@@ -84,7 +84,13 @@ public class Board {
 	/**
 	 * Calculates the index in the linear array of fields from a (row, col)
 	 * pair.
-	 * @return the index belonging to the (row,col)-field
+	 * @param row
+	 * 				the row of the location
+	 * @param col
+	 * 				the column of the location
+	 * @param lvl
+	 * 				the level of the location
+	 * @return (dimCol * (dimRow * lvl + row)) + col
 	 */
 	//@ requires 0 <= row & row < DIMROW;
 	//@ requires 0 <= col & col < DIMCOL;
@@ -134,7 +140,7 @@ public class Board {
 	 * Returns the content of the field i.
 	 *
 	 * @param i
-	 *            the number of the field (see NUMBERING)
+	 *            the number of the field (see index)
 	 * @return the mark on the field
 	 */
 	//@ requires this.isField(i);
@@ -220,7 +226,7 @@ public class Board {
 	 *
 	 * @return true if all fields are occupied
 	 */
-	//@ ensures \result == (\forall int i; i <= 0 & i < DIMROW * DIMCOL * DIMLVL;
+	//@ ensures \result == (\forall int i; i <= 0 & i < dimRow * dimCol * dimLvl;
 	/*@ this.getField(i) != Mark.EMPTY); */
 	/*@pure*/
 	public boolean isFull() {
@@ -330,6 +336,8 @@ public class Board {
 	 *            the mark of interest
 	 * @return true if there is a row controlled by m
 	 */
+	//@ requires m == Mark
+	//@ ensures \result == this.checkConnect({1, 0, 0}, m, winLength);
 	/*@ pure */
 	public boolean hasRow(Mark m) {
 		int[] dir = {1, 0, 0};
@@ -346,6 +354,8 @@ public class Board {
 	 *            the mark of interest
 	 * @return true if there is a column controlled by m
 	 */
+	//@ requires m == Mark
+	//@ ensures \result == this.checkConnect({0, 1, 0}, m, winLength);
 	/*@ pure */
 	public boolean hasColumn(Mark m) {
 		int[] dir = {0, 1, 0};
@@ -360,6 +370,8 @@ public class Board {
 	 *            the mark of interest
 	 * @return true if there is a column controlled by m
 	 */
+	//@ requires m == Mark
+	//@ ensures \result == this.checkConnect({0, 0, 1}, m, winLength);
 	/*@ pure */
 	public boolean hasLevels(Mark m) {
 		int[] dir = {0, 0, 1};
@@ -374,8 +386,15 @@ public class Board {
 	 *            the mark of interest
 	 * @return true if there is a diagonal controlled by m
 	 */
+	//@ requires m == Mark
+	/*@ ensures \result == this.checkConnect({0, 1, 1}, m, winLength)
+	 * 					|| this.checkConnect({0, 1, -1}, m, winLength)
+	 * 					|| this.checkConnect({1, 0, 1}, m, winLength)
+	 * 					|| this.checkConnect({1, 0, -1}, m, winLength)
+	 * 					|| this.checkConnect({1, 1, 0}, m, winLength)
+	 * 					|| this.checkConnect({1, -1, 0}, m, winLength)
+	 */
 	/*@ pure */
-	
 	public boolean hasFaceDiagonal(Mark m) {
 		boolean result = false;
 		int[] dirOnRow1 = {0,  1,  1};
@@ -404,6 +423,12 @@ public class Board {
 	 *            the mark of interest
 	 * @return true if there is a diagonal controlled by m
 	 */
+	//@ requires m == Mark
+		/*@ ensures \result == this.checkConnect({1, 1, 1}, m, winLength)
+		 * 					|| this.checkConnect({1, 1, -1}, m, winLength)
+		 * 					|| this.checkConnect({1, -1, 1}, m, winLength)
+		 * 					|| this.checkConnect({1, -1, -1}, m, winLength)
+		 */
 	/*@ pure */
 	
 	public boolean hasSpaceDiagonal(Mark m) {
@@ -449,7 +474,11 @@ public class Board {
 	 *
 	 * @return true if the student has a winner.
 	 */
-	//@ ensures \result == isWinner(Mark.XX) | \result == isWinner(Mark.OO);
+	/*@ ensures \result == isWinner(Mark.AA) || \result == isWinner(Mark.BB)
+	 * 					|| isWinner(Mark.CC) || \result == isWinner(Mark.DD)
+	 * 					|| isWinner(Mark.EE) || \result == isWinner(Mark.FF)
+	 * 					|| isWinner(Mark.GG) || \result == isWinner(Mark.HH)
+	 */
 	/*@pure*/
 	public boolean hasWinner() {
 		Mark m = Mark.EMPTY;
@@ -465,18 +494,7 @@ public class Board {
 	}
 
 	/**
-	 * Returns a String representation of this student. In addition to the current
-	 * situation, the String also shows the numbering of the fields.
-	 *
-	 * @return the game situation as String
-	 */
-	public String toString() {
-		//TODO make a TUI representation constructed by toString
-		return null;
-	}
-
-	/**
-	 * Empties all fields of this student (i.e., let them refer to the value
+	 * Empties all fields of this board (i.e., let them refer to the value
 	 * Mark.EMPTY).
 	 */
 	/*@ ensures (\forall int i; 0 <= i & i < DIMROW * DIMCOL * DIMLVL;
@@ -509,6 +527,8 @@ public class Board {
 	 *            the field's row
 	 * @param col
 	 *            the field's column
+	 * @param lvl
+	 *            the field's level
 	 * @param m
 	 *            the mark to be placed
 	 */

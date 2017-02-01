@@ -2,10 +2,10 @@ package aistrategies;
 
 import java.util.Set;
 
-import controller.Client;
 import model.Board;
 import model.InvalidFieldException;
 import model.Mark;
+import java.util.Arrays;
 
 public class SmartStrategy extends Strategy {
 
@@ -16,7 +16,7 @@ public class SmartStrategy extends Strategy {
 	}
 
 	@Override
-	public void determineMove(Board board, Mark m) {
+	public int[] determineMove(Board board, Mark m) {
 		// TODO Auto-generated method stub
 		//get a default random picked move 
 		Set<Integer[]> valid = validMoves(board);
@@ -37,7 +37,8 @@ public class SmartStrategy extends Strategy {
 			move = winMoveOther;
 		}
 
-		Client.makeMove(move[0], move[1]);
+		int[] intMove = Arrays.stream(move).mapToInt(Integer::intValue).toArray();
+		return intMove;
 	}
 
 	private Integer[] winningMove(Board b, Mark m, Object[] validArray) {
